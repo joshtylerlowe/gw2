@@ -1,0 +1,85 @@
+﻿body {
+    font-family: 'Open Sans', sans-serif;
+}
+table {
+    min-width: 750px;
+    border-collapse: collapse;
+    font-size: 18px;
+}
+th {
+    color: white;
+    background-color: #4A4A4A;
+}
+tr:nth-child(odd) {
+    background-color: #F0F0F0;
+}
+td, th {
+    padding: 5px 15px;
+}
+.item-row {
+    text-align: center;
+}
+.row-name {
+    text-align: right;
+}
+.quantity {
+    color: grey;
+    font-size: 80%;
+}
+.currency {
+    height:13px;
+}
+.selected-filter {
+    text-decoration: underline;
+}
+.item-icon {
+    height: 30px;
+}
+#search-results-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+.search-result-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.search-results-section {
+    border: 2px solid black;
+    margin: 5px;
+    width: 40%;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+.bordered-item {
+    max-width: 34px;
+    max-height: 34px;
+}
+.delete-item img {
+    margin: 5px;
+}
+.Junk {
+    border: 2px solid #AAA;
+}
+.Basic {
+    border: 2px solid white;
+}
+.Fine {
+    border: 2px solid #62A4DA;
+}
+.Masterwork {
+    border: 2px solid #1a9306;
+}
+.Rare {
+    border: 2px solid #fcd00b;
+}
+.Exotic {
+    border: 2px solid #ffa405;
+}
+.Ascended {
+    border: 2px solid #fb3e8d;
+}
+.Legendary {
+    border: 2px solid #4C139D;
+}
