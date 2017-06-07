@@ -1,6 +1,7 @@
 ﻿var baseUrl = 'https://api.guildwars2.com/';
 var sortByBuys = true;
 var itemsToCompareList = [];
+var searchedItemsList = [];
 var selectedItemsList = [];
 var prebuiltLists = [];
 
@@ -112,10 +113,12 @@ var searchForItem = function () {
             return (item.name.toLowerCase()).indexOf(searchString) >= 0;
         }
     });
+    var itemIdsToGetInfo = _.pluck(searchResults, "id");
+    searchedItemsList = gw2ApiCall('v2/items', [{ ids: itemIdsToGetInfo.toString() }]);
 
     var htmlString = '';
 
-    $.each(searchResults, function (key, value) {
+    $.each(searchedItemsList, function (key, value) {
         htmlString += '<div class="search-result-container"><input type="checkbox" id="' + value.id + '"><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div>' + value.name + '</div><br>'
     });
 
@@ -136,7 +139,7 @@ var addItemsToList = function () {
     });
 
     $.each(checkedItemIds, function (key, value) {
-        selectedItemsList.push(_.findWhere(allItems, {id: value}));
+        selectedItemsList.push(_.findWhere(searchedItemsList, { id: value }));
     });
 
     generateSelectedItemsList();
