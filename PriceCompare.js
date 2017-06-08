@@ -15,6 +15,11 @@ $(document).ready(function () {
             id: 77948
         },
         {
+            name: 'Chest of Insignia',
+            list: chestOfInsigniaItemIds,
+            id: 77886
+        },
+        {
             name: 'Celebratory Dye Pack',
             list: celebratoryDyePackItemIds,
             id: 70229
@@ -411,6 +416,36 @@ var chestOfInscriptionsItemIds = [
   67830,
   77001,
   38434
+];
+var chestOfInsigniaItemIds = [
+  70424,
+  19915,
+  19914,
+  46711,
+  70766,
+  46712,
+  43774,
+  71262,
+  46708,
+  19912,
+  19913,
+  49866,
+  46710,
+  19916,
+  19911,
+  41556,
+  73227,
+  19910,
+  66641,
+  37177,
+  74430,
+  46713,
+  49522,
+  75354,
+  75981,
+  67831,
+  76115,
+  46709
 ];
 var reclaimedWeaponsItemIds = [
  70655,
