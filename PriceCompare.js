@@ -100,8 +100,9 @@ var prebuiltCompare = function () {
     var prebuiltCompareList = $.grep(prebuiltLists, function (x) {
         return x.id == $('#prebuilt-lists').val();
     });
+    var prebuiltCompareListWithInfo = gw2ApiCall('v2/items', [{ ids: prebuiltCompareList[0].list.toString() }]);
 
-    itemsToCompareList = $.grep(allItems, function (x, y) {
+    itemsToCompareList = $.grep(prebuiltCompareListWithInfo, function (x, y) {
         return _.contains(prebuiltCompareList[0].list, x.id);
     });
 
