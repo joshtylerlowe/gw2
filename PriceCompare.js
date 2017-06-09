@@ -7,7 +7,7 @@ var prebuiltLists = [];
 
 $(document).ready(function () {
     $('#search-results-container').hide();
-    
+
     prebuiltLists = [
         {
             name: 'Chest of Inscriptions',
@@ -125,30 +125,11 @@ var searchForItem = function () {
     var htmlString = '';
 
     $.each(searchedItemsList, function (key, value) {
-        htmlString += '<div class="search-result-container"><input type="checkbox" id="' + value.id + '"><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div>' + value.name + '</div><br>'
+        htmlString += '<div class="search-result-container" onclick="addItemToList(' + value.id + ')"><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div>' + value.name + '</div><br>'
     });
 
     $('#search-results').html(htmlString);
     $('#search-results-container').show();
-};
-
-var addItemsToList = function () {
-    var $checkedItems = $('#search-results input:checked');
-    
-    var checkedItemIds = [];
-    $.each($checkedItems, function (key, value) {
-        var id = parseInt(value.id, 10);
-
-        if (_.findIndex(selectedItemsList, { id: parseInt(id) }) < 0) {
-            checkedItemIds.push(id);
-        }
-    });
-
-    $.each(checkedItemIds, function (key, value) {
-        selectedItemsList.push(_.findWhere(searchedItemsList, { id: value }));
-    });
-
-    generateSelectedItemsList();
 };
 
 var removeItemFromList = function (element) {
@@ -160,6 +141,14 @@ var removeItemFromList = function (element) {
 
     generateSelectedItemsList();
 }
+
+var addItemToList = function (id) {
+    if (_.findIndex(selectedItemsList, { id: parseInt(id) }) < 0) {
+        selectedItemsList.push(_.findWhere(searchedItemsList, { id: id }));
+    }
+
+    generateSelectedItemsList();
+};
 
 var generateSelectedItemsList = function () {
     var htmlString = '';
@@ -195,7 +184,7 @@ var generateTable = function () {
     var sortedItems = sortByPrices(sortByBuys, pricedItems);
 
     $.each(sortedItems, function (key, value) {
-        
+
         var buy = convertValueToGoldHtmlString(value.buys);
         var sell = convertValueToGoldHtmlString(value.sells);
         var bonusBuyData = value.buys ? '<br><div class="quantity">(' + value.buys.quantity + ')</div>' : '';
@@ -254,7 +243,7 @@ var sortByPrices = function(sortByBuys, pricedItems) {
             return -1;
         }
 
-        if (sortByBuys) {            
+        if (sortByBuys) {
             if (a.buys.unit_price == b.buys.unit_price) {
                 return 0;
             }
