@@ -39,6 +39,7 @@ td, th {
     display: flex;
     flex-direction: row;
     margin-top: 10px;
+    width: 750px;
 }
 .search-result-container {
     display: flex;
