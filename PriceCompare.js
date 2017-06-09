@@ -8,39 +8,6 @@ var prebuiltLists = [];
 $(document).ready(function () {
     $('#search-results-container').hide();
 
-    prebuiltLists = [
-        {
-            name: 'Chest of Inscriptions',
-            list: chestOfInscriptionsItemIds,
-            id: 77948
-        },
-        {
-            name: 'Chest of Insignia',
-            list: chestOfInsigniaItemIds,
-            id: 77886
-        },
-        {
-            name: 'Celebratory Dye Pack',
-            list: celebratoryDyePackItemIds,
-            id: 70229
-        },
-        {
-            name: 'Jubilant Dye Pack2',
-            list: jubilantDyePackItemIds,
-            id: 79351
-        },
-        {
-            name: 'Reclaimed Weapons',
-            list: reclaimedWeaponsItemIds,
-            id: 1000001
-        },
-        {
-            name: 'Watchwork Sprocket Produced Items',
-            list: watchworkSproketItemIds,
-            id: 1000002
-        }
-    ];
-
     $.each(prebuiltLists, function (x, y) {
         $('#prebuilt-lists').append($('<option></option>').val(y.id).html(y.name));
     });
@@ -462,4 +429,37 @@ var watchworkSproketItemIds = [
   44956,
   44957,
   44947
+];
+
+var prebuiltLists = [
+    {
+        name: 'Chest of Inscriptions',
+        list: chestOfInscriptionsItemIds,
+        id: 77948
+    },
+    {
+        name: 'Chest of Insignia',
+        list: chestOfInsigniaItemIds,
+        id: 77886
+    },
+    {
+        name: 'Celebratory Dye Pack',
+        list: celebratoryDyePackItemIds,
+        id: 70229
+    },
+    {
+        name: 'Jubilant Dye Pack2',
+        list: jubilantDyePackItemIds,
+        id: 79351
+    },
+    {
+        name: 'Reclaimed Weapons',
+        list: reclaimedWeaponsItemIds,
+        id: 1000001
+    },
+    {
+        name: 'Watchwork Sprocket Produced Items',
+        list: watchworkSproketItemIds,
+        id: 1000002
+    }
 ];
