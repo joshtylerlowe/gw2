@@ -7,6 +7,7 @@ var prebuiltLists = [];
 
 $(document).ready(function () {
     $('#search-results-container').hide();
+    $('.full-page-loading-spinner-container').show();
 
     $.each(prebuiltLists, function (x, y) {
         $('#prebuilt-lists').append($('<option></option>').val(y.id).html(y.name));
@@ -59,7 +60,6 @@ var gw2ApiCall = function (endpoint, parameters) {
 
 var allItems;
 
-$('.full-page-loading-spinner-container').show();
 $.getJSON('allItemIdsAndNames.json', function (response) {
     allItems = response;
     $('.full-page-loading-spinner-container').hide();
@@ -450,7 +450,7 @@ var prebuiltLists = [
         id: 70229
     },
     {
-        name: 'Jubilant Dye Pack2',
+        name: 'Jubilant Dye Pack',
         list: jubilantDyePackItemIds,
         id: 79351
     },
