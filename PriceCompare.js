@@ -59,8 +59,10 @@ var gw2ApiCall = function (endpoint, parameters) {
 
 var allItems;
 
+$('.full-page-loading-spinner-container').show();
 $.getJSON('allItemIdsAndNames.json', function (response) {
     allItems = response;
+    $('.full-page-loading-spinner-container').hide();
 });
 
 var prebuiltCompare = function () {
