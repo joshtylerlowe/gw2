@@ -6,7 +6,6 @@ var selectedItemsList = [];
 var prebuiltLists = [];
 
 $(document).ready(function () {
-    $('#search-results-container').hide();
     $('.full-page-loading-spinner-container').show();
 
     $.each(prebuiltLists, function (x, y) {
@@ -102,10 +101,10 @@ var searchForItem = function () {
         });
 
         $('#search-results').html(htmlString);
-        $('#search-results-container').show();
+        $('.search-results-section').show();
     } else {
         $('#search-results').html('');
-        $('#search-results-container').hide();
+        $('.search-results-section').hide();
     }
 };
 
@@ -116,7 +115,9 @@ var removeItemFromList = function (element) {
         selectedItemsList.splice(index, 1);
     }
 
-    generateSelectedItemsList();
+    itemsToCompareList = selectedItemsList;
+
+    generateTable();
 }
 
 var addItemToList = function (id) {
@@ -124,19 +125,6 @@ var addItemToList = function (id) {
         selectedItemsList.push(_.findWhere(searchedItemsList, { id: id }));
     }
 
-    generateSelectedItemsList();
-};
-
-var generateSelectedItemsList = function () {
-    var htmlString = '';
-    $.each(selectedItemsList, function (key, value) {
-        htmlString += '<div class="search-result-container"><div class="delete-item" onclick="removeItemFromList(this)" id="' + value.id + '"><img src="red_x.png"></div><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div>' + value.name + '</div><br>'
-    });
-
-    $('#items-list').html(htmlString);
-};
-
-var compareItemsFromList = function () {
     itemsToCompareList = selectedItemsList;
 
     generateTable();
@@ -169,7 +157,9 @@ var generateTable = function () {
 
         $('#item-list tr:last').after(
             '<tr class="item-row">' +
-                '<td><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div></td>' +
+                '<td class="item-icon-container">' +
+                '<div class="delete-item" onclick="removeItemFromList(this)" id="' + value.id + '"><img src="red_x.png"></div><img src=""><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div>' +
+                '</td>' +
                 '<td class="row-name">' + value.name + '</td>' + //name
                 '<td>' + buy + bonusBuyData + '</td>' + //buy
                 '<td>' + sell + bonusSellData + '</td>' + //sell
@@ -182,7 +172,6 @@ var convertValueToGoldHtmlString = function (value) {
     var returnValue = 'N/A';
 
     if (value) {
-
         var amount = value.unit_price;
 
         var gold = '';
@@ -211,7 +200,6 @@ var convertValueToGoldHtmlString = function (value) {
 }
 
 var sortByPrices = function(sortByBuys, pricedItems) {
-
     return pricedItems.sort(function (a, b) {
         if (a.sells == null) {
             return 1;
