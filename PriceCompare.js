@@ -12,6 +12,12 @@ $(document).ready(function () {
     $.each(prebuiltLists, function (x, y) {
         $('#prebuilt-lists').append($('<option></option>').val(y.id).html(y.name));
     });
+
+    $('input#search').on('keyup paste', function() {
+        if ($(this).val().length > 2) {
+            searchForItem();
+        }
+    });
 });
 
 var gw2ApiCall = function (endpoint, parameters) {
@@ -82,23 +88,25 @@ var searchForItem = function () {
     var isExactSearch = $('#search-is-exact').is(':checked');
     var searchString = $('#search').val().toLowerCase();
     var searchResults = $.grep(allItems, function (item) {
-        if (isExactSearch) {
-            return item.name.toLowerCase() == searchString;
-        } else {
-            return (item.name.toLowerCase()).indexOf(searchString) >= 0;
-        }
-    });
-    var itemIdsToGetInfo = _.pluck(searchResults, "id");
-    searchedItemsList = gw2ApiCall('v2/items', [{ ids: itemIdsToGetInfo.toString() }]);
+        return (item.name.toLowerCase()).indexOf(searchString) >= 0;
+    }).slice(0,25);
 
-    var htmlString = '';
+    if (searchResults.length > 0) {
+        var itemIdsToGetInfo = _.pluck(searchResults, "id");
+        searchedItemsList = gw2ApiCall('v2/items', [{ ids: itemIdsToGetInfo.toString() }]);
 
-    $.each(searchedItemsList, function (key, value) {
-        htmlString += '<div class="search-result-container" onclick="addItemToList(' + value.id + ')"><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div>' + value.name + '</div><br>'
-    });
+        var htmlString = '';
 
-    $('#search-results').html(htmlString);
-    $('#search-results-container').show();
+        $.each(searchedItemsList, function (key, value) {
+            htmlString += '<div class="search-result-container" onclick="addItemToList(' + value.id + ')"><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div>' + value.name + '</div><br>'
+        });
+
+        $('#search-results').html(htmlString);
+        $('#search-results-container').show();
+    } else {
+        $('#search-results').html('');
+        $('#search-results-container').hide();
+    }
 };
 
 var removeItemFromList = function (element) {
