@@ -133,14 +133,17 @@ var addItemToList = function (id) {
 var generateTable = function () {
     $('#item-list').find("tr:gt(0)").remove();
 
-    var ids = [];
-    for (var i = 0; i < itemsToCompareList.length; i++) {
-        ids.push(itemsToCompareList[i].id);
+    var prices = [];
+    var anyItemsAreSellable = itemsToCompareList.filter(function(e) { return $.inArray(['NoSell','AccountBound','SoulbindOnAcquire'], e.flags) == false || e.flags.length == 0;}).length > 0;
+
+    if (anyItemsAreSellable) {
+        var ids = [];
+        for (var i = 0; i < itemsToCompareList.length; i++) {
+            ids.push(itemsToCompareList[i].id);
+        }
+
+        prices = gw2ApiCall("v2/commerce/prices", [{ ids: ids.toString() }]);
     }
-
-    var parameters = [{ ids: ids.toString() }];
-
-    var prices = gw2ApiCall("v2/commerce/prices", parameters);
 
     var pricedItems = _.map(itemsToCompareList, function (item) {
         return _.extend(item, _.findWhere(prices, { id: item.id }));
