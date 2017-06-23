@@ -10,20 +10,20 @@
 </head>
 <body>
     <div class="full-page-loading-spinner-container"><div class="loading-spinner"></div></div>
-    <input id="search" type="search" placeholder="Search" />
-    <br />
-    <div id="search-results" class="search-results-section"></div>
-    <br />
-    <select id="prebuilt-lists"><option>-- Prebuilt Lists --</option></select><input type="button" onclick="prebuiltCompare()" value="Compare" />
-    <div class="filterable">
-        Price: <a class="selected-filter" onclick="setSortByBuys(true, this)">Buy price</a> / <a onclick="setSortByBuys(false, this)">Sell Price</a>
+    <div class="main-content-container">
+        <input id="search" type="search" placeholder="Search" />
+        <div id="search-results" class="search-results-section"></div>
+        <select id="prebuilt-lists"><option>-- Prebuilt Lists --</option></select><input type="button" onclick="prebuiltCompare()" value="Compare" />
+        <div class="filterable">
+            Price: <a class="selected-filter" onclick="setSortByBuys(true, this)">Buy price</a> / <a onclick="setSortByBuys(false, this)">Sell Price</a>
+        </div>
+        <table id="item-list">
+            <tr>
+                <th colspan="2">Item</th>
+                <th>Buy Price</th>
+                <th>Sell Price</th>
+            </tr>
+        </table>
     </div>
-    <table id="item-list">
-        <tr>
-            <th colspan="2">Item</th>
-            <th>Buy Price</th>
-            <th>Sell Price</th>
-        </tr>
-    </table>
 </body>
 </html>

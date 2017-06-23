@@ -37,10 +37,14 @@ td, th {
     right: 0;
     bottom: 0;
 }
-
 @keyframes loading-spinner {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+.main-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .item-row {
     text-align: center;
