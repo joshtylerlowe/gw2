@@ -13,9 +13,12 @@ $(document).ready(function () {
         $('#prebuilt-lists').append($('<option></option>').val(y.id).html(y.name));
     });
 
-    $('input#search').on('keyup paste', function() {
+    $('input#search').on('change keyup paste', function() {
         if ($(this).val().length > 2) {
             searchForItem();
+        } else {
+            $('#search-results').html('');
+            $('.search-results-section').hide();
         }
     });
 });
@@ -78,7 +81,6 @@ var prebuiltCompare = function () {
 };
 
 var searchForItem = function () {
-    var isExactSearch = $('#search-is-exact').is(':checked');
     var searchString = $('#search').val().toLowerCase();
     var searchResults = $.grep(allItems, function (item) {
         return (item.name.toLowerCase()).indexOf(searchString) >= 0;
