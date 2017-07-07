@@ -5,6 +5,10 @@ var itemsToCompareList = [];
 var searchedItemsList = [];
 var selectedItemsList = [];
 var prebuiltLists = [];
+var sortByBuysAsc = false;
+var sortByBuysDesc = true;
+var sortBySellsAsc = false;
+var sortBySellsDesc = false;
 
 $(document).ready(function () {
     $('.full-page-loading-spinner-container').show();
@@ -54,7 +58,9 @@ var gw2ApiCall = function (endpoint, parameters) {
             result = ret;
         },
         error: function (error) {
-            alert(error.message);
+            if (error.responseJSON.text != "all ids provided are invalid") {
+                alert(error.responseJSON.text);
+            }
         }
     });
 
@@ -138,20 +144,18 @@ var generateTable = function () {
     var prices = [];
     var anyItemsAreSellable = itemsToCompareList.filter(function(e) { return $.inArray(['NoSell','AccountBound','SoulbindOnAcquire'], e.flags) == false || e.flags.length == 0;}).length > 0;
 
-    if (anyItemsAreSellable) {
-        var ids = [];
-        for (var i = 0; i < itemsToCompareList.length; i++) {
-            ids.push(itemsToCompareList[i].id);
-        }
-
-        prices = gw2ApiCall("v2/commerce/prices", [{ ids: ids.toString() }]);
+    var ids = [];
+    for (var i = 0; i < itemsToCompareList.length; i++) {
+        ids.push(itemsToCompareList[i].id);
     }
+
+    prices = gw2ApiCall("v2/commerce/prices", [{ ids: ids.toString() }]);
 
     var pricedItems = _.map(itemsToCompareList, function (item) {
         return _.extend(item, _.findWhere(prices, { id: item.id }));
     });
 
-    var sortedItems = sortByPrices(sortByBuys, pricedItems);
+    var sortedItems = sortByPrices(pricedItems);
 
     $.each(sortedItems, function (key, value) {
         var buy = convertValueToGoldHtmlString(value.buys);
@@ -203,7 +207,7 @@ var convertValueToGoldHtmlString = function (value) {
     return returnValue;
 };
 
-var sortByPrices = function(sortByBuys, pricedItems) {
+var sortByPrices = function(pricedItems) {
     return pricedItems.sort(function (a, b) {
         if (a.sells == null) {
             return 1;
@@ -212,29 +216,45 @@ var sortByPrices = function(sortByBuys, pricedItems) {
             return -1;
         }
 
-        if (sortByBuys) {
+        if (sortByBuysAsc || sortByBuysDesc) {
             if (a.buys.unit_price == b.buys.unit_price) {
                 return 0;
             }
             else {
-                return a.buys.unit_price < b.buys.unit_price ? 1 : -1;
+                return (a.buys.unit_price < b.buys.unit_price ? 1 : -1) * (sortByBuysDesc ? 1 : -1);
             }
         } else {
             if (a.sells.unit_price == b.sells.unit_price) {
                 return 0;
             }
             else {
-                return a.sells.unit_price < b.sells.unit_price ? 1 : -1;
+                return (a.sells.unit_price < b.sells.unit_price ? 1 : -1) * (sortBySellsDesc ? 1 : -1);
             }
         }
     });
 };
 
-var setSortByBuys = function (value, element) {
-    var $element = $(element);
-    $element.closest('.filterable').children('a').removeClass('selected-filter');
-    $element.addClass('selected-filter');
-    sortByBuys = value;
+var setSortBy = function (value) {
+    if (value == 'buy') {
+        sortBySellsAsc = sortBySellsDesc = false;
+
+        if (sortByBuysDesc || sortByBuysAsc) {
+            sortByBuysAsc = !sortByBuysAsc;
+            sortByBuysDesc = !sortByBuysDesc;
+        } else {
+            sortByBuysDesc = true;
+        }
+    } else {
+        sortByBuysAsc = sortByBuysDesc = false;
+
+        if (sortBySellsDesc || sortBySellsAsc) {
+            sortBySellsAsc = !sortBySellsAsc;
+            sortBySellsDesc = !sortBySellsDesc;
+        } else {
+            sortBySellsDesc = true;
+        }
+    }
+
     generateTable();
 };
 

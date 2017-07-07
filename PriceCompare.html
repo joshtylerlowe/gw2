@@ -14,14 +14,11 @@
         <input id="search" type="search" placeholder="Search" />
         <div id="search-results" class="search-results-section"></div>
         <select id="prebuilt-lists"><option>-- Prebuilt Lists --</option></select><input type="button" onclick="prebuiltCompare()" value="Compare" />
-        <div class="filterable">
-            Price: <a class="selected-filter" onclick="setSortByBuys(true, this)">Buy price</a> / <a onclick="setSortByBuys(false, this)">Sell Price</a>
-        </div>
         <table id="item-list">
             <tr>
                 <th colspan="2">Item</th>
-                <th>Buy Price</th>
-                <th>Sell Price</th>
+                <th style="min-width: 145px" onclick="setSortBy('buy')">Buy Price<img id="sortArrowBuy" src="arrow-down.png"></th>
+                <th style="min-width: 145px" onclick="setSortBy('sell')">Sell Price<img id="sortArrowSell" src="arrow-down.png"></th>
             </tr>
         </table>
     </div>
