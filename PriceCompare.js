@@ -1,5 +1,6 @@
 ﻿var baseUrl = 'https://api.guildwars2.com/';
 var sortByBuys = true;
+var allItems;
 var itemsToCompareList = [];
 var searchedItemsList = [];
 var selectedItemsList = [];
@@ -25,17 +26,12 @@ var gw2ApiCall = function (endpoint, parameters) {
     var result = false;
 
     if (parameters && parameters.length > 0) {
-
         if (parameters.length > 1) {
-
             constructedParameters = '/' + parameters[0].value;
-
         } else {
-
             constructedParameters += '?';
 
             for (i = 0; i < parameters.length; i++) {
-
                 if (i > 0) {
                     constructedParameters += '&';
                 }
@@ -63,8 +59,6 @@ var gw2ApiCall = function (endpoint, parameters) {
     return result;
 };
 
-var allItems;
-
 $.getJSON('allItemIdsAndNames.json', function (response) {
     allItems = response;
     $('.full-page-loading-spinner-container').hide();
@@ -81,7 +75,7 @@ var prebuiltCompare = function () {
     });
 
     generateTable();
-}
+};
 
 var searchForItem = function () {
     var isExactSearch = $('#search-is-exact').is(':checked');
@@ -118,7 +112,7 @@ var removeItemFromList = function (element) {
     itemsToCompareList = selectedItemsList;
 
     generateTable();
-}
+};
 
 var addItemToList = function (id) {
     if (_.findIndex(selectedItemsList, { id: parseInt(id) }) < 0) {
@@ -152,7 +146,6 @@ var generateTable = function () {
     var sortedItems = sortByPrices(sortByBuys, pricedItems);
 
     $.each(sortedItems, function (key, value) {
-
         var buy = convertValueToGoldHtmlString(value.buys);
         var sell = convertValueToGoldHtmlString(value.sells);
         var bonusBuyData = value.buys ? '<br><div class="quantity">(' + value.buys.quantity + ')</div>' : '';
@@ -200,7 +193,7 @@ var convertValueToGoldHtmlString = function (value) {
     }
 
     return returnValue;
-}
+};
 
 var sortByPrices = function(sortByBuys, pricedItems) {
     return pricedItems.sort(function (a, b) {
@@ -231,11 +224,11 @@ var sortByPrices = function(sortByBuys, pricedItems) {
 
 var setSortByBuys = function (value, element) {
     var $element = $(element);
-    $element.closest(".filterable").children("a").removeClass("selected-filter");
-    $element.addClass("selected-filter");
+    $element.closest('.filterable').children('a').removeClass('selected-filter');
+    $element.addClass('selected-filter');
     sortByBuys = value;
     generateTable();
-}
+};
 
 var jubilantDyePackItemIds = [
   67284,
