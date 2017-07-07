@@ -127,6 +127,13 @@ var addItemToList = function (id) {
 };
 
 var generateTable = function () {
+    if (itemsToCompareList.length > 0) {
+        $('#item-list').show();
+    } else {
+        $('#item-list').hide();
+        return;
+    }
+
     $('#item-list').find("tr:gt(0)").remove();
 
     var prices = [];
