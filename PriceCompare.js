@@ -13,7 +13,7 @@ $(document).ready(function () {
         $('#prebuilt-lists').append($('<option></option>').val(y.id).html(y.name));
     });
 
-    $('input#search').on('change keyup paste', function() {
+    $('input#search').on('input', function() {
         if ($(this).val().length > 2) {
             searchForItem();
         } else {
@@ -24,7 +24,6 @@ $(document).ready(function () {
 });
 
 var gw2ApiCall = function (endpoint, parameters) {
-
     var constructedParameters = '';
     var result = false;
 
@@ -93,7 +92,7 @@ var searchForItem = function () {
         var htmlString = '';
 
         $.each(searchedItemsList, function (key, value) {
-            htmlString += '<div class="search-result-container" onclick="addItemToList(' + value.id + ')"><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div>' + value.name + '</div><br>'
+            htmlString += '<div class="search-result-container" onclick="addItemToList(' + value.id + ')"><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div><div class="item-name">' + value.name + '</div></div><br>'
         });
 
         $('#search-results').html(htmlString);
