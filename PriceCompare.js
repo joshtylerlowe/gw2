@@ -237,21 +237,41 @@ var sortByPrices = function(pricedItems) {
 var setSortBy = function (value) {
     if (value == 'buy') {
         sortBySellsAsc = sortBySellsDesc = false;
+        $('#sortArrowSell').removeClass('sortArrowVisible');
+        $('#sortArrowSell').addClass('sortArrowGone');
+        $('#sortArrowBuy').addClass('sortArrowVisible');
+        $('#sortArrowBuy').removeClass('sortArrowGone');
 
         if (sortByBuysDesc || sortByBuysAsc) {
             sortByBuysAsc = !sortByBuysAsc;
             sortByBuysDesc = !sortByBuysDesc;
+
+            $('#sortArrowBuy').toggleClass('sortArrowUp');
+            $('#sortArrowBuy').toggleClass('sortArrowDown');
         } else {
             sortByBuysDesc = true;
+            $('#sortArrowBuy').addClass('sortArrowVisible');
+            $('#sortArrowBuy').addClass('sortArrowDown');
+            $('#sortArrowBuy').removeClass('sortArrowUp');
         }
     } else {
         sortByBuysAsc = sortByBuysDesc = false;
+        $('#sortArrowBuy').removeClass('sortArrowVisible');
+        $('#sortArrowBuy').addClass('sortArrowGone');
+        $('#sortArrowSell').addClass('sortArrowVisible');
+        $('#sortArrowSell').removeClass('sortArrowGone');
 
         if (sortBySellsDesc || sortBySellsAsc) {
             sortBySellsAsc = !sortBySellsAsc;
             sortBySellsDesc = !sortBySellsDesc;
+
+            $('#sortArrowSell').toggleClass('sortArrowUp');
+            $('#sortArrowSell').toggleClass('sortArrowDown');
         } else {
             sortBySellsDesc = true;
+            $('#sortArrowSell').addClass('sortArrowVisible');
+            $('#sortArrowSell').addClass('sortArrowDown');
+            $('#sortArrowSell').removeClass('sortArrowUp');
         }
     }
 
