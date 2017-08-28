@@ -131,7 +131,8 @@ var addItemToList = function (id) {
     generateTable();
 };
 
-var generateTable = function () {
+var lastPrices;
+var generateTable = function (skip) {
     if (itemsToCompareList.length > 0) {
         $('#item-list').show();
     } else {
@@ -140,20 +141,24 @@ var generateTable = function () {
     }
 
     $('#item-list').find("tr:gt(0)").remove();
-
-    var prices = [];
-    var anyItemsAreSellable = itemsToCompareList.filter(function(e) { return $.inArray(['NoSell','AccountBound','SoulbindOnAcquire'], e.flags) == false || e.flags.length == 0;}).length > 0;
-
+    
     var ids = [];
     for (var i = 0; i < itemsToCompareList.length; i++) {
         ids.push(itemsToCompareList[i].id);
     }
 
-    prices = gw2ApiCall("v2/commerce/prices", [{ ids: ids.toString() }]);
+    var pricedItems;
 
-    var pricedItems = _.map(itemsToCompareList, function (item) {
-        return _.extend(item, _.findWhere(prices, { id: item.id }));
-    });
+    if (skip) {
+        pricedItems = lastPrices;
+    } else {
+        var prices = gw2ApiCall("v2/commerce/prices", [{ ids: ids.toString() }]);
+        
+        pricedItems = _.map(itemsToCompareList, function (item) {
+            return _.extend(item, _.findWhere(prices, { id: item.id }));
+        });
+        lastPrices = pricedItems;
+    }    
 
     var sortedItems = sortByPrices(pricedItems);
 
@@ -275,7 +280,7 @@ var setSortBy = function (value) {
         }
     }
 
-    generateTable();
+    generateTable(true);
 };
 
 var jubilantDyePackItemIds = [
