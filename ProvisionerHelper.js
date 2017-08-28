@@ -12,18 +12,14 @@
         });
 
         provisionerItems.sort(function (a, b) {
-            if (true) {
-                return a.buys.unit_price - b.buys.unit_price;
-            } else {
-                return b.buys.unit_price - a.buys.unit_price;
-            }
+            return a.buys.unit_price - b.buys.unit_price;
         });
     }
 
     $.each(provisioners, function (key, value) {
         $('#provisionerList tr:last').after(
             '<tr>' +
-            '<td><input class="selectableProvisioner" type="checkbox" value="' + value.items[0].id + ' ' + value.items[0].name + '" /></td>' +
+            '<td><input class="selectableProvisioner" type="checkbox" waypoint="' + value.waypoint + '" value="' + value.items[0].id + ' ' + value.items[0].name + '" /></td>' +
             '<td>' + value.name + '</td>' +
             '<td>' + value.description + '</td>' +
             '<td>' + value.items[0].name + '</td>' +
@@ -32,18 +28,32 @@
             );
     });
 
-    $('#gw2Button').click(function () {
+    $('#gw2efficiencyButton').click(function () {
         selectedProvisioners = [];
 
-        $("input:checkbox").each(function () {
+        $('input:checkbox').each(function () {
             var $this = $(this);
 
-            if ($this.is(":checked")) {
-                selectedProvisioners.push($this.attr("value"));
+            if ($this.is(':checked')) {
+                selectedProvisioners.push($this.attr('value'));
             }
         });
 
         window.open('https://gw2efficiency.com/crafting/calculator/' + selectedProvisioners.toString(), '_blank').focus();
+    });
+
+    $('#gw2waypointsButton').click(function () {
+        var waypoints = [];
+
+        $('input:checkbox').each(function () {
+            var $this = $(this);
+
+            if ($this.is(':checked')) {
+                waypoints.push($this.attr('waypoint'));
+            }
+        });
+
+        $('#waypointsList').html(waypoints.toString())
     });
 });
 
@@ -383,13 +393,13 @@ var provisioners = [
     },
     {
         name: 'Quartermaster Ival',
-        description: 'Next to the waypoint',
+        description: 'Next to the Mellaggan\'s Valor waypoint',
         waypoint: '[&BNUHAAA=]',
         items: ival
     },
     {
         name: 'Steward Katren',
-        description: 'Next to the waypoint',
+        description: 'Next to the Faren\'s Flyer waypoint',
         waypoint: '[&BO8HAAA=]',
         items: katren
     },
