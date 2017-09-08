@@ -81,6 +81,7 @@ var generateProvisionerTable = function () {
     });
 
     updateWaypoints();
+    $('.full-page-loading-spinner-container').hide();
 }
 
 var updateWaypoints = function () {
