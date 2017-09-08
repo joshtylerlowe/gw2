@@ -19,11 +19,16 @@ $(document).ready(function () {
     });
     
     $('#waypointsButton').click(function () {
-        var $temp = $("<input>");
-        $("body").append($temp);
-        $temp.val($('#waypointsList').val()).select();
-        document.execCommand("copy");
-        $temp.remove();
+        try {
+            var $temp = $('<input>');
+            $('body').append($temp);
+            $temp.val($('#waypointsList').val()).select();
+            document.execCommand('copy');
+            $temp.remove();
+            alert('copied to clipboard');
+        } catch (err) {
+            alert('error while trying to copy to clipboard');
+        }
     });
 
     $('input[name=buySellSelection]').click(function () {
