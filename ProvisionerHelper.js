@@ -1,32 +1,8 @@
-﻿$(document).ready(function () {
-    for (var i = 0; i < provisioners.length; i++) {
-        var provisionerItems = provisioners[i].items;
-        var provisionerItemIds = provisionerItems.map(function (item) {
-            return item.id;
-        });
+﻿var buySellValue = 'buy';
+var prices = [];
 
-        var prices = gw2ApiCall("v2/commerce/prices", [{ ids: provisionerItemIds.toString() }]);
-
-        _.map(provisionerItems, function (item) {
-            return _.extend(item, _.findWhere(prices, { id: item.id }));
-        });
-
-        provisionerItems.sort(function (a, b) {
-            return a.buys.unit_price - b.buys.unit_price;
-        });
-    }
-
-    $.each(provisioners, function (key, value) {
-        $('#provisionerList tr:last').after(
-            '<tr>' +
-            '<td><input class="selectableProvisioner" type="checkbox" waypoint="' + value.waypoint + '" value="' + value.items[0].id + ' ' + value.items[0].name + '" /></td>' +
-            '<td>' + value.name + '</td>' +
-            '<td>' + value.description + '</td>' +
-            '<td>' + value.items[0].name + '</td>' +
-            '<td>' + value.items[0].buys.unit_price + '</td>' +
-            '</tr>'
-            );
-    });
+$(document).ready(function () {
+    generateProvisionerTable();
 
     $('#gw2efficiencyButton').click(function () {
         selectedProvisioners = [];
@@ -39,23 +15,88 @@
             }
         });
 
-        window.open('https://gw2efficiency.com/crafting/calculator/' + selectedProvisioners.toString(), '_blank').focus();
+        window.open('https://gw2efficiency.com/crafting/calculator/' + selectedProvisioners.toString().replace(/\s+/g, '-'), '_blank').focus();
+    });
+    
+    $('#waypointsButton').click(function () {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($('#waypointsList').val()).select();
+        document.execCommand("copy");
+        $temp.remove();
     });
 
-    $('#gw2waypointsButton').click(function () {
-        var waypoints = [];
-
-        $('input:checkbox').each(function () {
-            var $this = $(this);
-
-            if ($this.is(':checked')) {
-                waypoints.push($this.attr('waypoint'));
-            }
-        });
-
-        $('#waypointsList').html(waypoints.toString())
+    $('input[name=buySellSelection]').click(function () {
+        buySellValue = $('input[name=buySellSelection]:checked').val();
+        generateProvisionerTable();
     });
 });
+
+var generateProvisionerTable = function () {
+    $('#provisionerList').find("tr:gt(0)").remove();
+
+    for (var i = 0; i < provisioners.length; i++) {
+        var provisionerItems = provisioners[i].items;
+        var provisionerItemIds = provisionerItems.map(function (item) {
+            return item.id;
+        });
+
+        if (!prices[i]) {
+            prices[i] = gw2ApiCall("v2/commerce/prices", [{ ids: provisionerItemIds.toString() }]);
+        }
+
+        _.map(provisionerItems, function (item) {
+            return _.extend(item, _.findWhere(prices[i], { id: item.id }));
+        });
+
+        provisionerItems.sort(function (a, b) {
+            if (buySellValue == 'buy') {
+                return a.buys.unit_price - b.buys.unit_price;
+            } else if (buySellValue == 'sell') {
+                return a.sells.unit_price - b.sells.unit_price;
+            }
+        });
+    }
+
+    $.each(provisioners, function (key, value) {
+
+        var buy = convertValueToGoldHtmlString(value.items[0].buys);
+        var sell = convertValueToGoldHtmlString(value.items[0].sells);
+
+        $('#provisionerList tr:last').after(
+            '<tr>' +
+            '<td><input class="selectableProvisioner" type="checkbox" waypoint="' + value.waypoint + '" value="' + value.items[0].id + ' ' + value.items[0].name + '" onclick="updateWaypoints()" /></td>' +
+            '<td>' + value.name + '</td>' +
+            '<td>' + value.items[0].name + '</td>' +
+            '<td style="text-align:right;">' + buy + '</td>' +
+            '<td style="text-align:right;">' + sell + '</td>' +
+            '<td>' + value.description + '</td>' +
+            '</tr>'
+            );
+    });
+
+    updateWaypoints();
+}
+
+var updateWaypoints = function () {
+    var waypoints = [];
+
+    $('input:checkbox').each(function () {
+        var $this = $(this);
+
+        if ($this.is(':checked')) {
+            waypoints.push($this.attr('waypoint'));
+        }
+    });
+
+    if (waypoints.length > 0) {
+        $('#waypointsContainer').show();
+        $('#waypointsList').val(waypoints.toString());
+    } else {
+        $('#waypointsContainer').hide();
+        $('#waypointsList').val('');
+    }
+}
 
 var selectedProvisioners = [];
 
