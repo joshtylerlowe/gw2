@@ -7,7 +7,7 @@ $(document).ready(function () {
     $('#gw2efficiencyButton').click(function () {
         selectedProvisioners = [];
 
-        $('input:checkbox').each(function () {
+        $('input:checkbox:not("#allProvisionersCheckbox")').each(function () {
             var $this = $(this);
 
             if ($this.is(':checked')) {
@@ -87,7 +87,7 @@ var generateProvisionerTable = function () {
 var updateWaypoints = function () {
     var waypoints = [];
 
-    $('input:checkbox').each(function () {
+    $('input:checkbox:not("#allProvisionersCheckbox")').each(function () {
         var $this = $(this);
 
         if ($this.is(':checked')) {
@@ -102,6 +102,18 @@ var updateWaypoints = function () {
         $('#waypointsContainer').hide();
         $('#waypointsList').val('');
     }
+};
+
+var toggleAllProvisioners = function () {
+    var isChecked = $('#allProvisionersCheckbox').is(':checked');
+
+    $('input:checkbox:not("#allProvisionersCheckbox")').each(function () {
+        var $this = $(this);
+
+        $this.prop('checked', isChecked);
+    });
+    
+    updateWaypoints();
 }
 
 var selectedProvisioners = [];
