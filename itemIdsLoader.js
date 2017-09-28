@@ -67,3 +67,18 @@ var putNewListIntoTextField = function(thingToCopy) {
     $temp.val(JSON.stringify(thingToCopy)).select();
     $('#progressShower').html('Done.');
 }
+
+var getFormattedItemsToAddList = function () {
+    var formattedString = '';
+    if (detailedItemsToAdd) {
+        for (var i = 0; i < detailedItemsToAdd.length; i++) {
+            formattedString +=
+                'name: ' + detailedItemsToAdd[i].name + '\n' +
+                'link: ' + detailedItemsToAdd[i].chat_link + '\n' +
+                'description: ' + (detailedItemsToAdd[i].description ? detailedItemsToAdd[i].description : 'N/A') + '\n' +
+                '\n\n';
+        }
+    }
+
+    return formattedString;
+}
