@@ -1,10 +1,14 @@
 var allKnownItemIdsAndNames;
+var apiItemsIdsAndNames;
 var detailedItemsToAdd = [];
+var detailedApiItems = [];
 var newList;
+var gw2ids = [];
 
 $(document).ready(function () {
     $('#getAndCopyButton').click(function () {
         $('#getAndCopyButton').hide();
+        console.log('fetching known ids...');
         $('#progressShower').html('fetching known ids...');
         getAllKnownIdsAndNames();
     });
@@ -18,9 +22,11 @@ var getAllKnownIdsAndNames = function() {
 };
 
 var updateItemIds = function() {
+    console.log('fetching gw2 ids...');
     $('#progressShower').html('fetching gw2 ids...');
-    var gw2ids = gw2ApiCall('v2/items');
+    gw2ids = gw2ApiCall('v2/items');
 
+    console.log('generating items to add');
     $('#progressShower').html('generating items to add');
     var map = {};
     for (var i = 0; i < allKnownItemIdsAndNames.length; i++) {
@@ -41,8 +47,10 @@ var updateItemIds = function() {
         groups[ng].push(v);
     });
 
+    console.log('fetching known ids...');
     $('#progressShower').html('fetching known ids...');
     for (var i = 0; i < groups.length; i++) {
+        console.log('fetching known ids...' + i + ' of ' + groups.length);
         $('#progressShower').html('fetching known ids...' + i + ' of ' + groups.length);
         var detailedGroupItems = gw2ApiCall('v2/items', [{ids:groups[i].toString()}]);
         if (detailedGroupItems) {
@@ -50,6 +58,7 @@ var updateItemIds = function() {
         }
     }
 
+    console.log('generating new list');
     $('#progressShower').html('generating new list');
     var itemsToAddIdsAndNames = detailedItemsToAdd.map(function(item) {
         return {id:item.id,name:item.name};
@@ -57,6 +66,7 @@ var updateItemIds = function() {
 
     newList = allKnownItemIdsAndNames.concat(itemsToAddIdsAndNames);
 
+    console.log('copying to text area');
     $('#progressShower').html('copying to text area');
     putNewListIntoTextField(newList);
 };
@@ -65,6 +75,7 @@ var putNewListIntoTextField = function(thingToCopy) {
     var $temp = $('<textarea></textarea>');
     $('body').append($temp);
     $temp.val(JSON.stringify(thingToCopy)).select();
+    console.log('Done.');
     $('#progressShower').html('Done.');
 }
 
@@ -75,10 +86,27 @@ var getFormattedItemsToAddList = function () {
             formattedString +=
                 'name: ' + detailedItemsToAdd[i].name + '\n' +
                 'link: ' + detailedItemsToAdd[i].chat_link + '\n' +
-                'description: ' + (detailedItemsToAdd[i].description ? detailedItemsToAdd[i].description : 'N/A') + '\n' +
+                'description: ' + (detailedItemsToAdd[i].description ? detailedItemsToAdd[i].description : 'N/A') +
                 '\n\n';
         }
     }
 
     return formattedString;
 }
+
+var getAllApiDetailedItems = function() {
+    var groupedGw2ids = [];
+
+    while (gw2ids.length > 0) {
+        groupedGw2ids.push(gw2ids.splice(0, 100));
+    }
+
+    for (var i = 0; i < groupedGw2ids.length; i++) {
+        console.log('fetching api items...' + (i+1) + ' of ' + groupedGw2ids.length);
+        detailedApiItems = detailedApiItems.concat(gw2ApiCall('v2/items', [{ids:groupedGw2ids[i].toString()}]));
+    }
+
+    apiItemsIdsAndNames = detailedApiItems.map(function(item) {
+        return {id:item.id,name:item.name};
+    });
+};
