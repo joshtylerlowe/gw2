@@ -70,3 +70,9 @@ var convertValueToGoldHtmlString = function (value) {
 
     return returnValue;
 };
+
+var mergeDataByKey = function (a1, a2, key) {
+    return _.map(a1, function (item) {
+        return _.extend(item, _.findWhere(a2, { [key]: item[key] }));
+    });
+};
