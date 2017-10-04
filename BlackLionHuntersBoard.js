@@ -141,21 +141,25 @@ var displayEverything = function () {
         trophy[key].forEach(function (x) {
             var tpValue = buySellValue == 'sell' ? x.sells.unit_price : x.buys.unit_price;
             var adjustedValue = buySellValue == 'sell' ? x.adjustedSellValue : x.adjustedBuyValue;
-            var formatting = '';
 
             if (x.tier == 'total') {
-                formatting = ' style="font-weight:bold"';
+                generatedHtml +=
+                    '<td>' +
+                    tpValue +
+                    '</td>';
 
+                generatedHtml +=
+                    '<td style="font-weight:bold">' +
+                    adjustedValue +
+                    '</td>';
+            } else {
                 generatedHtml +=
                     '<td>' +
                     tpValue +
                     '</td>';
             }
 
-            generatedHtml +=
-                '<td' + formatting + '>' +
-                adjustedValue +
-                '</td>';
+            
         });
         generatedHtml += '</tr>';
 
