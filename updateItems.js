@@ -66,9 +66,11 @@ var updateItemIds = function() {
 
     newList = allKnownItemIdsAndNames.concat(itemsToAddIdsAndNames);
 
-    console.log('copying to text area');
-    $('#progressShower').html('copying to text area');
-    putNewListIntoTextField(newList);
+    if (newList && newList.length > 0) {
+        console.log('copying to text area');
+        $('#progressShower').html('copying to text area');
+        putNewListIntoTextField(newList);
+    }
 };
 
 var putNewListIntoTextField = function(thingToCopy) {
