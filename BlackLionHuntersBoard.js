@@ -1,10 +1,10 @@
 var multipliers = [
-    {tier:1, multiplier: 1.16},
+    {tier:1, multiplier: 1.12},
     {tier:2, multiplier: 0.62},
-    {tier:3, multiplier: 1.01},
-    {tier:4, multiplier: 0.78},
-    {tier:5, multiplier: 1.64},
-    {tier:6, multiplier: 0.46}
+    {tier:3, multiplier: 1.02},
+    {tier:4, multiplier: 0.77},
+    {tier:5, multiplier: 1.65},
+    {tier:6, multiplier: 0.45}
 ];
 var trophy = {
     bone: [
@@ -77,6 +77,10 @@ var buySellValue = 'sell';
 
 
 $(document).ready(function () {
+    for (var i = 0; i < multipliers.length; i++) {
+        $('#t' + (i+1) + 'multiplier').html(multipliers[i].multiplier);
+    }
+
     var prices = gw2ApiCall("v2/commerce/prices", [{ ids: trophyIds }]);
 
     Object.keys(trophy).forEach(function (key, index) {
@@ -102,7 +106,7 @@ var addAdjustedValue = function (items) {
             items[i].adjustedBuyValue = Number((items[i].buys.unit_price * items[i].multiplier).toFixed(2));
         }
     }
-    
+
     return items;
 };
 
@@ -111,7 +115,7 @@ var getAdjustedTotal = function (items) {
     var sellTotalAdjusted = 0;
     var buyTotalTP = 0;
     var sellTotalTP = 0;
-    
+
     for (var i = 0; i < items.length; i++) {
         buyTotalAdjusted += items[i].adjustedBuyValue;
         sellTotalAdjusted += items[i].adjustedSellValue;
