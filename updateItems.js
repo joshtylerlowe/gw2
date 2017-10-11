@@ -66,10 +66,13 @@ var updateItemIds = function() {
 
     newList = allKnownItemIdsAndNames.concat(itemsToAddIdsAndNames);
 
-    if (newList && newList.length > 0) {
+    if (itemsToAddIdsAndNames && itemsToAddIdsAndNames.length > 0) {
         console.log('copying to text area');
         $('#progressShower').html('copying to text area');
         putNewListIntoTextField(newList);
+    } else {
+        console.log('Nothing to update.');
+        $('#progressShower').html('Nothing to update.');
     }
 };
 
