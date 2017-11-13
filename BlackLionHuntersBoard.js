@@ -1,9 +1,9 @@
 var multipliers = [
-    {tier:1, multiplier: 1.12},
-    {tier:2, multiplier: 0.62},
-    {tier:3, multiplier: 1.02},
+    {tier:1, multiplier: 1.27},
+    {tier:2, multiplier: 0.67},
+    {tier:3, multiplier: 0.91},
     {tier:4, multiplier: 0.77},
-    {tier:5, multiplier: 1.65},
+    {tier:5, multiplier: 1.60},
     {tier:6, multiplier: 0.45}
 ];
 var trophy = {
@@ -120,7 +120,7 @@ var getAdjustedTotal = function (items) {
         buyTotalAdjusted += items[i].adjustedBuyValue;
         sellTotalAdjusted += items[i].adjustedSellValue;
         buyTotalTP += items[i].buys.unit_price;
-        sellTotalTP = items[i].sells.unit_price;
+        sellTotalTP += items[i].sells.unit_price;
     }
 
     return {
@@ -159,7 +159,7 @@ var displayEverything = function () {
                     '</td>';
             }
 
-            
+
         });
         generatedHtml += '</tr>';
 
