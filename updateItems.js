@@ -2,7 +2,7 @@ var allKnownItemIdsAndNames;
 var apiItemsIdsAndNames;
 var detailedItemsToAdd = [];
 var detailedApiItems = [];
-var newList;
+var updatedList;
 var gw2ids = [];
 
 $(document).ready(function () {
@@ -64,12 +64,11 @@ var updateItemIds = function() {
         return {id:item.id,name:item.name};
     });
 
-    newList = allKnownItemIdsAndNames.concat(itemsToAddIdsAndNames);
+    updatedList = allKnownItemIdsAndNames.concat(itemsToAddIdsAndNames);
 
     if (itemsToAddIdsAndNames && itemsToAddIdsAndNames.length > 0) {
-        console.log('copying to text area');
-        $('#progressShower').html('copying to text area');
-        putNewListIntoTextField(newList);
+        console.log(itemsToAddIdsAndNames.length + ' item(s) to update');
+        $('#progressShower').html(itemsToAddIdsAndNames.length + ' items to update</br>copy(JSON.stringify(updatedList))</br>copy(getFormattedItemsToAddList())');
     } else {
         console.log('Nothing to update.');
         $('#progressShower').html('Nothing to update.');
