@@ -146,7 +146,7 @@ function cdreset() {
 var getDisplayText = function(seconds) {
     for (var i = 1; i <= displayData.length; i++) {
         if (displayData[i].time < count) {
-            if (lastText != displayData[i-1].text) {
+            if (lastText != displayData[i-1].text && seconds <= displayData[1].time) {
                 lastText = displayData[i-1].text;
                 chime.play();
             }
