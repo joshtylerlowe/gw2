@@ -159,3 +159,13 @@ th > img {
 .Legendary {
     border: 2px solid #4C139D;
 }
+#timerMainContent {
+    width: 100%;
+    text-align: center;
+}
+#timerTime {
+    font-size: 75px;
+}
+#timerInfo {
+    font-size: 100px;
+}
