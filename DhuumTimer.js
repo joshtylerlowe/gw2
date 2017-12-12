@@ -1,7 +1,9 @@
 var CCOUNT = 10 * 60;//10 minutes
-var chime = new Audio('upboing.mp3');
+var upboing = new Audio('upboing.mp3');
+var chordbeep = new Audio('chordbeep.mp3');
+var goingdownzip = new Audio('goingdownzip.mp3');
 var t, count, lastText;
-var orb1 = orb2 = orb3 = orbwarning = orbup = sswarning = ssup = false;
+var orb1 = orb2 = orb3 = orbwarning = orbup = sswarning = ssup = voice = chime = nosound = false;
 
 $(document).ready(function () {
     $('#startButton').show();
@@ -150,6 +152,7 @@ function cdstart() {
     $('#startButton').hide();
     $('#stopButton').show();
     $('#resetButton').show();
+
     orb1 = $('#orb1').is(':checked');
     orb2 = $('#orb2').is(':checked');
     orb3 = $('#orb2').is(':checked');
@@ -157,6 +160,11 @@ function cdstart() {
     orbup = $('#orbup').is(':checked');
     sswarning = $('#sswarning').is(':checked');
     ssup = $('#ssup').is(':checked');
+
+    voice = document.querySelector('input[name="soundOption"]:checked').value == 'voice';
+    chime = document.querySelector('input[name="soundOption"]:checked').value == 'chime';
+    nosound = document.querySelector('input[name="soundOption"]:checked').value == 'nosound';
+
     clearTimeout(t);
     count = CCOUNT;
     cddisplay();
@@ -173,12 +181,24 @@ var getDisplayText = function(seconds) {
             //var orbUpCheck = (orb1check || orb2check || orb3check) && orbup && displayData[i - 1].type.indexOf('orbup') >= 0;
             //var ssWarningCheck = sswarning && displayData[i-1].type.indexOf('sswarning') >= 0;
             //var ssUpCheck = ssup && displayData[i-1].type.indexOf('ssup') >= 0;
-            var ssCheck = ssup && (displayData[i - 1].type.indexOf('sswarning') >= 0 || ssup && displayData[i-1].type.indexOf('ssup') >= 0);
+            var ssCheck = ssup && (displayData[i - 1].type.indexOf('sswarning') >= 0 || displayData[i-1].type.indexOf('ssup') >= 0);
 
-            if (orb1check || orb2check || orb3check /*|| orbWarningCheck || orbUpCheck || ssWarningCheck || ssUpCheck*/) {
+            if (orb1check || orb2check || orb3check /*|| orbWarningCheck || orbUpCheck || ssWarningCheck || ssUpCheck*/ || ssCheck) {
                 if (lastText != displayData[i - 1].text && seconds <= displayData[1].time) {
                     lastText = displayData[i - 1].text;
-                    chime.play();
+
+                    if (voice) {
+                        responsiveVoice.speak(lastText);
+                    } else if (chime) {
+                        if (orb1check || orb2check || orb3check) {
+                            upboing.play();
+                        } else {
+                            goingdownzip.play();
+                        }
+                        
+                    } else {
+                        //nothing
+                    }
                 }
                 return displayData[i - 1].text;
             } else {

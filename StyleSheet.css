@@ -167,6 +167,8 @@ th > img {
 #timerMainContent {
     width: 100%;
     text-align: center;
+    background-color:dimgray;
+    color:orange;
 }
 #timerTime {
     font-size: 75px;
