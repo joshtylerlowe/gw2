@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="StyleSheet.css">
@@ -9,11 +9,25 @@
         <title>Dhuum Timer</title>
     	<meta charset="utf-8" />
     </head>
-    <body id="timerMainContent" onload="cdreset()">
+    <body id="timerMainContent">
+        <div id="timerOptions">
+            <form>
+                <input class="timerRadioList" name="soundOption" type="radio" value="voice" checked>Voice<br>
+                <input class="timerRadioList" name="soundOption" type="radio" value="chime">Chime<br>
+                <input class="timerRadioList" name="soundOption" type="radio" value="nosound">No Sound<br>
+            </form>
+            <input class="timerCheckbox" id="orb1" type="checkbox" checked>Orb 1<br>
+            <input class="timerCheckbox" id="orb2" type="checkbox" checked>Orb 2<br>
+            <input class="timerCheckbox" id="orb3" type="checkbox" checked>Orb 3<br>
+            <!--<input class="timerCheckbox" id="orbwarning" type="checkbox" checked>Orb 10 Second Warnings<br>
+            <input class="timerCheckbox" id="orbup" type="checkbox" checked>Green Activating<br>
+            <input class="timerCheckbox" id="sswarning" type="checkbox" checked>Soul Slam Warnings<br>-->
+            <input class="timerCheckbox" id="ssup" type="checkbox" checked>Soul Slam<br>
+        </div>
         <div id="timerTime"></div><br>
         <div id="timerInfo"></div><br>
-        <input id="startButton" type="button" value="Start" onclick="countdown()">
-        <input id="stopButton" type="button" value="Stop" onclick="cdpause()">
-        <input id="resetButton" type="button" value="Reset" onclick="cdreset()">
+        <input class="timerButton" id="startButton" type="button" value="Start" onclick="cdstart()">
+        <input class="timerButton" id="stopButton" type="button" value="Stop" onclick="cdpause()">
+        <input class="timerButton" id="resetButton" type="button" value="Reset" onclick="cdreset()">
     </body>
 </html>

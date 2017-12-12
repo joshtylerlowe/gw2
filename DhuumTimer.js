@@ -1,6 +1,13 @@
 var CCOUNT = 10 * 60;//10 minutes
 var chime = new Audio('upboing.mp3');
 var t, count, lastText;
+var orb1 = orb2 = orb3 = orbwarning = orbup = sswarning = ssup = false;
+
+$(document).ready(function () {
+    $('#startButton').show();
+    $('#stopButton').hide();
+    $('#resetButton').hide();
+});
 
 /*
 580 9:40 Orb 1 to Arrow
@@ -54,55 +61,55 @@ var t, count, lastText;
 */
 
 var displayData = [
-    { time: 600, text: "" },
-    { time: 580, text: "Orb 1 to Arrow" },
-    { time: 570, text: "Orb 1 going up" },
-    { time: 550, text: "Orb 2 to Circle" },
-    { time: 540, text: "Orb 2 going up, bombs starting" },
-    { time: 520, text: "Orb 3 to Heart" },
-    { time: 510, text: "Orb 3 going up" },
-    { time: 490, text: "Orb 1 to Square" },
-    { time: 480, text: "Orb 1 going up, Dhuum is activated" },
-    { time: 460, text: "Orb 2 to Star" },
-    { time: 450, text: "Orb 2 going up" },
-    { time: 430, text: "Orb 3 to Spiral" },
-    { time: 420, text: "Orb 3 going up" },
-    { time: 400, text: "Orb 1 to Triangle" },
-    { time: 395, text: "prepare for soul slam" },
-    { time: 390, text: "Orb 1 going up" },
-    { time: 385, text: "SOUL SLAM NOW" },
-    { time: 370, text: "Orb 2 to Arrow" },
-    { time: 360, text: "Orb 2 going up" },
-    { time: 340, text: "Orb 3 to Circle" },
-    { time: 330, text: "Orb 3 going up" },
-    { time: 315, text: "prepare for soul slam, Orb 1 to Heart AFTER soul slam" },
-    { time: 305, text: "SOUL SLAM NOW" },
-    { time: 300, text: "Orb 1 going up" },
-    { time: 280, text: "Orb 2 to Square" },
-    { time: 270, text: "Orb 2 going up" },
-    { time: 250, text: "Orb 3 to Star" },
-    { time: 240, text: "Orb 3 going up" },
-    { time: 235, text: "prepare for soul slam" },
-    { time: 225, text: "SOUL SLAM NOW" },
-    { time: 220, text: "Orb 1 to Spiral" },
-    { time: 210, text: "Orb 1 going up" },
-    { time: 190, text: "Orb 2 to Triangle" },
-    { time: 180, text: "Orb 2 going up" },
-    { time: 160, text: "Orb 3 to Arrow" },
-    { time: 155, text: "prepare for soul slam" },
-    { time: 150, text: "Orb 3 going up" },
-    { time: 145, text: "SOUL SLAM NOW" },
-    { time: 130, text: "Orb 1 to Circle" },
-    { time: 120, text: "Orb 1 going up" },
-    { time: 100, text: "Orb 2 to Heart" },
-    { time: 90, text: "Orb 2 going up" },
-    { time: 75, text: "prepare for soul slam, Orb 3 to Square AFTER soul slam" },
-    { time: 65, text: "SOUL SLAM NOW" },
-    { time: 60, text: "Orb 3 going up, 1 minute until enrage" },
-    { time: 40, text: "Orb 1 to Star" },
-    { time: 30, text: "Orb 1 going up, 30 seconds until enrage" },
-    { time: 10, text: "Orb 2 to Spiral" },
-    { time: 0, text: "Orb 2 going up, ENRAGE" }
+    { time: 600, type: "", text: "" },
+    { time: 580, type: "orbwarning,orb1", text: "Orb 1 to Arrow" },
+    { time: 570, type: "orbup,orb1", text: "Orb 1 going up" },
+    { time: 550, type: "orbwarning,orb2", text: "Orb 2 to Circle" },
+    { time: 540, type: "orbup,orb2", text: "Orb 2 going up, bombs starting" },
+    { time: 520, type: "orbwarning,orb3", text: "Orb 3 to Heart" },
+    { time: 510, type: "orbup,orb3", text: "Orb 3 going up" },
+    { time: 490, type: "orbwarning,orb1", text: "Orb 1 to Square" },
+    { time: 480, type: "orbup,orb1", text: "Orb 1 going up, Dhuum is activated" },
+    { time: 460, type: "orbwarning,orb2", text: "Orb 2 to Star" },
+    { time: 450, type: "orbup,orb2", text: "Orb 2 going up" },
+    { time: 430, type: "orbwarning,orb3", text: "Orb 3 to Spiral" },
+    { time: 420, type: "orbup,orb3", text: "Orb 3 going up" },
+    { time: 400, type: "orbwarning,orb1", text: "Orb 1 to Triangle" },
+    { time: 395, type: "sswarning", text: "prepare for soul slam" },
+    { time: 390, type: "orbup,orb1", text: "Orb 1 going up" },
+    { time: 385, type: "ssup", text: "SOUL SLAM NOW" },
+    { time: 370, type: "orbwarning,orb2", text: "Orb 2 to Arrow" },
+    { time: 360, type: "orbup,orb2", text: "Orb 2 going up" },
+    { time: 340, type: "orbwarning,orb3", text: "Orb 3 to Circle" },
+    { time: 330, type: "orbup,orb3", text: "Orb 3 going up" },
+    { time: 315, type: "sswarning,orbwarning,orb1", text: "prepare for soul slam, Orb 1 to Heart AFTER soul slam" },
+    { time: 305, type: "ssup", text: "SOUL SLAM NOW" },
+    { time: 300, type: "orbup,orb1", text: "Orb 1 going up" },
+    { time: 280, type: "orbwarning,orb2", text: "Orb 2 to Square" },
+    { time: 270, type: "orbup,orb2", text: "Orb 2 going up" },
+    { time: 250, type: "orbwarning,orb3", text: "Orb 3 to Star" },
+    { time: 240, type: "orbup,orb3", text: "Orb 3 going up" },
+    { time: 235, type: "sswarning", text: "prepare for soul slam" },
+    { time: 225, type: "ssup", text: "SOUL SLAM NOW" },
+    { time: 220, type: "orbwarning,orb1", text: "Orb 1 to Spiral" },
+    { time: 210, type: "orbup,orb1", text: "Orb 1 going up" },
+    { time: 190, type: "orbwarning,orb2", text: "Orb 2 to Triangle" },
+    { time: 180, type: "orbup,orb2", text: "Orb 2 going up" },
+    { time: 160, type: "orbwarning,orb3", text: "Orb 3 to Arrow" },
+    { time: 155, type: "sswarning", text: "prepare for soul slam" },
+    { time: 150, type: "orbup,orb3", text: "Orb 3 going up" },
+    { time: 145, type: "ssup", text: "SOUL SLAM NOW" },
+    { time: 130, type: "orbwarning,orb1", text: "Orb 1 to Circle" },
+    { time: 120, type: "orbup,orb1", text: "Orb 1 going up" },
+    { time: 100, type: "orbwarning,orb2", text: "Orb 2 to Heart" },
+    { time: 90, type: "orbup,orb2", text: "Orb 2 going up" },
+    { time: 75, type: "sswarning,orbwarning,orb3", text: "prepare for soul slam, Orb 3 to Square AFTER soul slam" },
+    { time: 65, type: "ssup", text: "SOUL SLAM NOW" },
+    { time: 60, type: "orbup,orb3", text: "Orb 3 going up, 1 minute until enrage" },
+    { time: 40, type: "orbwarning,orb1", text: "Orb 1 to Star" },
+    { time: 30, type: "orbup,orb1", text: "Orb 1 going up, 30 seconds until enrage" },
+    { time: 10, type: "orbwarning,orb2", text: "Orb 2 to Spiral" },
+    { time: 0, type: "orbup,orb2", text: "Orb 2 going up, ENRAGE" }
 ];
 
 function cddisplay() {
@@ -111,11 +118,6 @@ function cddisplay() {
 };
 
 function countdown() {
-    //hide start, show stop/reset
-    $('#startButton').hide();
-    $('#stopButton').show();
-    $('#resetButton').show();
-
     // starts countdown
     cddisplay();
     if (count == 0) {
@@ -143,14 +145,47 @@ function cdreset() {
     cddisplay();
 };
 
+function cdstart() {
+    //hide start, show stop/reset
+    $('#startButton').hide();
+    $('#stopButton').show();
+    $('#resetButton').show();
+    orb1 = $('#orb1').is(':checked');
+    orb2 = $('#orb2').is(':checked');
+    orb3 = $('#orb2').is(':checked');
+    orbwarning = $('#orbwarning').is(':checked');
+    orbup = $('#orbup').is(':checked');
+    sswarning = $('#sswarning').is(':checked');
+    ssup = $('#ssup').is(':checked');
+    clearTimeout(t);
+    count = CCOUNT;
+    cddisplay();
+    countdown();
+}
+
 var getDisplayText = function(seconds) {
-    for (var i = 1; i <= displayData.length; i++) {
+    for (var i = 1; i < displayData.length; i++) {
         if (displayData[i].time < count) {
-            if (lastText != displayData[i-1].text && seconds <= displayData[1].time) {
-                lastText = displayData[i-1].text;
-                chime.play();
+            var orb1check = orb1 && displayData[i-1].type.indexOf('orb1') >= 0;
+            var orb2check = orb2 && displayData[i-1].type.indexOf('orb2') >= 0;
+            var orb3check = orb3 && displayData[i-1].type.indexOf('orb3') >= 0;
+            //var orbWarningCheck = (orb1check || orb2check || orb3check) && orbwarning && displayData[i - 1].type.indexOf('orbwarning') >= 0;
+            //var orbUpCheck = (orb1check || orb2check || orb3check) && orbup && displayData[i - 1].type.indexOf('orbup') >= 0;
+            //var ssWarningCheck = sswarning && displayData[i-1].type.indexOf('sswarning') >= 0;
+            //var ssUpCheck = ssup && displayData[i-1].type.indexOf('ssup') >= 0;
+            var ssCheck = ssup && (displayData[i - 1].type.indexOf('sswarning') >= 0 || ssup && displayData[i-1].type.indexOf('ssup') >= 0);
+
+            if (orb1check || orb2check || orb3check /*|| orbWarningCheck || orbUpCheck || ssWarningCheck || ssUpCheck*/) {
+                if (lastText != displayData[i - 1].text && seconds <= displayData[1].time) {
+                    lastText = displayData[i - 1].text;
+                    chime.play();
+                }
+                return displayData[i - 1].text;
+            } else {
+                return "";
             }
-            return displayData[i-1].text;
         }
     }
+
+    return "";
 }
