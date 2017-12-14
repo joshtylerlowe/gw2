@@ -155,7 +155,7 @@ function cdstart() {
 
     orb1 = $('#orb1').is(':checked');
     orb2 = $('#orb2').is(':checked');
-    orb3 = $('#orb2').is(':checked');
+    orb3 = $('#orb3').is(':checked');
     orbwarning = $('#orbwarning').is(':checked');
     orbup = $('#orbup').is(':checked');
     sswarning = $('#sswarning').is(':checked');
@@ -195,7 +195,7 @@ var getDisplayText = function(seconds) {
                         } else {
                             goingdownzip.play();
                         }
-                        
+
                     } else {
                         //nothing
                     }
