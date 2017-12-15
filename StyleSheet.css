@@ -164,6 +164,9 @@ th > img {
     padding: 25px;
     margin: 25px;
 }
+.timerOrbValueText {
+    width: 100px;
+}
 #timerMainContent {
     width: 100%;
     text-align: center;
