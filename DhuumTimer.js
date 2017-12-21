@@ -1,5 +1,5 @@
 var CCOUNT = (10 * 60) + 10;//10 minutes
-var singlebeep = new Audio('beeplow.mp3');
+var singlebeep = new Audio('beepdouble.mp3');
 var upboing = new Audio('upboing.mp3');
 var chordbeep = new Audio('chordbeep.mp3');
 var goingdownzip = new Audio('goingdownzip.mp3');
