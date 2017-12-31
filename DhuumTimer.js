@@ -1,9 +1,13 @@
-var CCOUNT = (10 * 60) + 10;//10 minutes
+var CCOUNT = 10 * 60;//10 minutes
 var singlebeep = new Audio('beepdouble.mp3');
 var upboing = new Audio('upboing.mp3');
 var chordbeep = new Audio('chordbeep.mp3');
 var goingdownzip = new Audio('goingdownzip.mp3');
-var t, count, lastText, orb1Val, orb2Val, orb3Val;
+var maleUKVoice = 'UK English Male';
+var maleUSVoice = 'US English Male';
+var femaleUKVoice = 'UK English Female';
+var femaleUSVoice = 'US English Female';
+var t, count, lastText, orb1Val, orb2Val, orb3Val, voiceSelectionOrbs, voiceSelectionOther;
 var orb1 = orb2 = orb3 = orbwarning = orbup = sswarning = ssup = voice = chime = nosound = false;
 
 $(document).ready(function () {
@@ -80,20 +84,20 @@ var displayData = [
     { time: 400, type: "orbwarning,orb1", text: "{1} to Triangle" },
     { time: 395, type: "sswarning", text: "prepare for soul slam" },
     { time: 390, type: "orbup,orb1", text: "{1} going up" },
-    { time: 385, type: "ssup", text: "sole slam! now" },
+    { time: 385, type: "ssup", text: "soul slam! now" },
     { time: 370, type: "orbwarning,orb2", text: "{2} to Arrow" },
     { time: 360, type: "orbup,orb2", text: "{2} going up" },
     { time: 340, type: "orbwarning,orb3", text: "{3} to Circle" },
     { time: 330, type: "orbup,orb3", text: "{3} going up" },
     { time: 315, type: "sswarning,orbwarning,orb1", text: "prepare for soul slam, {1} to Heart AFTER soul slam" },
-    { time: 305, type: "ssup", text: "sole slam! now" },
+    { time: 305, type: "ssup", text: "soul slam! now" },
     { time: 300, type: "orbup,orb1", text: "{1} going up" },
     { time: 280, type: "orbwarning,orb2", text: "{2} to Square" },
     { time: 270, type: "orbup,orb2", text: "{2} going up" },
     { time: 250, type: "orbwarning,orb3", text: "{3} to Star" },
     { time: 240, type: "orbup,orb3", text: "{3} going up" },
     { time: 235, type: "sswarning", text: "prepare for soul slam" },
-    { time: 225, type: "ssup", text: "sole slam! now" },
+    { time: 225, type: "ssup", text: "soul slam! now" },
     { time: 220, type: "orbwarning,orb1", text: "{1} to Spiral" },
     { time: 210, type: "orbup,orb1", text: "{1} going up" },
     { time: 190, type: "orbwarning,orb2", text: "{2} to Triangle" },
@@ -101,23 +105,28 @@ var displayData = [
     { time: 160, type: "orbwarning,orb3", text: "{3} to Arrow" },
     { time: 155, type: "sswarning", text: "prepare for soul slam" },
     { time: 150, type: "orbup,orb3", text: "{3} going up" },
-    { time: 145, type: "ssup", text: "sole slam! now" },
+    { time: 145, type: "ssup", text: "soul slam! now" },
     { time: 130, type: "orbwarning,orb1", text: "{1} to Circle" },
     { time: 120, type: "orbup,orb1", text: "{1} going up" },
     { time: 100, type: "orbwarning,orb2", text: "{2} to Heart" },
     { time: 90, type: "orbup,orb2", text: "{2} going up" },
     { time: 75, type: "sswarning,orbwarning,orb3", text: "prepare for soul slam, {3} to Square AFTER soul slam" },
-    { time: 65, type: "ssup", text: "sole slam! now" },
+    { time: 65, type: "ssup", text: "soul slam! now" },
     { time: 60, type: "orbup,orb3", text: "{3} going up, 1 minute until enrage" },
     { time: 40, type: "orbwarning,orb1", text: "{1} to Star" },
     { time: 30, type: "orbup,orb1", text: "{1} going up, 30 seconds until enrage" },
     { time: 10, type: "orbwarning,orb2", text: "{2} to Spiral" },
-    { time: 0, type: "orbup,orb2", text: "{2} going up, ENRAGE" }
+    { time: 0, type: "orbup,orb2", text: "{2} going up, you are in enrage" }
 ];
 
-function cddisplay() {
-    document.getElementById('timerTime').innerHTML = secondsTimeSpanToMS(count);
-    document.getElementById('timerInfo').innerHTML = getDisplayText(count);
+function cddisplay(reset) {
+    if (reset) {
+        document.getElementById('timerTime').innerHTML = '';
+        document.getElementById('timerInfo').innerHTML = '';
+    } else {
+        document.getElementById('timerTime').innerHTML = secondsTimeSpanToMS(count);
+        document.getElementById('timerInfo').innerHTML = getDisplayText(count);
+    }
 };
 
 function countdown() {
@@ -140,16 +149,18 @@ function cdpause() {
 
 function cdreset() {
     // resets countdown
+    $('#timerOptions').show();
     $('#startButton').show();
     $('#stopButton').hide();
     $('#resetButton').hide();
     cdpause();
     count = CCOUNT;
-    cddisplay();
+    cddisplay(true);
 };
 
 function cdstart() {
     //hide start, show stop/reset
+    $('#timerOptions').hide();
     $('#startButton').hide();
     $('#stopButton').show();
     $('#resetButton').show();
@@ -164,34 +175,40 @@ function cdstart() {
     orbup = $('#orbup').is(':checked');
     sswarning = $('#sswarning').is(':checked');
     ssup = $('#ssup').is(':checked');
+    
 
     voice = document.querySelector('input[name="soundOption"]:checked').value == 'voice';
     chime = document.querySelector('input[name="soundOption"]:checked').value == 'chime';
     nosound = document.querySelector('input[name="soundOption"]:checked').value == 'nosound';
 
+    delay = document.querySelector('input[name="delayOption"]:checked').value == 'delay';
+
+    voiceSelectionOrbs = document.querySelector('input[name="voiceOption"]:checked').value == 'male' ? maleUKVoice : femaleUKVoice;
+    voiceSelectionOther = document.querySelector('input[name="voiceOption"]:checked').value == 'male' ? maleUSVoice : femaleUSVoice;
+
     clearTimeout(t);
-    count = CCOUNT;
+    count = delay ? CCOUNT + 10 : CCOUNT;
     cddisplay();
     countdown();
 }
 
 var getDisplayText = function (seconds) {
-    if (seconds >= 600) {
+    if (seconds >= 600 && delay) {
 
         if (seconds == 605) {
-            responsiveVoice.speak("fight starting", "UK English Male");
+            responsiveVoice.speak("fight starting", voiceSelectionOther);
             return "fight starting";
         } else if (seconds == 603) {
-            responsiveVoice.speak("3", "UK English Male");
+            responsiveVoice.speak("3", voiceSelectionOther);
             return "3";
         } else if (seconds == 602) {
-            responsiveVoice.speak("2", "UK English Male");
+            responsiveVoice.speak("2", voiceSelectionOther);
             return "2";
         } else if (seconds == 601) {
-            responsiveVoice.speak("1", "UK English Male");
+            responsiveVoice.speak("1", voiceSelectionOther);
             return "1";
         } else if (seconds == 600) {
-            responsiveVoice.speak("Go!", "UK English Male");
+            responsiveVoice.speak("Go!", voiceSelectionOther);
             return "Go!";
         }
     } else {
@@ -214,14 +231,14 @@ var getDisplayText = function (seconds) {
                         if (voice) {
                             if (orb1check || orb2check || orb3check) {
                                 singlebeep.play();
-                                responsiveVoice.speak(lastText.replace('{1}', orb1Val).replace('{2}', orb2Val).replace('{3}', orb3Val), "UK English Female");
+                                responsiveVoice.speak(lastText.replace('{1}', orb1Val).replace('{2}', orb2Val).replace('{3}', orb3Val), voiceSelectionOrbs);
                             } else {
                                 singlebeep.play();
-                                responsiveVoice.speak(lastText, "US English Female");
+                                responsiveVoice.speak(lastText, voiceSelectionOther);
                             }
                         } else if (chime) {
                             if (orb1check || orb2check || orb3check) {
-                                upboing.play();
+                                singlebeep.play();
                             } else {
                                 goingdownzip.play();
                             }
