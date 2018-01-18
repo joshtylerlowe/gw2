@@ -107,6 +107,9 @@ th > img {
 .main-content-container > * {
     margin: 10px;
 }
+.notification {
+    color: red;
+}
 .item-row {
     text-align: center;
 }

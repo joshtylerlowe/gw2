@@ -145,6 +145,7 @@ function cdpause() {
     // pauses countdown
     clearTimeout(t);
     $('#stopButton').hide();
+    responsiveVoice.cancel();
 };
 
 function cdreset() {
@@ -175,7 +176,7 @@ function cdstart() {
     orbup = $('#orbup').is(':checked');
     sswarning = $('#sswarning').is(':checked');
     ssup = $('#ssup').is(':checked');
-    
+
     both = document.querySelector('input[name="soundOption"]:checked').value == 'both';
     voice = document.querySelector('input[name="soundOption"]:checked').value == 'voice';
     chime = document.querySelector('input[name="soundOption"]:checked').value == 'chime';
@@ -186,6 +187,7 @@ function cdstart() {
     voiceSelectionOrbs = document.querySelector('input[name="voiceOption"]:checked').value == 'male' ? maleUSVoice : femaleUKVoice;
     voiceSelectionOther = document.querySelector('input[name="voiceOption"]:checked').value == 'male' ? maleUKVoice : femaleUSVoice;
 
+    lastText = '';
     clearTimeout(t);
     count = delay ? CCOUNT + 10 : CCOUNT;
     cddisplay();
