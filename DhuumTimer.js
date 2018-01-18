@@ -8,7 +8,7 @@ var maleUSVoice = 'US English Male';
 var femaleUKVoice = 'UK English Female';
 var femaleUSVoice = 'US English Female';
 var t, count, lastText, orb1Val, orb2Val, orb3Val, voiceSelectionOrbs, voiceSelectionOther;
-var orb1 = orb2 = orb3 = orbwarning = orbup = sswarning = ssup = voice = chime = nosound = false;
+var orb1 = orb2 = orb3 = orbwarning = orbup = sswarning = ssup = both = voice = chime = nosound = false;
 
 $(document).ready(function () {
     $('#startButton').show();
@@ -176,15 +176,15 @@ function cdstart() {
     sswarning = $('#sswarning').is(':checked');
     ssup = $('#ssup').is(':checked');
     
-
+    both = document.querySelector('input[name="soundOption"]:checked').value == 'both';
     voice = document.querySelector('input[name="soundOption"]:checked').value == 'voice';
     chime = document.querySelector('input[name="soundOption"]:checked').value == 'chime';
     nosound = document.querySelector('input[name="soundOption"]:checked').value == 'nosound';
 
     delay = document.querySelector('input[name="delayOption"]:checked').value == 'delay';
 
-    voiceSelectionOrbs = document.querySelector('input[name="voiceOption"]:checked').value == 'male' ? maleUKVoice : femaleUKVoice;
-    voiceSelectionOther = document.querySelector('input[name="voiceOption"]:checked').value == 'male' ? maleUSVoice : femaleUSVoice;
+    voiceSelectionOrbs = document.querySelector('input[name="voiceOption"]:checked').value == 'male' ? maleUSVoice : femaleUKVoice;
+    voiceSelectionOther = document.querySelector('input[name="voiceOption"]:checked').value == 'male' ? maleUKVoice : femaleUSVoice;
 
     clearTimeout(t);
     count = delay ? CCOUNT + 10 : CCOUNT;
@@ -228,12 +228,16 @@ var getDisplayText = function (seconds) {
                     if (lastText != displayData[i].text && seconds <= displayData[1].time) {
                         lastText = displayData[i].text;
 
-                        if (voice) {
+                        if (voice || both) {
                             if (orb1check || orb2check || orb3check) {
-                                singlebeep.play();
+                                if (both) {
+                                    singlebeep.play();
+                                }
                                 responsiveVoice.speak(lastText.replace('{1}', orb1Val).replace('{2}', orb2Val).replace('{3}', orb3Val), voiceSelectionOrbs);
                             } else {
-                                singlebeep.play();
+                                if (both) {
+                                    singlebeep.play();
+                                }
                                 responsiveVoice.speak(lastText, voiceSelectionOther);
                             }
                         } else if (chime) {
