@@ -10,7 +10,7 @@
         <title>Dhuum Timer</title>
     	<meta charset="utf-8" />
     </head>
-    <body id="timerMainContent">
+    <body>
         <div class="topnav">
             <a href="index.html">Home</a>
             <a href="BlackLionHuntersBoard.html">Black Lion Hunters Board</a>
@@ -18,43 +18,45 @@
             <a href="PriceCompare.html">TP Price Comparer</a>
             <a href="ProvisionerHelper.html">Provisioner Token Helper</a>
         </div>
-        <div id="timerOptions">
-            <form>
-                <fieldset>
-                    <legend>Noise</legend>
-                    <input class="timerRadioList" name="soundOption" type="radio" value="both" checked>Voice w/Chime<br>
-                    <input class="timerRadioList" name="soundOption" type="radio" value="voice">Just Voice<br>
-                    <input class="timerRadioList" name="soundOption" type="radio" value="chime">Chime<br>
-                    <input class="timerRadioList" name="soundOption" type="radio" value="nosound">No Sound<br>
-                </fieldset>
-            </form>
-            <form>
-                <fieldset>
-                    <legend>Voice</legend>
-                    <input class="timerRadioList" name="voiceOption" type="radio" value="female" checked>Female<br>
-                    <input class="timerRadioList" name="voiceOption" type="radio" value="male">Male<br>
-                </fieldset>
-            </form>
-            <form>
-                <fieldset>
-                    <legend>Timer Offset</legend>
-                    <input class="timerRadioList" name="delayOption" type="radio" value="immediate">Start Timer at 10:00 with no countdown<br>
-                    <input class="timerRadioList" name="delayOption" type="radio" value="delay" checked>Start Timer at 10:10 with 5 second countdown<br>
-                </fieldset>
-            </form>
-            <br />
-            <input class="timerCheckbox" id="orb1" type="checkbox" checked>Orb 1<input class="timerOrbValueText" id="orb1text" type="text" value="Orb 1"><br>
-            <input class="timerCheckbox" id="orb2" type="checkbox" checked>Orb 2<input class="timerOrbValueText" id="orb2text" type="text" value="Orb 2"><br>
-            <input class="timerCheckbox" id="orb3" type="checkbox" checked>Orb 3<input class="timerOrbValueText" id="orb3text" type="text" value="Orb 3"><br>
-            <!--<input class="timerCheckbox" id="orbwarning" type="checkbox" checked>Orb 10 Second Warnings<br>
-            <input class="timerCheckbox" id="orbup" type="checkbox" checked>Green Activating<br>
-            <input class="timerCheckbox" id="sswarning" type="checkbox" checked>Soul Slam Warnings<br>-->
-            <input class="timerCheckbox" id="ssup" type="checkbox" checked>Soul Slam<br>
+        <div id="timerMainContent">
+            <div id="timerOptions">
+                <form>
+                    <fieldset>
+                        <legend>Noise</legend>
+                        <input class="timerRadioList" name="soundOption" type="radio" value="both" checked>Voice w/Chime<br>
+                        <input class="timerRadioList" name="soundOption" type="radio" value="voice">Just Voice<br>
+                        <input class="timerRadioList" name="soundOption" type="radio" value="chime">Chime<br>
+                        <input class="timerRadioList" name="soundOption" type="radio" value="nosound">No Sound<br>
+                    </fieldset>
+                </form>
+                <form>
+                    <fieldset>
+                        <legend>Voice</legend>
+                        <input class="timerRadioList" name="voiceOption" type="radio" value="female" checked>Female<br>
+                        <input class="timerRadioList" name="voiceOption" type="radio" value="male">Male<br>
+                    </fieldset>
+                </form>
+                <form>
+                    <fieldset>
+                        <legend>Timer Offset</legend>
+                        <input class="timerRadioList" name="delayOption" type="radio" value="immediate">Start Timer at 10:00 with no countdown<br>
+                        <input class="timerRadioList" name="delayOption" type="radio" value="delay" checked>Start Timer at 10:10 with 5 second countdown<br>
+                    </fieldset>
+                </form>
+                <br />
+                <input class="timerCheckbox" id="orb1" type="checkbox" checked>Orb 1 <input class="timerOrbValueText" id="orb1text" type="text" value="Orb 1"><br>
+                <input class="timerCheckbox" id="orb2" type="checkbox" checked>Orb 2 <input class="timerOrbValueText" id="orb2text" type="text" value="Orb 2"><br>
+                <input class="timerCheckbox" id="orb3" type="checkbox" checked>Orb 3 <input class="timerOrbValueText" id="orb3text" type="text" value="Orb 3"><br>
+                <!--<input class="timerCheckbox" id="orbwarning" type="checkbox" checked>Orb 10 Second Warnings<br>
+                <input class="timerCheckbox" id="orbup" type="checkbox" checked>Green Activating<br>
+                <input class="timerCheckbox" id="sswarning" type="checkbox" checked>Soul Slam Warnings<br>-->
+                <input class="timerCheckbox" id="ssup" type="checkbox" checked>Soul Slam<br>
+            </div>
+            <input class="timerButton" id="startButton" type="button" value="Start" onclick="cdstart()">
+            <input class="timerButton" id="stopButton" type="button" value="Stop" onclick="cdpause()">
+            <input class="timerButton" id="resetButton" type="button" value="Reset" onclick="cdreset()">
+            <div id="timerTime"></div><br>
+            <div id="timerInfo"></div><br>
         </div>
-        <input class="timerButton" id="startButton" type="button" value="Start" onclick="cdstart()">
-        <input class="timerButton" id="stopButton" type="button" value="Stop" onclick="cdpause()">
-        <input class="timerButton" id="resetButton" type="button" value="Reset" onclick="cdreset()">
-        <div id="timerTime"></div><br>
-        <div id="timerInfo"></div><br>
     </body>
 </html>
