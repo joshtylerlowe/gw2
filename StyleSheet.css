@@ -20,6 +20,12 @@ th > img {
     height: 25px;
     vertical-align: middle;
 }
+.bold {
+    font-weight: bold;
+}
+.indented {
+    margin-left: 25px;
+}
 #item-list {
     display: none;
     width: 95%;
@@ -205,4 +211,11 @@ th > img {
     width: 200px;
     margin: auto;
     text-align: left;
+}
+.homeMainContent {
+    margin: 8px;
+}
+.informationParagraph {
+    font-size: 50px;
+    margin: 25px;
 }
