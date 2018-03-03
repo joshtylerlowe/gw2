@@ -219,3 +219,9 @@ th > img {
     font-size: 50px;
     margin: 25px;
 }
+.tier-column {
+  min-width: 50px;
+}
+.type-column {
+  min-width: 100px;
+}

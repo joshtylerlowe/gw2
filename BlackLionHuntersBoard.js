@@ -1,10 +1,10 @@
 var multipliers = [
-    {tier:1, multiplier: 1.29},
-    {tier:2, multiplier: 0.69},
-    {tier:3, multiplier: 0.93},
-    {tier:4, multiplier: 0.74},
-    {tier:5, multiplier: 1.60},
-    {tier:6, multiplier: 0.45}
+    {tier:1, multiplier: 1.30},
+    {tier:2, multiplier: 0.68},
+    {tier:3, multiplier: 0.90},
+    {tier:4, multiplier: 0.76},
+    {tier:5, multiplier: 1.59},
+    {tier:6, multiplier: 0.43}
 ];
 var trophy = {
     bone: [
@@ -74,7 +74,10 @@ var trophy = {
 };
 var trophyIds = '24342,24343,24344,24345,24341,24358,24346,24347,24348,24349,24350,24351,24272,24273,24274,24275,24276,24277,24352,24353,24354,24355,24356,24357,24284,24285,24286,24287,24288,24289,24296,24297,24298,24363,24299,24300,24278,24279,24280,24281,24282,24283,24290,24291,24292,24293,24294,24295'
 var buySellValue = 'sell';
-
+var highestBuyPrices = [0,0,0,0,0,0,0,0];
+var highestSellPrices = [0,0,0,0,0,0,0,0];
+var lowestBuyPrices = [0,0,0,0,0,0,0,0];
+var lowestSellPrices = [0,0,0,0,0,0,0,0];
 
 $(document).ready(function () {
     for (var i = 0; i < multipliers.length; i++) {
@@ -88,6 +91,9 @@ $(document).ready(function () {
         trophy[key] = mergeDataByKey(trophy[key], multipliers, 'tier');
         trophy[key] = addAdjustedValue(trophy[key]);
         trophy[key].push(getAdjustedTotal(trophy[key]));
+
+        calculateHighestValues(trophy[key]);
+        calculateLowestValues(trophy[key]);
     });
 
     displayEverything();
@@ -98,6 +104,56 @@ $(document).ready(function () {
         displayEverything();
     });
 });
+
+var calculateHighestValues = function (compareObject) {
+
+  for (var i = 0; i < compareObject.length; i++) {
+    if (compareObject[i].buys.unit_price > highestBuyPrices[i]) {
+      highestBuyPrices[i] = compareObject[i].buys.unit_price;
+    }
+    if (compareObject[i].sells.unit_price > highestSellPrices[i]) {
+      highestSellPrices[i] = compareObject[i].sells.unit_price;
+    }
+  }
+
+  if (compareObject[6].buys.unit_price > highestBuyPrices[6]) {
+    highestBuyPrices[6] = compareObject[6].buys.unit_price;
+  }
+  if (compareObject[6].sells.unit_price > highestSellPrices[6]) {
+    highestSellPrices[6] = compareObject[6].sells.unit_price;
+  }
+  if (compareObject[6].adjustedBuyValue > highestBuyPrices[7]) {
+    highestBuyPrices[7] = compareObject[6].adjustedBuyValue;
+  }
+  if (compareObject[6].adjustedSellValue > highestSellPrices[7]) {
+    highestSellPrices[7] = compareObject[6].adjustedSellValue;
+  }
+}
+
+var calculateLowestValues = function (compareObject) {
+
+  for (var i = 0; i < compareObject.length; i++) {
+    if (lowestBuyPrices[i] == 0 || compareObject[i].buys.unit_price < lowestBuyPrices[i]) {
+      lowestBuyPrices[i] = compareObject[i].buys.unit_price;
+    }
+    if (lowestSellPrices[i] == 0 || compareObject[i].sells.unit_price < lowestSellPrices[i]) {
+      lowestSellPrices[i] = compareObject[i].sells.unit_price;
+    }
+  }
+
+  if (lowestBuyPrices[6] == 0 || compareObject[6].buys.unit_price < lowestBuyPrices[6]) {
+    lowestBuyPrices[6] = compareObject[6].buys.unit_price;
+  }
+  if (lowestSellPrices[6] == 0 || compareObject[6].sells.unit_price < lowestSellPrices[6]) {
+    lowestSellPrices[6] = compareObject[6].sells.unit_price;
+  }
+  if (lowestBuyPrices[7] == 0 || compareObject[6].adjustedBuyValue < lowestBuyPrices[7]) {
+    lowestBuyPrices[7] = compareObject[6].adjustedBuyValue;
+  }
+  if (lowestSellPrices[7] == 0 || compareObject[6].adjustedSellValue < lowestSellPrices[7]) {
+    lowestSellPrices[7] = compareObject[6].adjustedSellValue;
+  }
+}
 
 var addAdjustedValue = function (items) {
     for (var i = 0; i < items.length; i++) {
@@ -133,32 +189,43 @@ var getAdjustedTotal = function (items) {
 };
 
 var displayEverything = function () {
+    var goBySellValue = buySellValue == 'sell';
+
     Object.keys(trophy).forEach(function (key, index) {
         var generatedHtml =
             '<tr class="item-row">' +
-            '<td style="text-transform:capitalize">' + key + '</td>'; //type
+            '<td style="text-transform:capitalize; border-right:2px solid #333;">' + key + '</td>'; //type
 
         trophy[key].forEach(function (x) {
-            var tpValue = buySellValue == 'sell' ? x.sells.unit_price : x.buys.unit_price;
-            var adjustedValue = buySellValue == 'sell' ? x.adjustedSellValue : x.adjustedBuyValue;
+            var tpValue = goBySellValue ? x.sells.unit_price : x.buys.unit_price;
+            var adjustedValue = goBySellValue ? x.adjustedSellValue : x.adjustedBuyValue;
+            var highestPrices = goBySellValue ? highestSellPrices : highestBuyPrices;
+            var lowestPrices = goBySellValue ? lowestSellPrices : lowestBuyPrices;
 
             if (x.tier == 'total') {
-                generatedHtml +=
-                    '<td>' +
-                    tpValue +
-                    '</td>';
+                // additionalTPStyles = tpValue == highestPrices[6] ? 'background-color: #99ff99;' : '';
+                // additionalTPStyles += tpValue == lowestPrices[6] ? 'background-color: #ff7777;' : ''; //TODO: what if the highest/lowest are the same?
+                additionalAdjustedStyles = adjustedValue == highestPrices[7] ? 'background-color: #99ff99;' : '';
+                additionalAdjustedStyles += adjustedValue == lowestPrices[7] ? 'background-color: #ff7777;' : ''; //TODO: what if the highest/lowest are the same?
+
+                // generatedHtml +=
+                //     '<td style="' + additionalTPStyles +' border-left:2px solid #333;">' +
+                //     tpValue +
+                //     '</td>';
 
                 generatedHtml +=
-                    '<td style="font-weight:bold">' +
+                    '<td style="font-weight:bold;  border-left:2px solid #333; ' + additionalAdjustedStyles +'">' +
                     adjustedValue +
                     '</td>';
             } else {
+                additionalStyles = tpValue == highestPrices[x.tier - 1] ? 'background-color: #99ff99;' : '';
+                additionalStyles += tpValue == lowestPrices[x.tier - 1] ? 'background-color: #ff7777;' : '';
+
                 generatedHtml +=
-                    '<td>' +
+                    '<td style="' + additionalStyles +'">' +
                     tpValue +
                     '</td>';
             }
-
 
         });
         generatedHtml += '</tr>';
