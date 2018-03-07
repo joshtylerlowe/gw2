@@ -40,7 +40,7 @@ var gw2ApiCall = function (endpoint, parameters) {
     return result;
 };
 
-var convertValueToGoldHtmlString = function (value) {
+var convertValueToGoldHtmlString = function (value, fixedToVal) {
     var returnValue = 'N/A';
 
     if (value) {
@@ -51,7 +51,7 @@ var convertValueToGoldHtmlString = function (value) {
         var copper = '';
 
         if (amount > 0) {
-            copper = amount % 100;
+            copper = (amount % 100).toFixed(fixedToVal);
             amount = Math.floor(amount / 100);
         }
         if (amount > 0) {

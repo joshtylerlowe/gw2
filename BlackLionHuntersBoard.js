@@ -203,19 +203,12 @@ var displayEverything = function () {
             var lowestPrices = goBySellValue ? lowestSellPrices : lowestBuyPrices;
 
             if (x.tier == 'total') {
-                // additionalTPStyles = tpValue == highestPrices[6] ? 'background-color: #99ff99;' : '';
-                // additionalTPStyles += tpValue == lowestPrices[6] ? 'background-color: #ff7777;' : ''; //TODO: what if the highest/lowest are the same?
                 additionalAdjustedStyles = adjustedValue == highestPrices[7] ? 'background-color: #99ff99;' : '';
-                additionalAdjustedStyles += adjustedValue == lowestPrices[7] ? 'background-color: #ff7777;' : ''; //TODO: what if the highest/lowest are the same?
-
-                // generatedHtml +=
-                //     '<td style="' + additionalTPStyles +' border-left:2px solid #333;">' +
-                //     tpValue +
-                //     '</td>';
+                additionalAdjustedStyles += adjustedValue == lowestPrices[7] ? 'background-color: #ff7777;' : '';
 
                 generatedHtml +=
                     '<td style="font-weight:bold;  border-left:2px solid #333; ' + additionalAdjustedStyles +'">' +
-                    adjustedValue +
+                    convertValueToGoldHtmlString({ unit_price: Number(adjustedValue) }, 2) +
                     '</td>';
             } else {
                 additionalStyles = tpValue == highestPrices[x.tier - 1] ? 'background-color: #99ff99;' : '';
@@ -223,7 +216,7 @@ var displayEverything = function () {
 
                 generatedHtml +=
                     '<td style="' + additionalStyles +'">' +
-                    tpValue +
+                    convertValueToGoldHtmlString({ unit_price: Number(tpValue) }) +
                     '</td>';
             }
 

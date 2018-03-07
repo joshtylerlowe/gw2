@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="StyleSheet.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="HelperFunctions.js"></script>
+    <script src="IstanShipments.js"></script>
+    <title>Istan Shipment Container Profits</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div class="topnav">
+        <a href="index.html">Home</a>
+        <a href="BlackLionHuntersBoard.html">Black Lion Hunters Board</a>
+        <a class="active" href="#">Istan Shipment Containers</a>
+        <a href="http://www.gw2lunchbox.com/DhuumTimer.html">Dhuum Timer</a>
+        <a href="PriceCompare.html">TP Price Comparer</a>
+        <a href="ProvisionerHelper.html">Provisioner Token Helper</a>
+    </div>
+    <div class="full-page-loading-spinner-container"><div class="loading-spinner"></div></div>
+    <div style="margin-bottom: 100px;">
+        <div style="width: 250px; margin: 10px auto;">
+            <form>
+                Get item price by:
+                <br />
+                <input type="radio" name="buySellSelection" value="buy"> Highest Buy Offer (instant sell)<br>
+                <input type="radio" name="buySellSelection" value="sell" checked="checked"> Lowest Sell Offer<br>
+            </form><br>
+            <input type="button" value="Toggle Detailed View" onclick="toggleDisplay()" /><br><br>
+            Note: the values listed below do not take into consideration the 1 gold cost of each shipment crate and 15% TP sales tax
+        </div>
+        <div style="overflow-x: auto;">
+            <table id="item-list" style="margin:auto;">
+                <tr class="item-row">
+                    <th class="type-column">
+                        Type
+                    </th>
+                    <th class="items-column" colspan="18">
+                        <div>
+                            Legend:
+                        </div>
+                        <div style="background-color: white; border: 1px solid black; width: 100px; color: black; margin: auto;">
+                            <div class="shipment-item-name">Item Name</div>
+                            <div class="shipment-item-multiplier">Drop Rate</div>
+                            <div class="shipment-item-value">TP Price</div>
+                        </div>
+                    </th>
+                    <th class="adjusted-totals-column">
+                        Total Adjusted to Drop Rate
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

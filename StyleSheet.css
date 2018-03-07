@@ -220,8 +220,31 @@ th > img {
     margin: 25px;
 }
 .tier-column {
-  min-width: 50px;
+    min-width: 100px;
 }
 .type-column {
-  min-width: 100px;
+    min-width: 100px;
+}
+.items-column {
+    font-weight: normal;
+}
+.adjusted-totals-column {
+    min-width: 150px;
+}
+.shipment-item-cell {
+    padding: 10px 5px;
+    min-width: 90px;
+    border: 1px solid black;
+}
+.shipment-item-name {
+    height: 65px;
+}
+.shipment-item-multiplier {
+    font-size: 14px;
+    height: 20px;
+}
+.shipment-item-value {
+    font-size: 18px;
+    font-weight: bold;
+    height: 20px;
 }
