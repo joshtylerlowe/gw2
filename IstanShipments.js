@@ -28,27 +28,27 @@ var shipmentItems = {
         { id: 19745, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Gossamer Scrap", multiplier: 9.00 }
     ],
     leather: [
-        { id: 19719, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rawhide Leather Section", multiplier: 8.09 },
-        { id: 19728, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thin Leather Section", multiplier: 7.48 },
+        { id: 19719, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rawhide Leather Section", multiplier: 8.02 },
+        { id: 19728, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thin Leather Section", multiplier: 7.51 },
         { id: 19730, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Coarse Leather Section", multiplier: 8.02 },
-        { id: 19731, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rugged Leather Section", multiplier: 8.52 },
-        { id: 19729, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thick Leather Section", multiplier: 59.12 },
-        { id: 19732, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Hardened Leather Section", multiplier: 8.24 }
+        { id: 19731, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rugged Leather Section", multiplier: 8.45 },
+        { id: 19729, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thick Leather Section", multiplier: 59.34 },
+        { id: 19732, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Hardened Leather Section", multiplier: 8.14 }
     ],
     metal: [
-        { id: 19697, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Copper Ore", multiplier: 9.50 },
-        { id: 19699, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Iron Ore", multiplier: 17.00 },
-        { id: 19702, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Platinum Ore", multiplier: 9.50 },
-        { id: 19700, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Mithril Ore", multiplier: 58.50 },
-        { id: 19701, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Orichalcum Ore", multiplier: 5.50 }
+        { id: 19697, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Copper Ore", multiplier: 9.20 },
+        { id: 19699, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Iron Ore", multiplier: 16.80 },
+        { id: 19702, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Platinum Ore", multiplier: 9.20 },
+        { id: 19700, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Mithril Ore", multiplier: 58.40 },
+        { id: 19701, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Orichalcum Ore", multiplier: 6.40 }
     ],
     wood: [
-        { id: 19723, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Green Wood Log", multiplier: 6.61 },
-        { id: 19726, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Soft Wood Log", multiplier: 6.79 },
-        { id: 19727, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Seasoned Wood Log", multiplier: 6.79 },
-        { id: 19724, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Hard Wood Log", multiplier: 6.43 },
-        { id: 19722, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Elder Wood Log", multiplier: 63.21 },
-        { id: 19725, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Ancient Wood Log", multiplier: 10.18 }
+        { id: 19723, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Green Wood Log", multiplier: 6.84 },
+        { id: 19726, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Soft Wood Log", multiplier: 7.09 },
+        { id: 19727, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Seasoned Wood Log", multiplier: 7.09 },
+        { id: 19724, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Hard Wood Log", multiplier: 4.94 },
+        { id: 19722, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Elder Wood Log", multiplier: 63.42 },
+        { id: 19725, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Ancient Wood Log", multiplier: 9.37 }
     ]
 };
 
