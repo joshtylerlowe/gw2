@@ -6,7 +6,7 @@ var maleUSVoice = 'US English Male';
 var femaleUKVoice = 'UK English Female';
 var femaleUSVoice = 'US English Female';
 var t, count, lastText, orb1Val, orb2Val, orb3Val, voiceSelectionOrbs, voiceSelectionOther;
-var orb1 = orb2 = orb3 = orbwarning = orbup = sswarning = ssup = both = voice = chime = nosound = false;
+var orb1 = orb2 = orb3 = orbwarning = orbup = sswarning = ssup = ldmwarning = ldmup = both = voice = chime = nosound = false;
 
 $(document).ready(function () {
     $('#startButton').show();
@@ -25,7 +25,9 @@ $(document).ready(function () {
 480 8:00 Orb 1 going up, Dhuum is activated
 460 7:40 Orb 2 to Star
 450 7:30 Orb 2 going up
+435 7:15 prepare for lesser death mark
 430 7:10 Orb 3 to Spiral
+425 7:05 lesser death mark
 420 7:00 Orb 3 going up
 400 6:40 Orb 1 to Triangle
 395 6:35 prepare for soul slam
@@ -33,20 +35,26 @@ $(document).ready(function () {
 385 6:25 SOUL SLAM NOW
 370 6:10 Orb 2 to Arrow
 360 6:00 Orb 2 going up
+355 5:55 prepare for lesser death mark
+345 4:45 lesser death mark
 340 5:40 Orb 3 to Circle
 330 5:30 Orb 3 going up
 315 5:15 prepare for soul slam, Orb 1 to Heart AFTER soul slam
 305 5:05 SOUL SLAM NOW
 300 5:00 Orb 1 going up
 280 4:40 Orb 2 to Square
+275 4:35 prepare for lesser death mark
 270 4:30 Orb 2 going up
+265 4:25 lesser death mark
 250 4:10 Orb 3 to Star
 240 4:00 Orb 3 going up
 235 3:55 prepare for soul slam
 225 3:45 SOUL SLAM NOW
 220 3:40 Orb 1 to Spiral
 210 3:30 Orb 1 going up
+195 3:15 prepare for lesser death mark
 190 3:10 Orb 2 to Triangle
+185 3:05 lesser death mark
 180 3:00 Orb 2 going up
 160 2:40 Orb 3 to Arrow
 155 2:35 prepare for soul slam
@@ -54,13 +62,17 @@ $(document).ready(function () {
 145 2:25 SOUL SLAM NOW
 130 2:10 Orb 1 to Circle
 120 2:00 Orb 1 going up
+115 1:55 prepare for lesser death mark
+105 1:45 lesser death mark
 100 1:40 Orb 2 to Heart
 90  1:30 Orb 2 going up
 75  1:15 prepare for soul slam, Orb 3 to Square AFTER soul slam
 65  1:05 SOUL SLAM NOW
 60  1:00 Orb 3 going up, 1 minute until enrage
 40  0:40 Orb 1 to Star
+35  0:35 prepare for lesser death mark
 30  0:30 Orb 1 going up, 30 seconds until enrage
+25  0:25 lesser death mark
 10  0:10 Orb 2 to Spiral
 0   0:00 Orb 2 going up, ENRAGE
 */
@@ -77,7 +89,9 @@ var displayData = [
     { time: 480, type: "orbup,orb1", text: "{1} going up, Boss is activated" },
     { time: 460, type: "orbwarning,orb2", text: "{2} to Star" },
     { time: 450, type: "orbup,orb2", text: "{2} going up" },
+    { time: 435, type: "ldmwarning", text: "prepare for lesser death mark" },
     { time: 430, type: "orbwarning,orb3", text: "{3} to Spiral" },
+    { time: 425, type: "ldmup", text: "lesser death mark" },
     { time: 420, type: "orbup,orb3", text: "{3} going up" },
     { time: 400, type: "orbwarning,orb1", text: "{1} to Triangle" },
     { time: 395, type: "sswarning", text: "prepare for soul slam" },
@@ -85,20 +99,26 @@ var displayData = [
     { time: 385, type: "ssup", text: "soul slam! now" },
     { time: 370, type: "orbwarning,orb2", text: "{2} to Arrow" },
     { time: 360, type: "orbup,orb2", text: "{2} going up" },
+    { time: 355, type: "ldmwarning", text: "prepare for lesser death mark" },
+    { time: 345, type: "ldmup", text: "lesser death mark" },
     { time: 340, type: "orbwarning,orb3", text: "{3} to Circle" },
     { time: 330, type: "orbup,orb3", text: "{3} going up" },
     { time: 315, type: "sswarning,orbwarning,orb1", text: "prepare for soul slam, {1} to Heart AFTER soul slam" },
     { time: 305, type: "ssup", text: "soul slam! now" },
     { time: 300, type: "orbup,orb1", text: "{1} going up" },
     { time: 280, type: "orbwarning,orb2", text: "{2} to Square" },
+    { time: 275, type: "ldmwarning", text: "prepare for lesser death mark" },
     { time: 270, type: "orbup,orb2", text: "{2} going up" },
+    { time: 265, type: "ldmup", text: "lesser death mark" },
     { time: 250, type: "orbwarning,orb3", text: "{3} to Star" },
     { time: 240, type: "orbup,orb3", text: "{3} going up" },
     { time: 235, type: "sswarning", text: "prepare for soul slam" },
     { time: 225, type: "ssup", text: "soul slam! now" },
     { time: 220, type: "orbwarning,orb1", text: "{1} to Spiral" },
     { time: 210, type: "orbup,orb1", text: "{1} going up" },
+    { time: 195, type: "ldmwarning", text: "prepare for lesser death mark" },
     { time: 190, type: "orbwarning,orb2", text: "{2} to Triangle" },
+    { time: 185, type: "ldmup", text: "lesser death mark" },
     { time: 180, type: "orbup,orb2", text: "{2} going up" },
     { time: 160, type: "orbwarning,orb3", text: "{3} to Arrow" },
     { time: 155, type: "sswarning", text: "prepare for soul slam" },
@@ -106,13 +126,17 @@ var displayData = [
     { time: 145, type: "ssup", text: "soul slam! now" },
     { time: 130, type: "orbwarning,orb1", text: "{1} to Circle" },
     { time: 120, type: "orbup,orb1", text: "{1} going up" },
+    { time: 115, type: "ldmwarning", text: "prepare for lesser death mark" },
+    { time: 105, type: "ldmup", text: "lesser death mark" },
     { time: 100, type: "orbwarning,orb2", text: "{2} to Heart" },
     { time: 90, type: "orbup,orb2", text: "{2} going up" },
     { time: 75, type: "sswarning,orbwarning,orb3", text: "prepare for soul slam, {3} to Square AFTER soul slam" },
     { time: 65, type: "ssup", text: "soul slam! now" },
     { time: 60, type: "orbup,orb3", text: "{3} going up, 1 minute until enrage" },
     { time: 40, type: "orbwarning,orb1", text: "{1} to Star" },
+    { time: 35, type: "ldmwarning", text: "prepare for lesser death mark" },
     { time: 30, type: "orbup,orb1", text: "{1} going up, 30 seconds until enrage" },
+    { time: 25, type: "ldmup", text: "lesser death mark" },
     { time: 10, type: "orbwarning,orb2", text: "{2} to Spiral" },
     { time: 0, type: "orbup,orb2", text: "{2} going up, you are in enrage" }
 ];
@@ -174,6 +198,8 @@ function cdstart() {
     orbup = $('#orbup').is(':checked');
     sswarning = $('#sswarning').is(':checked');
     ssup = $('#ssup').is(':checked');
+    ldmwarning = $('#ldmwarning').is(':checked');
+    ldmup = $('#ldmup').is(':checked');
 
     both = document.querySelector('input[name="soundOption"]:checked').value == 'both';
     voice = document.querySelector('input[name="soundOption"]:checked').value == 'voice';
@@ -223,8 +249,9 @@ var getDisplayText = function (seconds) {
                 //var ssWarningCheck = sswarning && displayData[i-1].type.indexOf('sswarning') >= 0;
                 //var ssUpCheck = ssup && displayData[i-1].type.indexOf('ssup') >= 0;
                 var ssCheck = ssup && (displayData[i].type.indexOf('sswarning') >= 0 || displayData[i].type.indexOf('ssup') >= 0);
+                var ldmCheck = ldmup && (displayData[i].type.indexOf('ldmwarning') >= 0 || displayData[i].type.indexOf('ldmup') >= 0);
 
-                if (orb1check || orb2check || orb3check /*|| orbWarningCheck || orbUpCheck || ssWarningCheck || ssUpCheck*/ || ssCheck) {
+                if (orb1check || orb2check || orb3check /*|| orbWarningCheck || orbUpCheck || ssWarningCheck || ssUpCheck*/ || ssCheck || ldmCheck) {
                     if (lastText != displayData[i].text && seconds <= displayData[1].time) {
                         lastText = displayData[i].text;
 
