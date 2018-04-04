@@ -28,12 +28,12 @@ var shipmentItems = {
         { id: 19745, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Gossamer Scrap", multiplier: 9.00 }
     ],
     leather: [
-        { id: 19719, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rawhide Leather Section", multiplier: 8.02 },
-        { id: 19728, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thin Leather Section", multiplier: 7.51 },
-        { id: 19730, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Coarse Leather Section", multiplier: 8.02 },
-        { id: 19731, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rugged Leather Section", multiplier: 8.45 },
-        { id: 19729, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thick Leather Section", multiplier: 59.34 },
-        { id: 19732, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Hardened Leather Section", multiplier: 8.14 }
+        { id: 19719, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rawhide Leather Section", multiplier: 7.96 },
+        { id: 19728, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thin Leather Section", multiplier: 7.69 },
+        { id: 19730, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Coarse Leather Section", multiplier: 8.06 },
+        { id: 19731, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rugged Leather Section", multiplier: 8.33 },
+        { id: 19729, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thick Leather Section", multiplier: 59.49 },
+        { id: 19732, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Hardened Leather Section", multiplier: 7.98 }
     ],
     metal: [
         { id: 19697, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Copper Ore", multiplier: 9.20 },
