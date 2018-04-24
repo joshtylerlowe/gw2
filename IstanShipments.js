@@ -1,20 +1,20 @@
 var shipmentItems = {
     trophies: [
         { id: 24350, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Large Bone", multiplier: 5.06 },
-        { id: 24350, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Large Claw", multiplier: 4.91 },
+        { id: 24350, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Large Claw", multiplier: 4.90 },
         { id: 24276, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Pile of Incandescent Dust", multiplier: 5.00 },
-        { id: 24355, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Sharp Fang", multiplier: 5.14 },
-        { id: 24288, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Large Scale", multiplier: 4.98 },
+        { id: 24355, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Sharp Fang", multiplier: 5.13 },
+        { id: 24288, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Large Scale", multiplier: 4.99 },
         { id: 24299, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Intricate Totem", multiplier: 5.01 },
         { id: 24282, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Potent Venom Sac", multiplier: 5.11 },
         { id: 24294, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Vial of Potent Blood", multiplier: 5.00 },
         { id: 24358, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Ancient Bone", multiplier: 0.92 },
-        { id: 24351, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Vicious Claw", multiplier: 1.04 },
+        { id: 24351, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Vicious Claw", multiplier: 1.05 },
         { id: 24277, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Pile of Crystalline Dust", multiplier: 1.06 },
         { id: 24357, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Vicious Fang", multiplier: 0.93 },
         { id: 24289, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Armored Scale", multiplier: 1.02 },
         { id: 24300, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Elaborate Totem", multiplier: 0.94 },
-        { id: 24283, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Powerful Venom Sac", multiplier: 1.04 },
+        { id: 24283, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Powerful Venom Sac", multiplier: 1.03 },
         { id: 24295, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Vial of Powerful Blood", multiplier: 0.96 },
         { id: 83103, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Eye of Kormir", multiplier: 0.20 },
         { id: 83757, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Congealed Putrescence", multiplier: 0.18 }
@@ -28,12 +28,12 @@ var shipmentItems = {
         { id: 19745, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Gossamer Scrap", multiplier: 9.00 }
     ],
     leather: [
-        { id: 19719, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rawhide Leather Section", multiplier: 7.96 },
-        { id: 19728, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thin Leather Section", multiplier: 7.69 },
-        { id: 19730, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Coarse Leather Section", multiplier: 8.06 },
-        { id: 19731, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rugged Leather Section", multiplier: 8.33 },
-        { id: 19729, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thick Leather Section", multiplier: 59.49 },
-        { id: 19732, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Hardened Leather Section", multiplier: 7.98 }
+        { id: 19719, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rawhide Leather Section", multiplier: 7.89 },
+        { id: 19728, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thin Leather Section", multiplier: 7.81 },
+        { id: 19730, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Coarse Leather Section", multiplier: 8.04 },
+        { id: 19731, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rugged Leather Section", multiplier: 8.38 },
+        { id: 19729, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Thick Leather Section", multiplier: 59.43 },
+        { id: 19732, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Hardened Leather Section", multiplier: 7.97 }
     ],
     metal: [
         { id: 19697, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Copper Ore", multiplier: 9.20 },

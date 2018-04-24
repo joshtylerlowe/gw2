@@ -1,10 +1,10 @@
 var multipliers = [
-    {tier:1, multiplier: 1.31},
-    {tier:2, multiplier: 0.67},
+    {tier:1, multiplier: 1.27},
+    {tier:2, multiplier: 0.69},
     {tier:3, multiplier: 0.91},
-    {tier:4, multiplier: 0.74},
-    {tier:5, multiplier: 1.59},
-    {tier:6, multiplier: 0.44}
+    {tier:4, multiplier: 0.75},
+    {tier:5, multiplier: 1.46},
+    {tier:6, multiplier: 0.43}
 ];
 var trophy = {
     bone: [
