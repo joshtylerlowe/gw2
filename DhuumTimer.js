@@ -191,6 +191,13 @@ function cdstart() {
     orb1Val = $('#orb1text').val().length > 0 ? $('#orb1text').val() : "";
     orb2Val = $('#orb2text').val().length > 0 ? $('#orb2text').val() : "";
     orb3Val = $('#orb3text').val().length > 0 ? $('#orb3text').val() : "";
+    arrowVal = $('#arrowtext').val().length > 0 ? $('#arrowtext').val() : "";
+    circleVal = $('#circletext').val().length > 0 ? $('#circletext').val() : "";
+    heartVal = $('#hearttext').val().length > 0 ? $('#hearttext').val() : "";
+    squareVal = $('#squaretext').val().length > 0 ? $('#squaretext').val() : "";
+    starVal = $('#startext').val().length > 0 ? $('#startext').val() : "";
+    spiralVal = $('#spiraltext').val().length > 0 ? $('#spiraltext').val() : "";
+    triangleVal = $('#triangletext').val().length > 0 ? $('#triangletext').val() : "";
     orb1 = $('#orb1').is(':checked');
     orb2 = $('#orb2').is(':checked');
     orb3 = $('#orb3').is(':checked');
@@ -244,28 +251,25 @@ var getDisplayText = function (seconds) {
                 var orb1check = orb1 && displayData[i].type.indexOf('orb1') >= 0;
                 var orb2check = orb2 && displayData[i].type.indexOf('orb2') >= 0;
                 var orb3check = orb3 && displayData[i].type.indexOf('orb3') >= 0;
-                //var orbWarningCheck = (orb1check || orb2check || orb3check) && orbwarning && displayData[i - 1].type.indexOf('orbwarning') >= 0;
-                //var orbUpCheck = (orb1check || orb2check || orb3check) && orbup && displayData[i - 1].type.indexOf('orbup') >= 0;
-                //var ssWarningCheck = sswarning && displayData[i-1].type.indexOf('sswarning') >= 0;
-                //var ssUpCheck = ssup && displayData[i-1].type.indexOf('ssup') >= 0;
                 var ssCheck = ssup && (displayData[i].type.indexOf('sswarning') >= 0 || displayData[i].type.indexOf('ssup') >= 0);
                 var ldmCheck = ldmup && (displayData[i].type.indexOf('ldmwarning') >= 0 || displayData[i].type.indexOf('ldmup') >= 0);
 
-                if (orb1check || orb2check || orb3check /*|| orbWarningCheck || orbUpCheck || ssWarningCheck || ssUpCheck*/ || ssCheck || ldmCheck) {
+                if (orb1check || orb2check || orb3check || ssCheck || ldmCheck) {
                     if (lastText != displayData[i].text && seconds <= displayData[1].time) {
                         lastText = displayData[i].text;
+                        speakText = lastText.replace('{1}', orb1Val).replace('{2}', orb2Val).replace('{3}', orb3Val).replace('{Arrow}', arrowVal).replace('{Circle}', circleVal).replace('{Heart}', heartVal).replace('{Square}', squareVal).replace('{Star}', starVal).replace('{Spiral}', spiralVal).replace('{Triangle}', triangleVal);
 
                         if (voice || both) {
                             if (orb1check || orb2check || orb3check) {
                                 if (both) {
                                     singlebeep.play();
                                 }
-                                responsiveVoice.speak(lastText.replace('{1}', orb1Val).replace('{2}', orb2Val).replace('{3}', orb3Val), voiceSelectionOrbs);
+                                responsiveVoice.speak(speakText, voiceSelectionOrbs);
                             } else {
                                 if (both) {
                                     singlebeep.play();
                                 }
-                                responsiveVoice.speak(lastText, voiceSelectionOther);
+                                responsiveVoice.speak(speakText, voiceSelectionOther);
                             }
                         } else if (chime) {
                             if (orb1check || orb2check || orb3check) {
@@ -278,7 +282,7 @@ var getDisplayText = function (seconds) {
                             //nothing
                         }
                     }
-                    return displayData[i].text.replace('{1}', orb1Val).replace('{2}', orb2Val).replace('{3}', orb3Val);
+                    return displayData[i].text.replace('{1}', orb1Val).replace('{2}', orb2Val).replace('{3}', orb3Val).replace('{Arrow}', arrowVal).replace('{Circle}', circleVal).replace('{Heart}', heartVal).replace('{Square}', squareVal).replace('{Star}', starVal).replace('{Spiral}', spiralVal).replace('{Triangle}', triangleVal);
                 } else {
                     return "";
                 }
