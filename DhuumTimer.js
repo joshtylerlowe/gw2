@@ -12,6 +12,7 @@ $(document).ready(function () {
     $('#startButton').show();
     $('#stopButton').hide();
     $('#resetButton').hide();
+    $('#advancedTimerOptions').hide();
 });
 
 /*
@@ -24,7 +25,7 @@ $(document).ready(function () {
 490 8:10 Orb 1 to Square
 480 8:00 Orb 1 going up, Dhuum is activated
 460 7:40 Orb 2 to Star
-450 7:30 Orb 2 going up
+450 7:30 Orb 2 going up, bombs restarting
 435 7:15 prepare for lesser death mark
 430 7:10 Orb 3 to Spiral
 425 7:05 lesser death mark
@@ -34,7 +35,7 @@ $(document).ready(function () {
 390 6:30 Orb 1 going up
 385 6:25 SOUL SLAM NOW
 370 6:10 Orb 2 to Arrow
-360 6:00 Orb 2 going up
+360 6:00 Orb 2 going up, bombs restarting
 355 5:55 prepare for lesser death mark
 345 4:45 lesser death mark
 340 5:40 Orb 3 to Circle
@@ -44,7 +45,7 @@ $(document).ready(function () {
 300 5:00 Orb 1 going up
 280 4:40 Orb 2 to Square
 275 4:35 prepare for lesser death mark
-270 4:30 Orb 2 going up
+270 4:30 Orb 2 going up, bombs restarting
 265 4:25 lesser death mark
 250 4:10 Orb 3 to Star
 240 4:00 Orb 3 going up
@@ -55,7 +56,7 @@ $(document).ready(function () {
 195 3:15 prepare for lesser death mark
 190 3:10 Orb 2 to Triangle
 185 3:05 lesser death mark
-180 3:00 Orb 2 going up
+180 3:00 Orb 2 going up, bombs restarting
 160 2:40 Orb 3 to Arrow
 155 2:35 prepare for soul slam
 150 2:30 Orb 3 going up
@@ -65,7 +66,7 @@ $(document).ready(function () {
 115 1:55 prepare for lesser death mark
 105 1:45 lesser death mark
 100 1:40 Orb 2 to Heart
-90  1:30 Orb 2 going up
+90  1:30 Orb 2 going up, bombs restarting
 75  1:15 prepare for soul slam, Orb 3 to Square AFTER soul slam
 65  1:05 SOUL SLAM NOW
 60  1:00 Orb 3 going up, 1 minute until enrage
@@ -191,13 +192,13 @@ function cdstart() {
     orb1Val = $('#orb1text').val().length > 0 ? $('#orb1text').val() : "";
     orb2Val = $('#orb2text').val().length > 0 ? $('#orb2text').val() : "";
     orb3Val = $('#orb3text').val().length > 0 ? $('#orb3text').val() : "";
-    arrowVal = $('#arrowtext').val().length > 0 ? $('#arrowtext').val() : "";
-    circleVal = $('#circletext').val().length > 0 ? $('#circletext').val() : "";
-    heartVal = $('#hearttext').val().length > 0 ? $('#hearttext').val() : "";
-    squareVal = $('#squaretext').val().length > 0 ? $('#squaretext').val() : "";
-    starVal = $('#startext').val().length > 0 ? $('#startext').val() : "";
-    spiralVal = $('#spiraltext').val().length > 0 ? $('#spiraltext').val() : "";
-    triangleVal = $('#triangletext').val().length > 0 ? $('#triangletext').val() : "";
+    arrowVal = $('#arrowtext').val().length > 0 ? $('#arrowtext').val() : "Arrow";
+    circleVal = $('#circletext').val().length > 0 ? $('#circletext').val() : "Circle";
+    heartVal = $('#hearttext').val().length > 0 ? $('#hearttext').val() : "Heart";
+    squareVal = $('#squaretext').val().length > 0 ? $('#squaretext').val() : "Square";
+    starVal = $('#startext').val().length > 0 ? $('#startext').val() : "Star";
+    spiralVal = $('#spiraltext').val().length > 0 ? $('#spiraltext').val() : "Spiral";
+    triangleVal = $('#triangletext').val().length > 0 ? $('#triangletext').val() : "Triangle";
     orb1 = $('#orb1').is(':checked');
     orb2 = $('#orb2').is(':checked');
     orb3 = $('#orb3').is(':checked');
@@ -282,7 +283,7 @@ var getDisplayText = function (seconds) {
                             //nothing
                         }
                     }
-                    return displayData[i].text.replace('{1}', orb1Val).replace('{2}', orb2Val).replace('{3}', orb3Val).replace('{Arrow}', arrowVal).replace('{Circle}', circleVal).replace('{Heart}', heartVal).replace('{Square}', squareVal).replace('{Star}', starVal).replace('{Spiral}', spiralVal).replace('{Triangle}', triangleVal);
+                    return speakText;
                 } else {
                     return "";
                 }
@@ -291,4 +292,13 @@ var getDisplayText = function (seconds) {
     }
 
     return "";
+}
+
+function toggleAdvancedOptions() {
+    $('#advancedTimerOptions').slideToggle();
+    if ($('#advancedButton').html() == '+') {
+        $('#advancedButton').html(' - ');
+    } else {
+        $('#advancedButton').html('+');
+    }
 }

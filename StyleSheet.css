@@ -288,3 +288,10 @@ th > img {
     font-weight: bold;
     height: 20px;
 }
+.options-expander-wrapper {
+    text-align: center;
+    font-weight: bold;
+}
+.options-expander {
+    cursor: pointer;
+}

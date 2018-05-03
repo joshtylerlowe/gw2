@@ -35,14 +35,15 @@
             </div>
         </div>
         <div id="timerMainContent">
-            <div id="timerOptions">
-                <div>
-                    <a href="https://responsivevoice.org">ResponsiveVoice-NonCommercial</a>
-                    licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+            <div>
+                <a href="https://responsivevoice.org">ResponsiveVoice-NonCommercial</a>
+                licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
                     <img title="ResponsiveVoice Text To Speech" src="https://responsivevoice.org/wp-content/uploads/2014/08/95x15.png" alt="95x15" width="95" height="15" />
-                    </a>
-                </div>
-                <div class="notification">Note: the voice setting works best in Chrome & Safari, results may vary on other browsers</div>
+                </a>
+            </div>
+            <div class="notification">Note: the voice setting works best in Chrome & Safari, results may vary on other browsers</div>
+            <br />
+            <div id="timerOptions">
                 <form>
                     <fieldset>
                         <legend>Noise</legend>
@@ -73,13 +74,24 @@
                 <input class="timerCheckbox" id="ssup" type="checkbox" checked>Soul Slam<br>
                 <input class="timerCheckbox" id="ldmup" type="checkbox">Lesser Death Mark<br>
                 <br />
-                Arrow: <input class="timerOrbValueText" id="arrowtext" type="text" value="Arrow"><br>
-                Circle: <input class="timerOrbValueText" id="circletext" type="text" value="Circle"><br>
-                Heart: <input class="timerOrbValueText" id="hearttext" type="text" value="Heart"><br>
-                Square: <input class="timerOrbValueText" id="squaretext" type="text" value="Square"><br>
-                Star: <input class="timerOrbValueText" id="startext" type="text" value="Star"><br>
-                Spiral: <input class="timerOrbValueText" id="spiraltext" type="text" value="Spiral"><br>
-                Triangle: <input class="timerOrbValueText" id="triangletext" type="text" value="Triangle"><br>
+                <div class="options-expander-wrapper">
+                    Advanced Options [<span class="options-expander" id="advancedButton" onclick="toggleAdvancedOptions()">+</span>]
+                </div>
+                <br />
+                <div id="advancedTimerOptions">
+                    <form>
+                        <fieldset>
+                            <legend>Reaper Names</legend>
+                            1: <input class="timerOrbValueText" id="arrowtext" type="text" value="Arrow"><br>
+                            2: <input class="timerOrbValueText" id="circletext" type="text" value="Circle"><br>
+                            3: <input class="timerOrbValueText" id="hearttext" type="text" value="Heart"><br>
+                            4: <input class="timerOrbValueText" id="squaretext" type="text" value="Square"><br>
+                            5: <input class="timerOrbValueText" id="startext" type="text" value="Star"><br>
+                            6: <input class="timerOrbValueText" id="spiraltext" type="text" value="Spiral"><br>
+                            7: <input class="timerOrbValueText" id="triangletext" type="text" value="Triangle"><br>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
             <input class="timerButton" id="startButton" type="button" value="Start" onclick="cdstart()">
             <input class="timerButton" id="stopButton" type="button" value="Stop" onclick="cdpause()">
