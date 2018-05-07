@@ -7,12 +7,8 @@ $(document).ready(function () {
     $('#gw2efficiencyButton').click(function () {
         selectedProvisioners = [];
 
-        $('input:checkbox:not("#allProvisionersCheckbox")').each(function () {
-            var $this = $(this);
-
-            if ($this.is(':checked')) {
-                selectedProvisioners.push($this.attr('value'));
-            }
+        $('input:checkbox[class^="selectableProvisioner"]:checked').each(function () {
+            selectedProvisioners.push($(this).attr('value'));
         });
 
         window.open('https://gw2efficiency.com/crafting/calculator/' + selectedProvisioners.toString().replace(/\s+/g, '-'), '_blank').focus();
@@ -38,6 +34,8 @@ $(document).ready(function () {
 });
 
 var generateProvisionerTable = function () {
+    //TODO: filter items based on craft type
+
     $('#provisionerList').find("tr:gt(0)").remove();
 
     for (var i = 0; i < provisioners.length; i++) {
@@ -67,11 +65,12 @@ var generateProvisionerTable = function () {
 
         var buy = convertValueToGoldHtmlString(value.items[0].buys);
         var sell = convertValueToGoldHtmlString(value.items[0].sells);
-
+        
         $('#provisionerList tr:last').after(
             '<tr>' +
             '<td><input class="selectableProvisioner" type="checkbox" waypoint="' + value.waypoint + '" value="' + value.items[0].id + ' ' + value.items[0].name + '" onclick="updateWaypoints()" /></td>' +
             '<td>' + value.name + '</td>' +
+            '<td style="text-align:center;" onclick="updateCraftType()">' + getCraftTypeIconHTML(value.items[0].craftType) + '</td>' +
             '<td>' + value.items[0].name + '</td>' +
             '<td style="text-align:right;">' + buy + '</td>' +
             '<td style="text-align:right;">' + sell + '</td>' +
@@ -84,15 +83,16 @@ var generateProvisionerTable = function () {
     $('.full-page-loading-spinner-container').hide();
 }
 
+var updateCraftType = function () {
+    generateProvisionerTable();
+    updateWaypoints();
+}
+
 var updateWaypoints = function () {
     var waypoints = [];
 
-    $('input:checkbox:not("#allProvisionersCheckbox")').each(function () {
-        var $this = $(this);
-
-        if ($this.is(':checked')) {
-            waypoints.push($this.attr('waypoint'));
-        }
+    $('input:checkbox[class^="selectableProvisioner"]:checked').each(function () {
+        waypoints.push($(this).attr('waypoint'));
     });
 
     if (waypoints.length > 0) {
@@ -107,13 +107,37 @@ var updateWaypoints = function () {
 var toggleAllProvisioners = function () {
     var isChecked = $('#allProvisionersCheckbox').is(':checked');
 
-    $('input:checkbox:not("#allProvisionersCheckbox")').each(function () {
-        var $this = $(this);
-
-        $this.prop('checked', isChecked);
+    $('input:checkbox[class^="selectableProvisioner"]').each(function () {
+        $(this).prop('checked', isChecked);
     });
     
     updateWaypoints();
+}
+
+var getCraftTypeIconHTML = function (craftType) {
+    var imageHTML = ''
+    switch (craftType) {
+        case 'weaponsmith':
+            imageHTML = '<img src="weaponsmith.png">';
+            break;
+        case 'huntsman':
+            imageHTML = '<img src="huntsman.png">';
+            break;
+        case 'artificer':
+            imageHTML = '<img src="artificer.png">';
+            break;
+        case 'armorsmith':
+            imageHTML = '<img src="armorsmith.png">';
+            break;
+        case 'leatherworker':
+            imageHTML = '<img src="leatherworker.png">';
+            break;
+        case 'tailor':
+            imageHTML = '<img src="tailor.png">';
+            break;
+    }
+
+    return imageHTML;
 }
 
 var selectedProvisioners = [];
@@ -121,313 +145,385 @@ var selectedProvisioners = [];
 var natomi = [
   {
       "name": "Assassin's Krait Machete",
-      "id": 46281
+      "id": 46281,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Assassin's Krait Shooter",
-      "id": 46186
+      "id": 46186,
+      "craftType": "huntsman"
   },
   {
       "name": "Assassin's Krait Star",
-      "id": 46040
+      "id": 46040,
+      "craftType": "artificer"
   },
   {
       "name": "Assassin's Gladiator Legplates",
-      "id": 45622
+      "id": 45622,
+      "craftType": "armorsmith"
   },
   {
       "name": "Assassin's Noble Pants",
-      "id": 45765
+      "id": 45765,
+      "craftType": "leatherworker"
   },
   {
       "name": "Assassin's Masquerade Leggings",
-      "id": 45731
+      "id": 45731,
+      "craftType": "tailor"
   }
 ];
 var kani = [
   {
       "name": "Carrion Krait Slayer",
-      "id": 15465
+      "id": 15465,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Carrion Krait Short Bow",
-      "id": 14469
+      "id": 14469,
+      "craftType": "huntsman"
   },
   {
       "name": "Carrion Krait Wand",
-      "id": 13924
+      "id": 13924,
+      "craftType": "artificer"
   },
   {
       "name": "Carrion Gladiator Boots",
-      "id": 10702
+      "id": 10702,
+      "craftType": "armorsmith"
   },
   {
       "name": "Carrion Noble Boots",
-      "id": 11876
+      "id": 11876,
+      "craftType": "leatherworker"
   },
   {
       "name": "Carrion Masquerade Boots",
-      "id": 11121
+      "id": 11121,
+      "craftType": "tailor"
   }
 ];
 var vec = [
   {
       "name": "Valkyrie Krait Shell",
-      "id": 15394
+      "id": 15394,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Valkyrie Krait Whelk",
-      "id": 14517
+      "id": 14517,
+      "craftType": "huntsman"
   },
   {
       "name": "Valkyrie Krait Crook",
-      "id": 13895
+      "id": 13895,
+      "craftType": "artificer"
   },
   {
       "name": "Valkyrie Gladiator Chestplate",
-      "id": 10722
+      "id": 10722,
+      "craftType": "armorsmith"
   },
   {
       "name": "Valkyrie Noble Coat",
-      "id": 11798
+      "id": 11798,
+      "craftType": "leatherworker"
   },
   {
       "name": "Valkyrie Masquerade Raiments",
-      "id": 11295
+      "id": 11295,
+      "craftType": "tailor"
   }
 ];
 var ival = [
   {
       "name": "Apothecary's Krait Ripper",
-      "id": 36779
+      "id": 36779,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Apothecary's Krait Recurve Bow",
-      "id": 36750
+      "id": 36750,
+      "craftType": "huntsman"
   },
   {
       "name": "Apothecary's Krait Crook",
-      "id": 36813
+      "id": 36813,
+      "craftType": "artificer"
   },
   {
       "name": "Apothecary's Gladiator Pauldrons",
-      "id": 36746
+      "id": 36746,
+      "craftType": "armorsmith"
   },
   {
       "name": "Apothecary's Noble Shoulders",
-      "id": 36891
+      "id": 36891,
+      "craftType": "leatherworker"
   },
   {
       "name": "Apothecary's Masquerade Mantle",
-      "id": 36892
+      "id": 36892,
+      "craftType": "tailor"
   }
 ];
 var katren = [
   {
       "name": "Cleric's Krait Warhammer",
-      "id": 15508
+      "id": 15508,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Cleric's Krait Handgun",
-      "id": 14596
+      "id": 14596,
+      "craftType": "huntsman"
   },
   {
       "name": "Cleric's Krait Star",
-      "id": 13974
+      "id": 13974,
+      "craftType": "artificer"
   },
   {
       "name": "Cleric's Gladiator Gauntlets",
-      "id": 10710
+      "id": 10710,
+      "craftType": "armorsmith"
   },
   {
       "name": "Cleric's Noble Gloves",
-      "id": 11835
+      "id": 11835,
+      "craftType": "leatherworker"
   },
   {
       "name": "Cleric's Masquerade Gloves",
-      "id": 11248
+      "id": 11248,
+      "craftType": "tailor"
   }
 ];
 var azzi = [
   {
       "name": "Giver's Mithril Mace",
-      "id": 38336
+      "id": 38336,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Giver's Krait Recurve Bow",
-      "id": 38367
+      "id": 38367,
+      "craftType": "huntsman"
   },
   {
       "name": "Giver's Krait Wand",
-      "id": 38415
+      "id": 38415,
+      "craftType": "artificer"
   },
   {
       "name": "Giver's Gladiator Helm",
-      "id": 38179
+      "id": 38179,
+      "craftType": "armorsmith"
   },
   {
       "name": "Giver's Noble Mask",
-      "id": 38264
+      "id": 38264,
+      "craftType": "leatherworker"
   },
   {
       "name": "Giver's Masquerade Mask",
-      "id": 38228
+      "id": 38228,
+      "craftType": "tailor"
   }
 ];
 var rakatin = [
   {
       "name": "Rampager's Krait Battleaxe",
-      "id": 15427
+      "id": 15427,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Rampager's Krait Shooter",
-      "id": 14648
+      "id": 14648,
+      "craftType": "huntsman"
   },
   {
       "name": "Rampager's Krait Wand",
-      "id": 13928
+      "id": 13928,
+      "craftType": "artificer"
   },
   {
       "name": "Rampager's Gladiator Legplates",
-      "id": 10699
+      "id": 10699,
+      "craftType": "armorsmith"
   },
   {
       "name": "Rampager's Noble Pants",
-      "id": 11754
+      "id": 11754,
+      "craftType": "leatherworker"
   },
   {
       "name": "Rampager's Masquerade Leggings",
-      "id": 11167
+      "id": 11167,
+      "craftType": "tailor"
   }
 ];
 var polly = [
   {
       "name": "Valkyrie Krait Morning Star",
-      "id": 15352
+      "id": 15352,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Valkyrie Krait Brazier",
-      "id": 14566
+      "id": 14566,
+      "craftType": "huntsman"
   },
   {
       "name": "Valkyrie Krait Crook",
-      "id": 13895
+      "id": 13895,
+      "craftType": "artificer"
   },
   {
       "name": "Valkyrie Gladiator Chestplate",
-      "id": 10722
+      "id": 10722,
+      "craftType": "armorsmith"
   },
   {
       "name": "Valkyrie Noble Coat",
-      "id": 11798
+      "id": 11798,
+      "craftType": "leatherworker"
   },
   {
       "name": "Valkyrie Masquerade Raiments",
-      "id": 11295
+      "id": 11295,
+      "craftType": "tailor"
   }
 ];
 var huanya = [
   {
       "name": "Knight's Krait Warhammer",
-      "id": 15512
+      "id": 15512,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Knight's Krait Whelk",
-      "id": 14516
+      "id": 14516,
+      "craftType": "huntsman"
   },
   {
       "name": "Knight's Krait Crook",
-      "id": 13894
+      "id": 13894,
+      "craftType": "artificer"
   },
   {
       "name": "Knight's Gladiator Boots",
-      "id": 10707
+      "id": 10707,
+      "craftType": "armorsmith"
   },
   {
       "name": "Knight's Noble Boots",
-      "id": 11881
+      "id": 11881,
+      "craftType": "leatherworker"
   },
   {
       "name": "Knight's Masquerade Boots",
-      "id": 11126
+      "id": 11126,
+      "craftType": "tailor"
   }
 ];
 var jatt = [
   {
       "name": "Carrion Krait Battleaxe",
-      "id": 15423
+      "id": 15423,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Carrion Krait Recurve Bow",
-      "id": 14428
+      "id": 14428,
+      "craftType": "huntsman"
   },
   {
       "name": "Carrion Krait Star",
-      "id": 13973
+      "id": 13973,
+      "craftType": "artificer"
   },
   {
       "name": "Carrion Gladiator Gauntlets",
-      "id": 10709
+      "id": 10709,
+      "craftType": "armorsmith"
   },
   {
       "name": "Carrion Noble Gloves",
-      "id": 11834
+      "id": 11834,
+      "craftType": "leatherworker"
   },
   {
       "name": "Carrion Masquerade Gloves",
-      "id": 11247
+      "id": 11247,
+      "craftType": "tailor"
   }
 ];
 var assistant = [
   {
       "name": "Berserker's Krait Shell",
-      "id": 15391
+      "id": 15391,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Berserker's Krait Brazier",
-      "id": 14563
+      "id": 14563,
+      "craftType": "huntsman"
   },
   {
       "name": "Berserker's Krait Star",
-      "id": 13976
+      "id": 13976,
+      "craftType": "artificer"
   },
   {
       "name": "Berserker's Gladiator Pauldrons",
-      "id": 10691
+      "id": 10691,
+      "craftType": "armorsmith"
   },
   {
       "name": "Berserker's Noble Shoulders",
-      "id": 11921
+      "id": 11921,
+      "craftType": "leatherworker"
   },
   {
       "name": "Berserker's Masquerade Mantle",
-      "id": 11341
+      "id": 11341,
+      "craftType": "tailor"
   }
 ];
 var tinkerclaw = [
   {
       "name": "Apothecary's Krait Ripper",
-      "id": 36779
+      "id": 36779,
+      "craftType": "weaponsmith"
   },
   {
       "name": "Apothecary's Krait Shooter",
-      "id": 36812
+      "id": 36812,
+      "craftType": "huntsman"
   },
   {
       "name": "Apothecary's Krait Wand",
-      "id": 36780
+      "id": 36780,
+      "craftType": "artificer"
   },
   {
       "name": "Apothecary's Gladiator Helm",
-      "id": 36806
+      "id": 36806,
+      "craftType": "armorsmith"
   },
   {
       "name": "Apothecary's Noble Mask",
-      "id": 36842
+      "id": 36842,
+      "craftType": "leatherworker"
   },
   {
       "name": "Apothecary's Masquerade Mask",
-      "id": 36844
+      "id": 36844,
+      "craftType": "tailor"
   }
 ];
 

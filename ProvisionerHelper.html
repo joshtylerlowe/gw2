@@ -43,24 +43,49 @@
                 <input type="radio" name="buySellSelection" value="sell"> Sells<br>
             </form>
         </div>
-        <div>
-            <table id="provisionerList">
-                <tr>
-                    <th><input id="allProvisionersCheckbox" type="checkbox" onclick="toggleAllProvisioners()"></th>
-                    <th>Name</th>
-                    <th>Item</th>
-                    <th style="min-width: 145px">Buy Price</th>
-                    <th style="min-width: 145px">Sell Price</th>
-                    <th>Info</th>
-                </tr>
-            </table>
-        </div>
         <div id="waypointsContainer" style="display:none;">
             <input type="button" id="gw2efficiencyButton" value="open gw2efficiency.com" />
             <br />
             Waypoint links:
             <input id="waypointsList" />
             <input type="button" id="waypointsButton" value="Copy to Clipboard" />
+        </div>
+        <div>
+            <table id="provisionerList">
+                <tr>
+                    <th><input id="allProvisionersCheckbox" type="checkbox" onclick="toggleAllProvisioners()"></th>
+                    <th>Name</th>
+                    <th class="dropdown">
+                        <button class="dropbtn">
+                            Craft Filter <img src="down-arrow-white.png" />
+                        </button>
+                        <div class="dropdown-content">
+                            <div>
+                                <input type="checkbox" checked> Weaponsmith
+                            </div>
+                            <div>
+                                <input type="checkbox" checked> Huntsman
+                            </div>
+                            <div>
+                                <input type="checkbox" checked> Artificer
+                            </div>
+                            <div>
+                                <input type="checkbox" checked> Armorsmith
+                            </div>
+                            <div>
+                                <input type="checkbox" checked> Leatherworker
+                            </div>
+                            <div>
+                                <input type="checkbox" checked> Tailor
+                            </div>
+                        </div>
+                    </th>
+                    <th>Item</th>
+                    <th style="min-width: 145px">Buy Price</th>
+                    <th style="min-width: 145px">Sell Price</th>
+                    <th>Info</th>
+                </tr>
+            </table>
         </div>
     </div>
 </body>

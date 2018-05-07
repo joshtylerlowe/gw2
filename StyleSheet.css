@@ -145,6 +145,15 @@ th > img {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+.dropdown-content div {
+    float: none;
+    color: black;
+    padding: 5px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    font-size: 14px;
+}
 .main-content-container {
     display: flex;
     flex-direction: column;
