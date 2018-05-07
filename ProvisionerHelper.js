@@ -1,5 +1,7 @@
 ﻿var buySellValue = 'buy';
 var prices = [];
+var craftTypesToShow = [];
+var allChecked = false;
 
 $(document).ready(function () {
     generateProvisionerTable();
@@ -13,7 +15,7 @@ $(document).ready(function () {
 
         window.open('https://gw2efficiency.com/crafting/calculator/' + selectedProvisioners.toString().replace(/\s+/g, '-'), '_blank').focus();
     });
-    
+
     $('#waypointsButton').click(function () {
         try {
             var $temp = $('<input>');
@@ -31,15 +33,24 @@ $(document).ready(function () {
         buySellValue = $('input[name=buySellSelection]:checked').val();
         generateProvisionerTable();
     });
+
+    $('input[class^="craftTypeFilterOption"]').click(function () {
+       updateCraftType();
+    });
 });
 
 var generateProvisionerTable = function () {
-    //TODO: filter items based on craft type
+    craftTypesToShow = [];
+    $('input[class^="craftTypeFilterOption"]:checked').each(function () {
+        craftTypesToShow.push($(this).attr('value'));
+    });
 
     $('#provisionerList').find("tr:gt(0)").remove();
 
+    var tempProvisioners = $.extend(true, [], provisioners);
+
     for (var i = 0; i < provisioners.length; i++) {
-        var provisionerItems = provisioners[i].items;
+        var provisionerItems = $.extend(true, [], tempProvisioners[i].items);
         var provisionerItemIds = provisionerItems.map(function (item) {
             return item.id;
         });
@@ -52,7 +63,11 @@ var generateProvisionerTable = function () {
             return _.extend(item, _.findWhere(prices[i], { id: item.id }));
         });
 
-        provisionerItems.sort(function (a, b) {
+        provisionerItems = _.filter(provisionerItems, function(item) {
+          return craftTypesToShow.includes(item.craftType);
+        });
+
+        tempProvisioners[i].items = provisionerItems.sort(function (a, b) {
             if (buySellValue == 'buy') {
                 return a.buys.unit_price - b.buys.unit_price;
             } else if (buySellValue == 'sell') {
@@ -61,29 +76,36 @@ var generateProvisionerTable = function () {
         });
     }
 
-    $.each(provisioners, function (key, value) {
 
-        var buy = convertValueToGoldHtmlString(value.items[0].buys);
-        var sell = convertValueToGoldHtmlString(value.items[0].sells);
-        
-        $('#provisionerList tr:last').after(
-            '<tr>' +
-            '<td><input class="selectableProvisioner" type="checkbox" waypoint="' + value.waypoint + '" value="' + value.items[0].id + ' ' + value.items[0].name + '" onclick="updateWaypoints()" /></td>' +
-            '<td>' + value.name + '</td>' +
-            '<td style="text-align:center;" onclick="updateCraftType()">' + getCraftTypeIconHTML(value.items[0].craftType) + '</td>' +
-            '<td>' + value.items[0].name + '</td>' +
-            '<td style="text-align:right;">' + buy + '</td>' +
-            '<td style="text-align:right;">' + sell + '</td>' +
-            '<td>' + value.description + '</td>' +
-            '</tr>'
-            );
-    });
+    if (!tempProvisioners[0].items[0]) {
+      $('#provisionerList tr:last').after(
+        '<tr><td colspan="7">no items match filter</td></tr>'
+      );
+    } else {
+      $.each(tempProvisioners, function (key, value) {
+          var buy = convertValueToGoldHtmlString(value.items[0].buys);
+          var sell = convertValueToGoldHtmlString(value.items[0].sells);
+
+          $('#provisionerList tr:last').after(
+              '<tr>' +
+              '<td style="text-align:center;"><input type="checkbox" waypoint="' + value.waypoint + '" value="' + value.items[0].id + ' ' + value.items[0].name + '" onclick="updateWaypoints()" /></td>' +
+              '<td>' + value.name + '</td>' +
+              '<td style="text-align:center;">' + getCraftTypeIconHTML(value.items[0].craftType) + '</td>' +
+              '<td>' + value.items[0].name + '</td>' +
+              '<td style="text-align:right;">' + buy + '</td>' +
+              '<td style="text-align:right;">' + sell + '</td>' +
+              '<td>' + value.description + '</td>' +
+              '</tr>'
+              );
+      });
+    }
 
     updateWaypoints();
     $('.full-page-loading-spinner-container').hide();
 }
 
 var updateCraftType = function () {
+    allChecked = false;
     generateProvisionerTable();
     updateWaypoints();
 }
@@ -105,12 +127,12 @@ var updateWaypoints = function () {
 };
 
 var toggleAllProvisioners = function () {
-    var isChecked = $('#allProvisionersCheckbox').is(':checked');
+  allChecked = !allChecked;
 
     $('input:checkbox[class^="selectableProvisioner"]').each(function () {
-        $(this).prop('checked', isChecked);
+        $(this).prop('checked', allChecked);
     });
-    
+
     updateWaypoints();
 }
 

@@ -34,8 +34,8 @@
         </div>
     </div>
     <div class="full-page-loading-spinner-container"><div class="loading-spinner"></div></div>
-    <div class="main-content-container">
-        <div>
+    <div>
+        <div style="margin: 15px; text-align: center;">
             <form>
                 Get lowest item price by:
                 <br />
@@ -43,40 +43,40 @@
                 <input type="radio" name="buySellSelection" value="sell"> Sells<br>
             </form>
         </div>
-        <div id="waypointsContainer" style="display:none;">
+        <div id="waypointsContainer" style="display: none; margin: 15px; text-align: center;">
             <input type="button" id="gw2efficiencyButton" value="open gw2efficiency.com" />
             <br />
             Waypoint links:
             <input id="waypointsList" />
             <input type="button" id="waypointsButton" value="Copy to Clipboard" />
         </div>
-        <div>
+        <div style="overflow-x: auto;">
             <table id="provisionerList">
                 <tr>
-                    <th><input id="allProvisionersCheckbox" type="checkbox" onclick="toggleAllProvisioners()"></th>
+                    <th><input id="allProvisionersCheckbox" type="button" onclick="toggleAllProvisioners()" value="Toggle All"></th>
                     <th>Name</th>
-                    <th class="dropdown">
-                        <button class="dropbtn">
+                    <th class="dropdown th-dropdown">
+                        <button class="dropbtn th-dropbtn">
                             Craft Filter <img src="down-arrow-white.png" />
                         </button>
                         <div class="dropdown-content">
                             <div>
-                                <input type="checkbox" checked> Weaponsmith
+                                <input class="craftTypeFilterOption" type="checkbox" value="weaponsmith" checked> Weaponsmith
                             </div>
                             <div>
-                                <input type="checkbox" checked> Huntsman
+                                <input class="craftTypeFilterOption" type="checkbox" value="huntsman" checked> Huntsman
                             </div>
                             <div>
-                                <input type="checkbox" checked> Artificer
+                                <input class="craftTypeFilterOption" type="checkbox" value="artificer" checked> Artificer
                             </div>
                             <div>
-                                <input type="checkbox" checked> Armorsmith
+                                <input class="craftTypeFilterOption" type="checkbox" value="armorsmith" checked> Armorsmith
                             </div>
                             <div>
-                                <input type="checkbox" checked> Leatherworker
+                                <input class="craftTypeFilterOption" type="checkbox" value="leatherworker" checked> Leatherworker
                             </div>
                             <div>
-                                <input type="checkbox" checked> Tailor
+                                <input class="craftTypeFilterOption" type="checkbox" value="tailor" checked> Tailor
                             </div>
                         </div>
                     </th>

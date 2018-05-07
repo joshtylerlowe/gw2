@@ -154,6 +154,15 @@ th > img {
     text-align: left;
     font-size: 14px;
 }
+.th-dropdown:hover .th-dropbtn {
+  background-color: transparent;
+}
+.th-dropdown .th-dropbtn {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 5px 15px;
+  width: 140px;
+}
 .main-content-container {
     display: flex;
     flex-direction: column;
