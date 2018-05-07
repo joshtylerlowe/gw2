@@ -88,7 +88,7 @@ var generateProvisionerTable = function () {
 
           $('#provisionerList tr:last').after(
               '<tr>' +
-              '<td style="text-align:center;"><input type="checkbox" waypoint="' + value.waypoint + '" value="' + value.items[0].id + ' ' + value.items[0].name + '" onclick="updateWaypoints()" /></td>' +
+              '<td style="text-align:center;"><input class="selectableProvisioner" type="checkbox" waypoint="' + value.waypoint + '" value="' + value.items[0].id + ' ' + value.items[0].name + '" onclick="updateWaypoints()" /></td>' +
               '<td>' + value.name + '</td>' +
               '<td style="text-align:center;">' + getCraftTypeIconHTML(value.items[0].craftType) + '</td>' +
               '<td>' + value.items[0].name + '</td>' +
