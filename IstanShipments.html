@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="StyleSheet.css">
+    <link rel="stylesheet" href="/assets/styling/StyleSheet_0.1.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="HelperFunctions.js"></script>
@@ -14,7 +14,7 @@
         <a href="index.html">Home</a>
         <div class="dropdown">
           <button class="dropbtn">
-            Raids <img src="down-arrow-white.png" />
+            Raids <img src="/assets/images/down-arrow-white.png" />
           </button>
           <div class="dropdown-content">
             <a href="http://www.gw2lunchbox.com/DhuumTimer.html">Dhuum Timer</a>
@@ -23,7 +23,7 @@
         </div>
         <div class="active dropdown">
           <button class="dropbtn">
-            Item Price Calculators <img src="down-arrow-white.png" />
+            Item Price Calculators <img src="/assets/images/down-arrow-white.png" />
           </button>
           <div class="dropdown-content">
             <a href="BlackLionHuntersBoard.html">Black Lion Hunters Board</a>
@@ -43,7 +43,6 @@
                 <input type="radio" name="buySellSelection" value="sell" checked="checked"> Lowest Sell Offer<br>
             </form><br>
             <input type="button" value="Toggle Detailed View" onclick="toggleDisplay()" /><br><br>
-            Note: the values listed below do not take into consideration the 1 gold cost of each shipment crate and 15% TP sales tax
         </div>
         <div style="overflow-x: auto;">
             <table id="item-list" style="margin:auto;">
@@ -58,11 +57,14 @@
                         <div style="background-color: white; border: 1px solid black; width: 100px; color: black; margin: auto;">
                             <div class="shipment-item-name">Item Name</div>
                             <div class="shipment-item-multiplier">Drop Rate</div>
-                            <div class="shipment-item-value">TP Price</div>
+                            <div class="shipment-item-value">Raw Price</div>
                         </div>
                     </th>
                     <th class="adjusted-totals-column">
                         Total Adjusted to Drop Rate
+                    </th>
+                    <th class="adjusted-totals-column">
+                        After <span id="tpTax">15%</span> TP fee and 1<img style="height:16px;width:16px;" src="assets/images/Gold_coin.png"> shipment cost
                     </th>
                 </tr>
             </table>

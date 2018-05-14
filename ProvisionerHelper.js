@@ -35,7 +35,7 @@ $(document).ready(function () {
     });
 
     $('input[class^="craftTypeFilterOption"]').click(function () {
-       updateCraftType();
+        updateCraftType();
     });
 });
 
@@ -63,8 +63,8 @@ var generateProvisionerTable = function () {
             return _.extend(item, _.findWhere(prices[i], { id: item.id }));
         });
 
-        provisionerItems = _.filter(provisionerItems, function(item) {
-          return craftTypesToShow.includes(item.craftType);
+        provisionerItems = _.filter(provisionerItems, function (item) {
+            return craftTypesToShow.includes(item.craftType);
         });
 
         tempProvisioners[i].items = provisionerItems.sort(function (a, b) {
@@ -78,26 +78,26 @@ var generateProvisionerTable = function () {
 
 
     if (!tempProvisioners[0].items[0]) {
-      $('#provisionerList tr:last').after(
-        '<tr><td colspan="7">no items match filter</td></tr>'
-      );
+        $('#provisionerList tr:last').after(
+          '<tr><td colspan="7">no items match filter</td></tr>'
+        );
     } else {
-      $.each(tempProvisioners, function (key, value) {
-          var buy = convertValueToGoldHtmlString(value.items[0].buys);
-          var sell = convertValueToGoldHtmlString(value.items[0].sells);
+        $.each(tempProvisioners, function (key, value) {
+            var buy = convertValueToGoldHtmlString(value.items[0].buys);
+            var sell = convertValueToGoldHtmlString(value.items[0].sells);
 
-          $('#provisionerList tr:last').after(
-              '<tr>' +
-              '<td style="text-align:center;"><input class="selectableProvisioner" type="checkbox" waypoint="' + value.waypoint + '" value="' + value.items[0].id + ' ' + value.items[0].name + '" onclick="updateWaypoints()" /></td>' +
-              '<td>' + value.name + '</td>' +
-              '<td style="text-align:center;">' + getCraftTypeIconHTML(value.items[0].craftType) + '</td>' +
-              '<td>' + value.items[0].name + '</td>' +
-              '<td style="text-align:right;">' + buy + '</td>' +
-              '<td style="text-align:right;">' + sell + '</td>' +
-              '<td>' + value.description + '</td>' +
-              '</tr>'
-              );
-      });
+            $('#provisionerList tr:last').after(
+                '<tr>' +
+                '<td style="text-align:center;"><input class="selectableProvisioner" type="checkbox" waypoint="' + value.waypoint + '" value="' + value.items[0].id + ' ' + value.items[0].name + '" onclick="updateWaypoints()" /></td>' +
+                '<td>' + value.name + '</td>' +
+                '<td style="text-align:center;">' + getCraftTypeIconHTML(value.items[0].craftType) + '</td>' +
+                '<td>' + value.items[0].name + '</td>' +
+                '<td style="text-align:right;">' + buy + '</td>' +
+                '<td style="text-align:right;">' + sell + '</td>' +
+                '<td>' + value.description + '</td>' +
+                '</tr>'
+                );
+        });
     }
 
     updateWaypoints();
@@ -127,7 +127,7 @@ var updateWaypoints = function () {
 };
 
 var toggleAllProvisioners = function () {
-  allChecked = !allChecked;
+    allChecked = !allChecked;
 
     $('input:checkbox[class^="selectableProvisioner"]').each(function () {
         $(this).prop('checked', allChecked);
@@ -140,22 +140,22 @@ var getCraftTypeIconHTML = function (craftType) {
     var imageHTML = ''
     switch (craftType) {
         case 'weaponsmith':
-            imageHTML = '<img src="weaponsmith.png">';
+            imageHTML = '<img src="/assets/images/weaponsmith.png">';
             break;
         case 'huntsman':
-            imageHTML = '<img src="huntsman.png">';
+            imageHTML = '<img src="/assets/images/huntsman.png">';
             break;
         case 'artificer':
-            imageHTML = '<img src="artificer.png">';
+            imageHTML = '<img src="/assets/images/artificer.png">';
             break;
         case 'armorsmith':
-            imageHTML = '<img src="armorsmith.png">';
+            imageHTML = '<img src="/assets/images/armorsmith.png">';
             break;
         case 'leatherworker':
-            imageHTML = '<img src="leatherworker.png">';
+            imageHTML = '<img src="/assets/images/leatherworker.png">';
             break;
         case 'tailor':
-            imageHTML = '<img src="tailor.png">';
+            imageHTML = '<img src="/assets/images/tailor.png">';
             break;
     }
 

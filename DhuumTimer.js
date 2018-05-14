@@ -1,6 +1,6 @@
 var CCOUNT = 10 * 60;//10 minutes
-var singlebeep = new Audio('beepdouble.mp3');
-var goingdownzip = new Audio('goingdownzip.mp3');
+var singlebeep = new Audio('/assets/sounds/beepdouble.mp3');
+var goingdownzip = new Audio('/assets/sounds/goingdownzip.mp3');
 var maleUKVoice = 'UK English Male';
 var maleUSVoice = 'US English Male';
 var femaleUKVoice = 'UK English Female';

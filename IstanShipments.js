@@ -120,6 +120,8 @@ var toggleDisplay = function () {
 
 var displayEverything = function () {
     var goBySellValue = buySellValue == 'sell';
+    var tax = goBySellValue ? .15 : .10;
+    $('#tpTax').html((tax * 100) + '%')
 
     if (!expandedDisplay) {
         $('.items-column').hide();
@@ -130,13 +132,14 @@ var displayEverything = function () {
     Object.keys(shipmentItems).forEach(function (key, index) {
         var generatedHtml =
             '<tr class="item-row">' +
-            '<td style="text-transform:capitalize; border-right:2px solid #333;">' + key + '</td>'; //type
+            '<td style="text-transform:capitalize; border-right:2px solid #333;">' + key + '</td>'; //"Type"
 
         var columnCorrectionCount = maxColumnCount;
 
         shipmentItems[key].forEach(function (item) {
             var tpValue = goBySellValue ? item.sells.unit_price : item.buys.unit_price;
             var adjustedValue = goBySellValue ? item.adjustedSellValue : item.adjustedBuyValue;
+            var taxAdjustedValue = (adjustedValue - (adjustedValue * tax)) - 10000;
 
             if (item.id == 'total') {
                 if (expandedDisplay) {
@@ -148,6 +151,10 @@ var displayEverything = function () {
                 generatedHtml +=
                     '<td style="font-weight:bold;  border-left:2px solid #333;">' +
                     convertValueToGoldHtmlString({ unit_price: Number(adjustedValue) }, expandedDisplay ? 2 : undefined) +
+                    '</td>';
+                generatedHtml +=
+                    '<td style="font-weight:bold;  border-left:2px solid #333;" ' + (taxAdjustedValue < 0 ? 'class="negative-currency"' : '') + '>' +
+                    convertValueToGoldHtmlString({ unit_price: Number(taxAdjustedValue) }, expandedDisplay ? 2 : undefined) +
                     '</td>';
             } else if (expandedDisplay) {
                 columnCorrectionCount--;

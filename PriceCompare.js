@@ -12,18 +12,10 @@ $(document).ready(function () {
     $.each(prebuiltLists, function (x, y) {
         $('#prebuilt-lists').append($('<option></option>').val(y.id).html(y.name));
     });
-
-    $('input#search').on('input', function() {
-        if ($(this).val().length > 2) {
-            searchForItem();
-        } else {
-            $('#search-results').html('');
-            $('.search-results-section').hide();
-        }
-    });
 });
 
 var prebuiltCompare = function () {
+    $('.full-page-loading-spinner-container').show();
     var prebuiltCompareList = $.grep(prebuiltLists, function (x) {
         return x.id == $('#prebuilt-lists').val();
     });
@@ -34,13 +26,21 @@ var prebuiltCompare = function () {
     });
 
     generateTable();
+    $('.full-page-loading-spinner-container').hide();
 };
 
 var searchForItem = function () {
+    if ($('#search').val().length < 1) {
+        $('#search-results').html('');
+        $('.search-results-section').hide();
+        return;
+    }
+    $('.full-page-loading-spinner-container').show();
+
     var searchString = $('#search').val().toLowerCase();
     var searchResults = $.grep(allItems, function (item) {
         return (item.name.toLowerCase()).indexOf(searchString) >= 0;
-    }).slice(0,25);
+    }).slice(0,50);
 
     if (searchResults.length > 0) {
         var itemIdsToGetInfo = _.pluck(searchResults, "id");
@@ -58,6 +58,8 @@ var searchForItem = function () {
         $('#search-results').html('');
         $('.search-results-section').hide();
     }
+
+    $('.full-page-loading-spinner-container').hide();
 };
 
 var removeItemFromList = function (element) {
@@ -122,7 +124,7 @@ var generateTable = function (skip) {
         $('#item-list tr:last').after(
             '<tr class="item-row">' +
                 '<td class="item-icon-container">' +
-                '<div class="delete-item" onclick="removeItemFromList(this)" id="' + value.id + '"><img src="red_x.png"></div><img src=""><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div>' +
+                '<div class="delete-item" onclick="removeItemFromList(this)" id="' + value.id + '"><img src="/assets/images/red_x.png"></div><img src=""><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div>' +
                 '</td>' +
                 '<td class="row-name">' + value.name + '</td>' + //name
                 '<td>' + buy + bonusBuyData + '</td>' + //buy

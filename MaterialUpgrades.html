@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/assets/styling/StyleSheet_0.1.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="HelperFunctions.js"></script>
+    <script src="MaterialUpgrades.js"></script>
+    <title>Material Upgrade Profits</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div class="topnav">
+        <a href="index.html">Home</a>
+        <div class="dropdown">
+            <button class="dropbtn">
+                Raids <img src="/assets/images/down-arrow-white.png" />
+            </button>
+            <div class="dropdown-content">
+                <a href="http://www.gw2lunchbox.com/DhuumTimer.html">Dhuum Timer</a>
+                <a href="https://www.youtube.com/playlist?list=PLjitYjlh7oBR9TLU86ZT0kS6UYlN8L8pl">Video Raid Guides (WIP)</a>
+            </div>
+        </div>
+        <div class="active dropdown">
+            <button class="dropbtn">
+                Item Price Calculators <img src="/assets/images/down-arrow-white.png" />
+            </button>
+            <div class="dropdown-content">
+                <a href="BlackLionHuntersBoard.html">Black Lion Hunters Board</a>
+                <a href="IstanShipments.html">Volatile Magic Shipment Containers</a>
+                <a href="PriceCompare.html">TP Price Comparer</a>
+                <a href="ProvisionerHelper.html">Provisioner Token Helper</a>
+                <a class="active" href="#">Material Upgrade Profits</a>
+            </div>
+        </div>
+    </div>
+    <div class="full-page-loading-spinner-container"><div class="loading-spinner"></div></div>
+    <div>
+        <div style="width: 250px; margin: 10px auto;">
+            <form>
+                Get component item price by:
+                <br />
+                <input type="radio" name="buySellComponent" value="buys" checked="checked"> Highest Buy Offer<br>
+                <input type="radio" name="buySellComponent" value="sells"> Lowest Sell Offer (instant buy)<br>
+            </form><br>
+        </div>
+        <div style="width: 250px; margin: 10px auto;">
+            <form>
+                Get result item price by:
+                <br />
+                <input type="radio" name="buySellResult" value="buys"> Highest Buy Offer (instant sell)<br>
+                <input type="radio" name="buySellResult" value="sells" checked="checked"> Lowest Sell Offer<br>
+            </form><br>
+        </div>
+        <div style="font-weight: bold;">Mystic Forge Recipes [<span style="cursor: pointer;" id="mystic-forge-expander" onclick="toggleSection('mystic-forge')">+</span>]</div>
+        <div style="display:none;" id="mystic-forge-section">
+            <div style="margin-left:20px; font-weight: bold;">Rare Crafting Materials [<span style="cursor: pointer;" id="rare-promotion-expander" onclick="toggleSection('rare-promotion')">+</span>]</div>
+            <div class="centered-section" style="display:none;" id="rare-promotion-section"></div>
+            <div style="margin-left:20px; font-weight: bold;">Fine Crafting Materials [<span style="cursor: pointer;" id="fine-promotion-expander" onclick="toggleSection('fine-promotion')">+</span>]</div>
+            <div class="centered-section" style="display:none;" id="fine-promotion-section"></div>
+        </div>
+    </div>
+</body>
+</html>

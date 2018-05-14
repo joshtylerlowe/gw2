@@ -44,7 +44,14 @@ var convertValueToGoldHtmlString = function (value, fixedToVal) {
     var returnValue = 'N/A';
 
     if (value) {
+
         var amount = value.unit_price;
+        var isNegative = false;
+
+        if (amount < 0) {
+            amount = amount * -1;
+            isNegative = true;
+        }
 
         var gold = '';
         var silver = '';
@@ -62,10 +69,10 @@ var convertValueToGoldHtmlString = function (value, fixedToVal) {
             gold = amount
         }
 
-        returnValue =
-            (gold > 0 ? gold + ' <img class="currency" src="Gold_coin.png"> ' : '') +
-            (silver > 0 ? (silver < 10 && gold > 0 ? '0' + silver : silver) + ' <img class="currency" src="Silver_coin.png"> ' : (gold > 0 ? '00 <img class="currency" src="Silver_coin.png"> ' : '')) +
-            (copper > 0 ? (copper < 10 && silver > 0 ? '0' + copper : copper) + ' <img class="currency" src="Copper_coin.png">' : (gold > 0 || silver > 0 ? '00 <img class="currency" src="Copper_coin.png"> ' : ''));
+        returnValue = (isNegative ? '-' :  '') +
+            (gold > 0 ? gold + ' <img class="currency" src="/assets/images/Gold_coin.png"> ' : '') +
+            (silver > 0 ? (silver < 10 && gold > 0 ? '0' + silver : silver) + ' <img class="currency" src="/assets/images/Silver_coin.png"> ' : (gold > 0 ? '00 <img class="currency" src="/assets/images/Silver_coin.png"> ' : '')) +
+            (copper > 0 ? (copper < 10 && silver > 0 ? '0' + copper : copper) + ' <img class="currency" src="/assets/images/Copper_coin.png">' : (gold > 0 || silver > 0 ? '00 <img class="currency" src="/assets/images/Copper_coin.png"> ' : ''));
     }
 
     return returnValue;
@@ -90,3 +97,7 @@ var secondsTimeSpanToMS = function (s) {
     s -= m*60;
     return (m < 10 ? '0'+m : m)+":"+(s < 10 ? '0'+s : s); //zero padding on minutes and seconds
 }
+
+Array.prototype.pushArray = function (arr) {
+    this.push.apply(this, arr);
+};
