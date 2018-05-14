@@ -78,8 +78,8 @@ var buildRareTable = function () {
     var rareCraftingTableHTML = '<table class="centered-content">';
     for (var i = 0; i < rareCraftingMats.length - 1; i++) {
 
-        rareCraftingTableHTML += '<tr><th colspan="11">T' + (rareCraftingMats.length - (i + 1)) + ' -> T' + (rareCraftingMats.length - (i)) + '</th></tr>';
-        rareCraftingTableHTML += '<tr><th class="upgradeElement" colspan="2">' + rareCraftingMats[i + 1][0].name.split(' ')[1] + '</th><th></th><th class="upgradeElement">Dust</th><th></th><th class="upgradeElement">Elonian Wine</th><th></th><th class="upgradeElement">Mystic Crystal</th><th></th><th class="upgradeElement">' + rareCraftingMats[i][0].name.split(' ')[1] + '</th><th>Profit</th></tr>';
+        rareCraftingTableHTML += '<tr><th colspan="12">T' + (rareCraftingMats.length - (i + 1)) + ' -> T' + (rareCraftingMats.length - (i)) + '</th></tr>';
+        rareCraftingTableHTML += '<tr><th class="upgradeElement" colspan="2">' + rareCraftingMats[i + 1][0].name.split(' ')[1] + '</th><th></th><th class="upgradeElement">Dust</th><th></th><th class="upgradeElement">Elonian Wine</th><th></th><th class="upgradeElement">Mystic Crystal</th><th></th><th class="upgradeElement">' + rareCraftingMats[i][0].name.split(' ')[1] + '</th><th>Value Change If Converted</th><th>Profit</th></tr>';
 
         var tier = rareCraftingMats[i];
         for (var j = 0; j < tier.length; j++) {
@@ -87,7 +87,10 @@ var buildRareTable = function () {
             var lesserMaterial = rareCraftingMats[i + 1][j];
             var dust = fineCraftingMats[i][7];
 
-            var profit = (material[resultBuySell].unit_price - (material[resultBuySell].unit_price * tax)) - ((lesserMaterial[componentBuySell].unit_price * 2) + dust[componentBuySell].unit_price + elonianWine.price);
+            var valueOfMats = (lesserMaterial[resultBuySell].unit_price * 2) + dust[resultBuySell].unit_price;
+
+            var profit = (material[resultBuySell].unit_price - (material[resultBuySell].unit_price * tax)) - (valueOfMats + elonianWine.price);
+            var delta = profit - (valueOfMats - (valueOfMats * tax));
 
             rareCraftingTableHTML += '<tr class="upgradeRow">';
             rareCraftingTableHTML += '<td style="padding-right:0;"><img class="material-image" src="' + lesserMaterial.icon + '"></td>';
@@ -100,6 +103,7 @@ var buildRareTable = function () {
             rareCraftingTableHTML += '<td><img class="material-image" src="' + mysticCrystal.icon + '"></td>';
             rareCraftingTableHTML += '<td>=</td>';
             rareCraftingTableHTML += '<td><img class="material-image" src="' + material.icon + '"></td>';
+            rareCraftingTableHTML += '<td style="min-width:175px;" ' + (delta < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: delta }, 0) + '</td>';
             rareCraftingTableHTML += '<td style="min-width:175px;" ' + (profit < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: profit }, 0) + '</td>';
             rareCraftingTableHTML += '</tr>';
         }
