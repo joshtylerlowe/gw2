@@ -72,6 +72,8 @@ var buildTables = function () {
     tax = resultBuySell == 'sells' ? .15 : .10;
     buildRareTable();
     buildFineTable();
+    //TODO: material refinement
+    //TODO: ascended refinement
 };
 
 var buildRareTable = function () {
@@ -86,6 +88,16 @@ var buildRareTable = function () {
             var material = tier[j];
             var lesserMaterial = rareCraftingMats[i + 1][j];
             var dust = fineCraftingMats[i][7];
+
+
+            /*var valueOfMats = (lesserMaterial[componentBuySell].unit_price * 50) + material[componentBuySell].unit_price + (dust[componentBuySell].unit_price * 5);
+            var valueOfMatsByResultBuySell = (lesserMaterial[resultBuySell].unit_price * 50) + material[resultBuySell].unit_price + (dust[resultBuySell].unit_price * 5)
+            var valueOfMatsAfterTax = valueOfMatsByResultBuySell - (valueOfMatsByResultBuySell * tax);
+            var valueOfResult = material[resultBuySell].unit_price * returnMultiplier;
+            var valueOfResultAfterTax = valueOfResult - (valueOfResult * tax);
+            var profit = valueOfResultAfterTax - valueOfMats;
+            var delta = valueOfResultAfterTax - valueOfMatsAfterTax;*///TODO:this
+
 
             var valueOfMats = (lesserMaterial[resultBuySell].unit_price * 2) + dust[resultBuySell].unit_price;
 
@@ -117,8 +129,8 @@ var buildRareTable = function () {
 var buildFineTable = function () {
     var fineCraftingTableHTML = '<table class="centered-content">';
     for (var i = 0; i < fineCraftingMats.length - 1; i++) {
-        fineCraftingTableHTML += '<tr><th colspan="15">T' + (fineCraftingMats.length - (i + 1)) + ' -> T' + (fineCraftingMats.length - i) + '</th></tr>';
-        fineCraftingTableHTML += '<tr><th class="upgradeElement" colspan="2">T' + (fineCraftingMats.length - (i + 1)) + '</th><th></th><th class="upgradeElement">T' + (fineCraftingMats.length - i) + '</th><th></th><th class="upgradeElement" colspan="2">Dust</th><th></th><th class="upgradeElement" colspan="2">Philosopher\'s Stone</th><th></th><th class="upgradeElement" colspan="2">T' + (fineCraftingMats.length - i) + '</th><th>Profit</th></tr>';
+        fineCraftingTableHTML += '<tr><th colspan="16">T' + (fineCraftingMats.length - (i + 1)) + ' -> T' + (fineCraftingMats.length - i) + '</th></tr>';
+        fineCraftingTableHTML += '<tr><th class="upgradeElement" colspan="2">T' + (fineCraftingMats.length - (i + 1)) + '</th><th></th><th class="upgradeElement">T' + (fineCraftingMats.length - i) + '</th><th></th><th class="upgradeElement" colspan="2">Dust</th><th></th><th class="upgradeElement" colspan="2">Philosopher\'s Stone</th><th></th><th class="upgradeElement" colspan="2">T' + (fineCraftingMats.length - i) + '</th><th>Value Change If Converted</th><th>Profit</th></tr>';
         var altMatCount = (fineCraftingMats.length - (i + 1));
 
         var tier = fineCraftingMats[i];
@@ -126,10 +138,15 @@ var buildFineTable = function () {
             var material = tier[j];
             var lesserMaterial = fineCraftingMats[i + 1][j];
             var dust = fineCraftingMats[i][7];
-            var returnMultiplier = i == 0 ? fineCraftingT6Return : fineCraftingReturn;            
+            var returnMultiplier = i == 0 ? fineCraftingT6Return : fineCraftingReturn;
 
-            var resultPrice = (material[resultBuySell].unit_price * returnMultiplier) - ((material[resultBuySell].unit_price * returnMultiplier) * tax);
-            var profit = resultPrice - ((lesserMaterial[componentBuySell].unit_price * 50) + material[componentBuySell].unit_price + (dust[componentBuySell].unit_price * 5));
+            var valueOfMats = (lesserMaterial[componentBuySell].unit_price * 50) + material[componentBuySell].unit_price + (dust[componentBuySell].unit_price * 5);
+            var valueOfMatsByResultBuySell = (lesserMaterial[resultBuySell].unit_price * 50) + material[resultBuySell].unit_price + (dust[resultBuySell].unit_price * 5)
+            var valueOfMatsAfterTax = valueOfMatsByResultBuySell - (valueOfMatsByResultBuySell * tax);
+            var valueOfResult = material[resultBuySell].unit_price * returnMultiplier;
+            var valueOfResultAfterTax = valueOfResult - (valueOfResult * tax);
+            var profit = valueOfResultAfterTax - valueOfMats;
+            var delta = valueOfResultAfterTax - valueOfMatsAfterTax;
 
             fineCraftingTableHTML += '<tr class="upgradeRow">';
             fineCraftingTableHTML += '<td class="force-right"><img class="material-image" src="' + lesserMaterial.icon + '"></td>';
@@ -145,6 +162,7 @@ var buildFineTable = function () {
             fineCraftingTableHTML += '<td>&#8771;</td>';
             fineCraftingTableHTML += '<td class="force-right"><img class="material-image" src="' + material.icon + '"></td>';
             fineCraftingTableHTML += '<td class="force-left">x' + returnMultiplier + '</td>';
+            fineCraftingTableHTML += '<td style="min-width:175px;" ' + (delta < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: delta }, 0) + '</td>';
             fineCraftingTableHTML += '<td style="min-width:175px;" ' + (profit < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: profit }, 2) + '</td>';
             fineCraftingTableHTML += '</tr>';
         }
@@ -164,6 +182,7 @@ var buildFineTable = function () {
         var returnMultiplier = i == 0 ? dustCraftingT6Return : dustCraftingReturn;
         altMatCount = (fineCraftingMats.length - (i + 1));
 
+        //TODO: redo this calculation
         var resultPrice = (material[resultBuySell].unit_price * returnMultiplier) - ((material[resultBuySell].unit_price * returnMultiplier) * tax);
         var profit = resultPrice - ((lesserMaterial[componentBuySell].unit_price * 250) + material[componentBuySell].unit_price);
 
