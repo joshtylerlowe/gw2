@@ -35,16 +35,19 @@
         </div>
     </div>
     <div class="full-page-loading-spinner-container"><div class="loading-spinner"></div></div>
-    <div>
-        <div style="width: 250px; margin: 10px auto;">
+    <div id="left-selector-expander" style="width: 300px; position: fixed; left: 8px;" onclick="toggleLeftSelector()">
+        <
+    </div>
+    <div class="left-selectors">
+        <div>
             <form>
                 Get component item price by:
                 <br />
-                <input type="radio" name="buySellComponent" value="buys" checked="checked"> Highest Buy Offer<br>
-                <input type="radio" name="buySellComponent" value="sells"> Lowest Sell Offer (instant buy)<br>
+                <input type="radio" name="buySellComponent" value="buys"> Highest Buy Offer<br>
+                <input type="radio" name="buySellComponent" value="sells" checked="checked"> Lowest Sell Offer (instant buy)<br>
             </form><br>
         </div>
-        <div style="width: 250px; margin: 10px auto;">
+        <div>
             <form>
                 Get result item price by:
                 <br />
@@ -55,10 +58,12 @@
         <div style="font-weight: bold;">Mystic Forge Recipes [<span style="cursor: pointer;" id="mystic-forge-expander" onclick="toggleSection('mystic-forge')">+</span>]</div>
         <div style="display:none;" id="mystic-forge-section">
             <div style="margin-left:20px; font-weight: bold;">Rare Crafting Materials [<span style="cursor: pointer;" id="rare-promotion-expander" onclick="toggleSection('rare-promotion')">+</span>]</div>
-            <div class="centered-section" style="display:none;" id="rare-promotion-section"></div>
             <div style="margin-left:20px; font-weight: bold;">Fine Crafting Materials [<span style="cursor: pointer;" id="fine-promotion-expander" onclick="toggleSection('fine-promotion')">+</span>]</div>
-            <div class="centered-section" style="display:none;" id="fine-promotion-section"></div>
         </div>
+    </div>
+    <div class="right-content">
+        <div style="display:none;" id="rare-promotion-section"></div>
+        <div style="display:none;" id="fine-promotion-section"></div>
     </div>
 </body>
 </html>

@@ -69,6 +69,7 @@ th > img {
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 10000;
 }
 .loading-spinner {
     border: 8px solid #f3f3f3;
@@ -346,4 +347,18 @@ th > img {
 .centered-content {
     margin: auto;
     text-align: center;
+}
+.left-selectors {
+    width: 300px;
+    position: fixed;
+    left: 8px;
+    margin-top: 18px;
+}
+.right-content {
+    margin-top: 10px;
+    margin-left: 300px;
+}
+.header-title {
+    font-size: 35px;
+    background-color: #111;
 }
