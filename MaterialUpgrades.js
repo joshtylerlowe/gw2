@@ -24,6 +24,19 @@ var applyDataAndPricesToMaterials = function() {
             return item.id;
         }));
     }
+    for (var i = 0; i < lesserRefinementMats.length; i++) {
+        allPrePrice.pushArray(lesserRefinementMats[i].map(function (item, y) {
+            return item.id;
+        }));
+    }
+    for (var i = 0; i < greaterRefinementMats.length; i++) {
+        allPrePrice.pushArray(greaterRefinementMats[i].map(function (item, y) {
+            return item.id;
+        }));
+    }
+    allPrePrice.pushArray(ascendedMats.map(function (item, y) {
+        return item.id;
+    }));
 
     allUpgradesAndPrices = gw2ApiCall('v2/commerce/prices', [{ ids: allPrePrice.toString() }]);
     var upgradeDataWithoutPrices = gw2ApiCall('v2/items', [{ ids: allPrePrice.toString() }]);
@@ -39,6 +52,15 @@ var applyDataAndPricesToMaterials = function() {
     t3fine = mergeDataByKey(t3fine, upgradeDataWithoutPrices, 'id');
     t2fine = mergeDataByKey(t2fine, upgradeDataWithoutPrices, 'id');
     t1fine = mergeDataByKey(t1fine, upgradeDataWithoutPrices, 'id');
+    ores = mergeDataByKey(ores, upgradeDataWithoutPrices, 'id');
+    ingots = mergeDataByKey(ingots, upgradeDataWithoutPrices, 'id');
+    scraps = mergeDataByKey(scraps, upgradeDataWithoutPrices, 'id');
+    bolts = mergeDataByKey(bolts, upgradeDataWithoutPrices, 'id');
+    sections = mergeDataByKey(sections, upgradeDataWithoutPrices, 'id');
+    squares = mergeDataByKey(squares, upgradeDataWithoutPrices, 'id');
+    logs = mergeDataByKey(logs, upgradeDataWithoutPrices, 'id');
+    planks = mergeDataByKey(planks, upgradeDataWithoutPrices, 'id');
+    ascendedMats = mergeDataByKey(ascendedMats, upgradeDataWithoutPrices, 'id');
 
     t5rare = mergeDataByKey(t5rare, allUpgradesAndPrices, 'id');
     t4rare = mergeDataByKey(t4rare, allUpgradesAndPrices, 'id');
@@ -51,6 +73,15 @@ var applyDataAndPricesToMaterials = function() {
     t3fine = mergeDataByKey(t3fine, allUpgradesAndPrices, 'id');
     t2fine = mergeDataByKey(t2fine, allUpgradesAndPrices, 'id');
     t1fine = mergeDataByKey(t1fine, allUpgradesAndPrices, 'id');
+    ores = mergeDataByKey(ores, allUpgradesAndPrices, 'id');
+    ingots = mergeDataByKey(ingots, allUpgradesAndPrices, 'id');
+    scraps = mergeDataByKey(scraps, allUpgradesAndPrices, 'id');
+    bolts = mergeDataByKey(bolts, allUpgradesAndPrices, 'id');
+    sections = mergeDataByKey(sections, allUpgradesAndPrices, 'id');
+    squares = mergeDataByKey(squares, allUpgradesAndPrices, 'id');
+    logs = mergeDataByKey(logs, allUpgradesAndPrices, 'id');
+    planks = mergeDataByKey(planks, allUpgradesAndPrices, 'id');
+    ascendedMats = mergeDataByKey(ascendedMats, allUpgradesAndPrices, 'id');
 
     $('input[name=buySellComponent]').click(function () {
         componentBuySell = $('input[name=buySellComponent]:checked').val();
@@ -67,21 +98,23 @@ var applyDataAndPricesToMaterials = function() {
 var clearTables = function () {
     $('#rare-promotion-section').html('');
     $('#fine-promotion-section').html('');
+    $('#basic-refinement-section').html('');
+    //$('#ascended-refinement-section').html('');
 };
 
 var buildTables = function () {
     tax = resultBuySell == 'sells' ? .15 : .10;
     buildRareTable();
     buildFineTable();
-    //TODO: material refinement
-    //TODO: ascended refinement
+    buildMaterialRefinementTable();
+    //buildAscendedMaterialRefinementTable();
 };
 
 var buildRareTable = function () {
     var rareCraftingTableHTML = '<table>';
     for (var i = 0; i < rareCraftingMats.length - 1; i++) {
 
-        rareCraftingTableHTML += '<tr><th class="header-title" colspan="12">Rare Mystic Forge Mateirals T' + (rareCraftingMats.length - (i + 1)) + ' -> T' + (rareCraftingMats.length - (i)) + '</th></tr>';
+        rareCraftingTableHTML += '<tr><th class="header-title" colspan="12">Rare Mystic Forge Materials T' + (rareCraftingMats.length - (i + 1)) + ' &rarr; T' + (rareCraftingMats.length - (i)) + '</th></tr>';
         rareCraftingTableHTML += '<tr><th class="upgradeElement" colspan="2">' + rareCraftingMats[i + 1][0].name.split(' ')[1] + '</th><th></th><th class="upgradeElement">Dust</th><th></th><th class="upgradeElement">Elonian Wine</th><th></th><th class="upgradeElement">Mystic Crystal</th><th></th><th class="upgradeElement">' + rareCraftingMats[i][0].name.split(' ')[1] + '</th><th>Value Change If Converted</th><th>Profit</th></tr>';
 
         var tier = rareCraftingMats[i];
@@ -124,7 +157,7 @@ var buildRareTable = function () {
 var buildFineTable = function () {
     var fineCraftingTableHTML = '<table>';
     for (var i = 0; i < fineCraftingMats.length - 1; i++) {
-        fineCraftingTableHTML += '<tr><th class="header-title" colspan="16">Fine Mystic Forge Materials T' + (fineCraftingMats.length - (i + 1)) + ' -> T' + (fineCraftingMats.length - i) + '</th></tr>';
+        fineCraftingTableHTML += '<tr><th class="header-title" colspan="16">Fine Mystic Forge Materials T' + (fineCraftingMats.length - (i + 1)) + ' &rarr; T' + (fineCraftingMats.length - i) + '</th></tr>';
         fineCraftingTableHTML += '<tr><th class="upgradeElement" colspan="2">T' + (fineCraftingMats.length - (i + 1)) + '</th><th></th><th class="upgradeElement">T' + (fineCraftingMats.length - i) + '</th><th></th><th class="upgradeElement" colspan="2">Dust</th><th></th><th class="upgradeElement" colspan="2">Philosopher\'s Stone</th><th></th><th class="upgradeElement" colspan="2">T' + (fineCraftingMats.length - i) + '</th><th>Value Change If Converted</th><th>Profit</th></tr>';
         var altMatCount = (fineCraftingMats.length - (i + 1));
 
@@ -207,8 +240,109 @@ var buildFineTable = function () {
     fineCraftingTableHTML += '</table>';
 
     $('#fine-promotion-section').prepend(fineCraftingTableHTML);
-
 };
+
+var buildMaterialRefinementTable = function () {
+    var basicRefinementTableHTML = '<table>';
+    for (var i = 0; i < greaterRefinementMats.length; i++) {
+
+        var lesserWords = lesserRefinementMats[i][0].name.split(' ');
+        var greaterWords = greaterRefinementMats[i][0].name.split(' ');
+
+        basicRefinementTableHTML += '<tr><th class="header-title" colspan="12">Basic Refinement Materials ' + lesserWords[lesserWords.length - 1] + ' &rarr; ' + (i == 1 ? 'Bolt' : greaterWords[greaterWords.length - 1]) + '</th></tr>';
+        basicRefinementTableHTML += '<tr><th class="upgradeElement" colspan="2">' + lesserWords[lesserWords.length - 1] + '</th><th></th><th class="upgradeElement">Alt Material</th><th></th><th class="upgradeElement" colspan="2">' + (i == 1 ? 'Bolt' : greaterWords[greaterWords.length - 1]) + '</th><th>Value Change If Refined</th><th>Profit</th></tr>';
+
+        var category = greaterRefinementMats[i];
+        for (var j = 0; j < category.length; j++) {
+            var material = category[j];
+            var lesserMaterial = lesserRefinementMats[i][j];
+            var altMaterial = material.altMaterial;
+            var materialOutputAmount = material.resultAmount ? material.resultAmount : 1;
+
+            var valueOfMats = lesserMaterial[componentBuySell].unit_price * material.lesserMatReq;
+            var valueOfAltMats = altMaterial ? altMaterial.price : 0;
+            var valueOfMatsByResultBuySell = lesserMaterial[resultBuySell].unit_price * material.lesserMatReq;
+            var valueOfMatsAfterTax = valueOfMatsByResultBuySell - (valueOfMatsByResultBuySell * tax);
+            var valueOfResult = material[resultBuySell].unit_price * materialOutputAmount;
+            var valueOfResultAfterTax = valueOfResult - (valueOfResult * tax);
+            var profit = valueOfResultAfterTax - valueOfMats - valueOfAltMats;
+            var delta = valueOfResultAfterTax - valueOfMatsAfterTax - valueOfAltMats;
+
+            basicRefinementTableHTML += '<tr class="upgradeRow">';
+            basicRefinementTableHTML += '<td style="padding-right:0;"><img class="material-image" src="' + lesserMaterial.icon + '"></td>';
+            basicRefinementTableHTML += '<td style="padding-left:0;">x' + material.lesserMatReq + '</td>';
+            basicRefinementTableHTML += '<td>+</td>';
+            basicRefinementTableHTML += '<td>' + (altMaterial? '<img class="material-image" src="' + altMaterial.icon + '">' : 'N/A') + '</td>';
+            basicRefinementTableHTML += '<td>=</td>';
+            basicRefinementTableHTML += '<td style="padding-right:0;"><img class="material-image" src="' + material.icon + '"></td>';
+            basicRefinementTableHTML += '<td style="padding-left:0;">x' + materialOutputAmount + '</td>';
+            basicRefinementTableHTML += '<td style="min-width:175px;" ' + (delta < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: delta }, 0) + '</td>';
+            basicRefinementTableHTML += '<td style="min-width:175px;" ' + (profit < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: profit }, 0) + '</td>';
+            basicRefinementTableHTML += '</tr>';
+        }
+    }
+    basicRefinementTableHTML += '</table>';
+
+    $('#basic-refinement-section').prepend(basicRefinementTableHTML);
+};
+
+//var buildAscendedMaterialRefinementTable = function () {
+//    var asencedRefinementTableHTML = '<table>';
+//    asencedRefinementTableHTML += '<tr><th class="header-title" colspan="12">Ascended Refinement</th></tr>';
+//    asencedRefinementTableHTML += '<tr></tr>';
+
+//    for (var i = 0; i < ascendedMats.length-3; i++) {
+//        var material = ascendedMats[i];
+//        var t2Material = material['t2'].material;
+//        var t2Lesser = material['t2'].lesser;
+//        var t2AltMat = t2Material.altMaterial;
+//        var t3Material = material['t3'].material;
+//        var t3Lesser = material['t3'].lesser;
+//        var t3AltMat = t3Material.altMaterial;
+//        var t4Material = material['t4'].material;
+//        var t4Lesser = material['t4'].lesser;
+//        var t4AltMat = t4Material.altMaterial;
+//        var t5Material = material['t5'].material;
+//        var t5Lesser = material['t5'].lesser;
+
+//        //var valueOfMats = lesserMaterial[componentBuySell].unit_price * material.lesserMatReq;
+//        //var valueOfAltMats = altMaterial ? altMaterial.price : 0;
+//        //var valueOfMatsByResultBuySell = lesserMaterial[resultBuySell].unit_price * material.lesserMatReq;
+//        //var valueOfMatsAfterTax = valueOfMatsByResultBuySell - (valueOfMatsByResultBuySell * tax);
+//        //var valueOfResult = material[resultBuySell].unit_price * materialOutputAmount;
+//        //var valueOfResultAfterTax = valueOfResult - (valueOfResult * tax);
+//        var profit = 0;//valueOfResultAfterTax - valueOfMats - valueOfAltMats;
+//        var delta = 0;//valueOfResultAfterTax - valueOfMatsAfterTax - valueOfAltMats;
+
+//        asencedRefinementTableHTML += '<tr class="upgradeRow">';
+//        asencedRefinementTableHTML += '<td style="padding-right:0;"><img class="material-image" src="' + t2Lesser.icon + '"></td>';
+//        asencedRefinementTableHTML += '<td style="padding-left:0;">x' + t2Material.lesserMatReq + '</td>';
+//        asencedRefinementTableHTML += '<td>+</td>';
+//        asencedRefinementTableHTML += '<td>' + (t2AltMat ? '<img class="material-image" src="' + t2AltMat.icon + '">' : 'N/A') + '</td>';
+//        asencedRefinementTableHTML += '<td>+</td>';
+//        asencedRefinementTableHTML += '<td style="padding-right:0;"><img class="material-image" src="' + t3Lesser.icon + '"></td>';
+//        asencedRefinementTableHTML += '<td style="padding-left:0;">x' + t3Material.lesserMatReq + '</td>';
+//        asencedRefinementTableHTML += '<td>+</td>';
+//        asencedRefinementTableHTML += '<td>' + (t3AltMat ? '<img class="material-image" src="' + t3AltMat.icon + '">' : 'N/A') + '</td>';
+//        asencedRefinementTableHTML += '<td>+</td>';
+//        asencedRefinementTableHTML += '<td style="padding-right:0;"><img class="material-image" src="' + t4Lesser.icon + '"></td>';
+//        asencedRefinementTableHTML += '<td style="padding-left:0;">x' + t4Material.lesserMatReq + '</td>';
+//        asencedRefinementTableHTML += '<td>+</td>';
+//        asencedRefinementTableHTML += '<td>' + (t4AltMat ? '<img class="material-image" src="' + t4AltMat.icon + '">' : 'N/A') + '</td>';
+//        asencedRefinementTableHTML += '<td>+</td>';
+//        asencedRefinementTableHTML += '<td style="padding-right:0;"><img class="material-image" src="' + t5Lesser.icon + '"></td>';
+//        asencedRefinementTableHTML += '<td style="padding-left:0;">x' + t5Material.lesserMatReq + '</td>';
+//        asencedRefinementTableHTML += '<td>+</td>';
+//        asencedRefinementTableHTML += '<td>=</td>';
+//        asencedRefinementTableHTML += '<td style="padding-right:0;"><img class="material-image" src="' + material.icon + '"></td>';
+//        asencedRefinementTableHTML += '<td style="min-width:175px;" ' + (delta < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: delta }, 0) + '</td>';
+//        asencedRefinementTableHTML += '<td style="min-width:175px;" ' + (profit < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: profit }, 0) + '</td>';
+//        asencedRefinementTableHTML += '</tr>';
+//    }
+//    asencedRefinementTableHTML += '</table>';
+
+//    $('#ascended-refinement-section').prepend(asencedRefinementTableHTML);
+//};
 
 var toggleSection = function (section) {
     $('#' + section + '-section').slideToggle();
@@ -220,8 +354,10 @@ var toggleSection = function (section) {
 };
 
 var toggleLeftSelector = function () {
-    $('.left-selectors').animate({ width: 'toggle' });
+    $('#left-selector-expander').animate({ 'left': leftSelectorsExpanded ? '8px' : '250px', 'width': '20px' });
+    $('.left-selectors').animate({ 'margin-left': leftSelectorsExpanded ? '-300px' : '0' });
     $('.right-content').animate({ 'margin-left': leftSelectorsExpanded ? '20px' : '300px' });
+    $('#left-selector-expander').html(leftSelectorsExpanded ? '>' : '<');
 
     leftSelectorsExpanded = !leftSelectorsExpanded;
 };
@@ -245,7 +381,25 @@ var mysticCrystal = {
 var stone = {
     "name": "Philosopher's Stone",
     "icon": "https://render.guildwars2.com/file/68FF9617BA1BE1AD58E83E4209AEF0FB58950702/434425.png"
-}
+};
+
+var lumpOfTin = {
+    "name": "Lump of Tin",
+    "price": 8,
+    "icon": "https://render.guildwars2.com/file/B2705275944046734E4079651E6BB0CC0EEB3943/65932.png"
+};
+
+var lumpOfCoal = {
+    "name": "Lump of Coal",
+    "price": 16,
+    "icon": "https://render.guildwars2.com/file/3728DC6E10FA4DADCD3B0918A70FAE9DEA96BDD4/65962.png"
+};
+
+var lumpOfPrimordium = {
+    "name": "Lump of Primordium",
+    "price": 48,
+    "icon": "https://render.guildwars2.com/file/3728DC6E10FA4DADCD3B0918A70FAE9DEA96BDD4/65962.png"
+};
 
 var t5rare = [
   {
@@ -632,6 +786,333 @@ var t1fine = [
   }
 ];
 
+var ores = [
+  {
+      "id": 19697,
+      "name": "Copper Ore"
+  },
+  {
+      "id": 19697,
+      "name": "Copper Ore"
+  },
+  {
+      "id": 19703,
+      "name": "Silver Ore"
+  },
+  {
+      "id": 19698,
+      "name": "Gold Ore"
+  },
+  {
+      "id": 19699,
+      "name": "Iron Ore"
+  },
+  {
+      "id": 19699,
+      "name": "Iron Ore"
+  },
+  {
+      "id": 19702,
+      "name": "Platinum Ore"
+  },
+  {
+      "id": 19702,
+      "name": "Platinum Ore"
+  },
+  {
+      "id": 19700,
+      "name": "Mithril Ore"
+  },
+  {
+      "id": 19701,
+      "name": "Orichalcum Ore"
+  }
+];
+
+var ingots = [
+  {
+      "id": 19680,
+      "name": "Copper Ingot",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19679,
+      "name": "Bronze Ingot",
+      "lesserMatReq": 10,
+      "altMaterial": lumpOfTin,
+      "resultAmount": 5
+  },
+  {
+      "id": 19687,
+      "name": "Silver Ingot",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19682,
+      "name": "Gold Ingot",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19683,
+      "name": "Iron Ingot",
+      "lesserMatReq": 3
+  },
+  {
+      "id": 19688,
+      "name": "Steel Ingot",
+      "lesserMatReq": 3,
+      "altMaterial": lumpOfCoal
+  },
+  {
+      "id": 19686,
+      "name": "Platinum Ingot",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19681,
+      "name": "Darksteel Ingot",
+      "lesserMatReq": 2,
+      "altMaterial": lumpOfPrimordium
+  },
+  {
+      "id": 19684,
+      "name": "Mithril Ingot",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19685,
+      "name": "Orichalcum Ingot",
+      "lesserMatReq": 2
+  }
+];
+
+var scraps = [
+  {
+      "id": 19718,
+      "name": "Jute Scrap"
+  },
+  {
+      "id": 19739,
+      "name": "Wool Scrap"
+  },
+  {
+      "id": 19741,
+      "name": "Cotton Scrap"
+  },
+  {
+      "id": 19743,
+      "name": "Linen Scrap"
+  },
+  {
+      "id": 19748,
+      "name": "Silk Scrap"
+  },
+  {
+      "id": 19745,
+      "name": "Gossamer Scrap"
+  }
+];
+
+var bolts = [
+  {
+      "id": 19720,
+      "name": "Bolt of Jute",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19740,
+      "name": "Bolt of Wool",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19742,
+      "name": "Bolt of Cotton",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19744,
+      "name": "Bolt of Linen",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19747,
+      "name": "Bolt of Silk",
+      "lesserMatReq": 3
+  },
+  {
+      "id": 19746,
+      "name": "Bolt of Gossamer",
+      "lesserMatReq": 2
+  }
+];
+
+var sections = [
+  {
+      "id": 19719,
+      "name": "Rawhide Leather Section"
+  },
+  {
+      "id": 19728,
+      "name": "Thin Leather Section"
+  },
+  {
+      "id": 19730,
+      "name": "Coarse Leather Section"
+  },
+  {
+      "id": 19731,
+      "name": "Rugged Leather Section"
+  },
+  {
+      "id": 19729,
+      "name": "Thick Leather Section"
+  },
+  {
+      "id": 19732,
+      "name": "Hardened Leather Section"
+  }
+];
+
+var squares = [
+  {
+      "id": 19738,
+      "name": "Stretched Rawhide Leather Square",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19733,
+      "name": "Cured Thin Leather Square",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19734,
+      "name": "Cured Coarse Leather Square",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19736,
+      "name": "Cured Rugged Leather Square",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19735,
+      "name": "Cured Thick Leather Square",
+      "lesserMatReq": 4
+  },
+  {
+      "id": 19737,
+      "name": "Cured Hardened Leather Square",
+      "lesserMatReq": 3
+  }
+];
+
+var logs = [
+  {
+      "id": 19723,
+      "name": "Green Wood Log"
+  },
+  {
+      "id": 19726,
+      "name": "Soft Wood Log"
+  },
+  {
+      "id": 19727,
+      "name": "Seasoned Wood Log"
+  },
+  {
+      "id": 19724,
+      "name": "Hard Wood Log"
+  },
+  {
+      "id": 19722,
+      "name": "Elder Wood Log"
+  },
+  {
+      "id": 19725,
+      "name": "Ancient Wood Log"
+  }
+];
+
+var planks = [
+  {
+      "id": 19710,
+      "name": "Green Wood Plank",
+      "lesserMatReq": 3
+  },
+  {
+      "id": 19713,
+      "name": "Soft Wood Plank",
+      "lesserMatReq": 2
+  },
+  {
+      "id": 19714,
+      "name": "Seasoned Wood Plank",
+      "lesserMatReq": 3
+  },
+  {
+      "id": 19711,
+      "name": "Hard Wood Plank",
+      "lesserMatReq": 3
+  },
+  {
+      "id": 19709,
+      "name": "Elder Wood Plank",
+      "lesserMatReq": 3
+  },
+  {
+      "id": 19712,
+      "name": "Ancient Wood Plank",
+      "lesserMatReq": 3
+  }
+];
+
+var ascendedMats = [
+  {
+      "id": 46738,
+      "name": "Deldrimor Steel Ingot",
+      "t2": {
+          "material": ingots[4],
+          "lesser": ores[4]
+      },
+      "t3": {
+          "material": ingots[5],
+          "lesser": ores[5]
+      },
+      "t4": {
+          "material": ingots[7],
+          "lesser": ores[7]
+      },
+      "t5": {
+          "material": ingots[8],
+          "lesser": ores[8]
+      }
+  },
+  {
+      "id": 46739,
+      "name": "Elonian Leather Square",
+      "t2": ingots[1],
+      "t3": ingots[2],
+      "t4": ingots[3],
+      "t5": ingots[4]
+  },
+  {
+      "id": 46736,
+      "name": "Spiritwood Plank",
+      "t2": ingots[1],
+      "t3": ingots[2],
+      "t4": ingots[3],
+      "t5": ingots[4]
+  },
+  {
+      "id": 46741,
+      "name": "Bolt of Damask",
+      "t2": ingots[1],
+      "t3": ingots[2],
+      "t4": ingots[3],
+      "t5": ingots[4]
+  }
+];
+
 var rareCraftingMats = [
     t5rare,
     t4rare,
@@ -647,4 +1128,18 @@ var fineCraftingMats = [
     t3fine,
     t2fine,
     t1fine
+];
+
+var lesserRefinementMats = [
+    ores,
+    scraps,
+    sections,
+    logs
+];
+
+var greaterRefinementMats = [
+    ingots,
+    bolts,
+    squares,
+    planks
 ];

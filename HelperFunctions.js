@@ -44,7 +44,6 @@ var convertValueToGoldHtmlString = function (value, fixedToVal) {
     var returnValue = 'N/A';
 
     if (value) {
-
         var amount = value.unit_price;
         var isNegative = false;
 
@@ -53,26 +52,38 @@ var convertValueToGoldHtmlString = function (value, fixedToVal) {
             isNegative = true;
         }
 
-        var gold = '';
-        var silver = '';
-        var copper = '';
+        var gold = 0;
+        var silver = 0;
+        var copper = 0;
 
         if (amount > 0) {
             copper = (amount % 100).toFixed(fixedToVal);
             amount = Math.floor(amount / 100);
+            if (copper == 100) {
+                copper = 0;
+                amount++;
+            }
         }
         if (amount > 0) {
             silver = amount % 100;
             amount = Math.floor(amount / 100);
+            if (silver == 100) {
+                silver = 0;
+                amount++;
+            }
         }
         if (amount > 0) {
             gold = amount
         }
 
-        returnValue = (isNegative ? '-' :  '') +
+        returnValue = (isNegative ? '-' : '') +
             (gold > 0 ? gold + ' <img class="currency" src="/assets/images/Gold_coin.png"> ' : '') +
             (silver > 0 ? (silver < 10 && gold > 0 ? '0' + silver : silver) + ' <img class="currency" src="/assets/images/Silver_coin.png"> ' : (gold > 0 ? '00 <img class="currency" src="/assets/images/Silver_coin.png"> ' : '')) +
             (copper > 0 ? (copper < 10 && silver > 0 ? '0' + copper : copper) + ' <img class="currency" src="/assets/images/Copper_coin.png">' : (gold > 0 || silver > 0 ? '00 <img class="currency" src="/assets/images/Copper_coin.png"> ' : ''));
+
+        if (returnValue.length < 2) {
+            return '0';
+        }
     }
 
     return returnValue;

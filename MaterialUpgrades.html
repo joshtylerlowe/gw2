@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="full-page-loading-spinner-container"><div class="loading-spinner"></div></div>
-    <div id="left-selector-expander" style="width: 300px; position: fixed; left: 8px;" onclick="toggleLeftSelector()">
+    <div id="left-selector-expander" style="position: fixed; left: 250px; margin-top: 20px;" onclick="toggleLeftSelector()">
         <
     </div>
     <div class="left-selectors">
@@ -55,15 +55,16 @@
                 <input type="radio" name="buySellResult" value="sells" checked="checked"> Lowest Sell Offer<br>
             </form><br>
         </div>
-        <div style="font-weight: bold;">Mystic Forge Recipes [<span style="cursor: pointer;" id="mystic-forge-expander" onclick="toggleSection('mystic-forge')">+</span>]</div>
-        <div style="display:none;" id="mystic-forge-section">
-            <div style="margin-left:20px; font-weight: bold;">Rare Crafting Materials [<span style="cursor: pointer;" id="rare-promotion-expander" onclick="toggleSection('rare-promotion')">+</span>]</div>
-            <div style="margin-left:20px; font-weight: bold;">Fine Crafting Materials [<span style="cursor: pointer;" id="fine-promotion-expander" onclick="toggleSection('fine-promotion')">+</span>]</div>
-        </div>
+        <div style="margin-left:20px; font-weight: bold;">Rare Crafting Materials [<span style="cursor: pointer;" id="rare-promotion-expander" onclick="toggleSection('rare-promotion')"> - </span>]</div>
+        <div style="margin-left:20px; font-weight: bold;">Fine Crafting Materials [<span style="cursor: pointer;" id="fine-promotion-expander" onclick="toggleSection('fine-promotion')"> - </span>]</div>
+        <div style="margin-left:20px; font-weight: bold;">Basic Refinement Materials [<span style="cursor: pointer;" id="basic-refinement-expander" onclick="toggleSection('basic-refinement')"> - </span>]</div>
+        <!--<div style="margin-left:20px; font-weight: bold;">Ascended Refinement Materials [<span style="cursor: pointer;" id="ascended-refinement-expander" onclick="toggleSection('ascended-refinement')"> - </span>]</div>-->
     </div>
     <div class="right-content">
-        <div style="display:none;" id="rare-promotion-section"></div>
-        <div style="display:none;" id="fine-promotion-section"></div>
+        <div id="rare-promotion-section"></div>
+        <div id="fine-promotion-section"></div>
+        <div id="basic-refinement-section"></div>
+        <!--<div id="ascended-refinement-section"></div>-->
     </div>
 </body>
 </html>

@@ -351,8 +351,10 @@ th > img {
 .left-selectors {
     width: 300px;
     position: fixed;
-    left: 8px;
-    margin-top: 18px;
+    left: 0;
+    margin-top: 38px;
+    padding-left: 8px;
+    background-color: white;
 }
 .right-content {
     margin-top: 10px;
@@ -361,4 +363,12 @@ th > img {
 .header-title {
     font-size: 35px;
     background-color: #111;
+}
+#left-selector-expander {
+    position: fixed;
+    left: 250px;
+    margin-top: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: white;
 }
