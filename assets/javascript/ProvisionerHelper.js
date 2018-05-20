@@ -13,6 +13,11 @@ $(document).ready(function () {
             selectedProvisioners.push($(this).attr('value'));
         });
 
+        if (selectedProvisioners.length < 1) {
+            alert('No provisioner items selected to send to gw2efficiency.');
+            return;
+        }
+
         window.open('https://gw2efficiency.com/crafting/calculator/' + selectedProvisioners.toString().replace(/\s+/g, '-'), '_blank').focus();
     });
 
@@ -118,10 +123,8 @@ var updateWaypoints = function () {
     });
 
     if (waypoints.length > 0) {
-        $('#waypointsContainer').show();
         $('#waypointsList').val(waypoints.toString());
     } else {
-        $('#waypointsContainer').hide();
         $('#waypointsList').val('');
     }
 };
