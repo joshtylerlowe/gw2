@@ -120,7 +120,7 @@ var toggleDisplay = function () {
 
 var displayEverything = function () {
     var goBySellValue = buySellValue == 'sell';
-    var tax = goBySellValue ? .15 : .10;
+    var tax = .15;
     $('#tpTax').html((tax * 100) + '%')
 
     if (!expandedDisplay) {

@@ -1,7 +1,7 @@
 ﻿var allUpgradesAndPrices = [];
 var componentBuySell = 'sells';
 var resultBuySell = 'sells';
-var tax = 0;
+var tax = .15;
 var leftSelectorsExpanded = true;
 
 $(function () {
@@ -103,7 +103,6 @@ var clearTables = function () {
 };
 
 var buildTables = function () {
-    tax = resultBuySell == 'sells' ? .15 : .10;
     buildRareTable();
     buildFineTable();
     buildMaterialRefinementTable();
