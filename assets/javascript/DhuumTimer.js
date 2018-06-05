@@ -221,7 +221,7 @@ function cdstart() {
 
     lastText = '';
     clearTimeout(t);
-    count = delay ? CCOUNT + 10 : CCOUNT;
+    count = delay ? CCOUNT + 6 : CCOUNT;
     cddisplay();
     countdown();
 }
