@@ -328,6 +328,12 @@ th > img {
     width: 35px;
     margin: auto;
 }
+.multiplied-image {
+    display: flex;
+}
+.multiplied-image span {
+    align-self: center;
+}
 .negative-currency {
     color: red;
 }

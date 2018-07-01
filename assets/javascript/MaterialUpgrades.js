@@ -34,9 +34,11 @@ var applyDataAndPricesToMaterials = function() {
             return item.id;
         }));
     }
-    allPrePrice.pushArray(ascendedMats.map(function (item, y) {
-        return item.id;
-    }));
+    allPrePrice.push(globOfEctoplasm.id);
+
+    //allPrePrice.pushArray(ascendedMats.map(function (item, y) {
+    //    return item.id;
+    //}));
 
     allUpgradesAndPrices = gw2ApiCall('v2/commerce/prices', [{ ids: allPrePrice.toString() }]);
     var upgradeDataWithoutPrices = gw2ApiCall('v2/items', [{ ids: allPrePrice.toString() }]);
@@ -60,7 +62,8 @@ var applyDataAndPricesToMaterials = function() {
     squares = mergeDataByKey(squares, upgradeDataWithoutPrices, 'id');
     logs = mergeDataByKey(logs, upgradeDataWithoutPrices, 'id');
     planks = mergeDataByKey(planks, upgradeDataWithoutPrices, 'id');
-    ascendedMats = mergeDataByKey(ascendedMats, upgradeDataWithoutPrices, 'id');
+    //ascendedMats = mergeDataByKey(ascendedMats, upgradeDataWithoutPrices, 'id');
+    globOfEctoplasm = _.extend(globOfEctoplasm, _.findWhere(upgradeDataWithoutPrices, { id: globOfEctoplasm.id }));
 
     t5rare = mergeDataByKey(t5rare, allUpgradesAndPrices, 'id');
     t4rare = mergeDataByKey(t4rare, allUpgradesAndPrices, 'id');
@@ -81,7 +84,8 @@ var applyDataAndPricesToMaterials = function() {
     squares = mergeDataByKey(squares, allUpgradesAndPrices, 'id');
     logs = mergeDataByKey(logs, allUpgradesAndPrices, 'id');
     planks = mergeDataByKey(planks, allUpgradesAndPrices, 'id');
-    ascendedMats = mergeDataByKey(ascendedMats, allUpgradesAndPrices, 'id');
+    //ascendedMats = mergeDataByKey(ascendedMats, allUpgradesAndPrices, 'id');
+    globOfEctoplasm = _.extend(globOfEctoplasm, _.findWhere(allUpgradesAndPrices, { id: globOfEctoplasm.id }));
 
     $('input[name=buySellComponent]').click(function () {
         componentBuySell = $('input[name=buySellComponent]:checked').val();
@@ -99,6 +103,7 @@ var clearTables = function () {
     $('#rare-promotion-section').html('');
     $('#fine-promotion-section').html('');
     $('#basic-refinement-section').html('');
+    $('#ecto-salvage-section').html('');
     //$('#ascended-refinement-section').html('');
 };
 
@@ -106,6 +111,7 @@ var buildTables = function () {
     buildRareTable();
     buildFineTable();
     buildMaterialRefinementTable();
+    buildEctoSalvageTable();
     //buildAscendedMaterialRefinementTable();
 };
 
@@ -114,7 +120,7 @@ var buildRareTable = function () {
     for (var i = 0; i < rareCraftingMats.length - 1; i++) {
 
         rareCraftingTableHTML += '<tr><th class="header-title" colspan="12">Rare Mystic Forge Materials T' + (rareCraftingMats.length - (i + 1)) + ' &rarr; T' + (rareCraftingMats.length - (i)) + '</th></tr>';
-        rareCraftingTableHTML += '<tr><th class="upgradeElement" colspan="2">' + rareCraftingMats[i + 1][0].name.split(' ')[1] + '</th><th></th><th class="upgradeElement">Dust</th><th></th><th class="upgradeElement">Elonian Wine</th><th></th><th class="upgradeElement">Mystic Crystal</th><th></th><th class="upgradeElement">' + rareCraftingMats[i][0].name.split(' ')[1] + '</th><th>Value Change If Converted</th><th>Profit</th></tr>';
+        rareCraftingTableHTML += '<tr><th class="upgradeElement">' + rareCraftingMats[i + 1][0].name.split(' ')[1] + '</th><th></th><th class="upgradeElement">Dust</th><th></th><th class="upgradeElement">Elonian Wine</th><th></th><th class="upgradeElement">Mystic Crystal</th><th></th><th class="upgradeElement">' + rareCraftingMats[i][0].name.split(' ')[1] + '</th><th>Value Change If Converted</th><th>Profit</th></tr>';
 
         var tier = rareCraftingMats[i];
         for (var j = 0; j < tier.length; j++) {
@@ -132,16 +138,15 @@ var buildRareTable = function () {
             var delta = valueOfResultAfterTax - valueOfMatsAfterTax - valueOfWine;
 
             rareCraftingTableHTML += '<tr class="upgradeRow">';
-            rareCraftingTableHTML += '<td style="padding-right:0;"><img class="material-image" src="' + lesserMaterial.icon + '"></td>';
-            rareCraftingTableHTML += '<td style="padding-left:0;">x2</td>';
+            rareCraftingTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + lesserMaterial.name + '" src="' + lesserMaterial.icon + '"><span>x2</span></div></td>';
             rareCraftingTableHTML += '<td>+</td>';
-            rareCraftingTableHTML += '<td><img class="material-image" src="' + dust.icon + '"></td>';
+            rareCraftingTableHTML += '<td><img class="material-image" title="' + dust.name + '" src="' + dust.icon + '"></td>';
             rareCraftingTableHTML += '<td>+</td>';
-            rareCraftingTableHTML += '<td><img class="material-image" src="' + elonianWine.icon + '"></td>';
+            rareCraftingTableHTML += '<td><img class="material-image" title="' + elonianWine.name + '" src="' + elonianWine.icon + '"></td>';
             rareCraftingTableHTML += '<td>+</td>';
-            rareCraftingTableHTML += '<td><img class="material-image" src="' + mysticCrystal.icon + '"></td>';
+            rareCraftingTableHTML += '<td><img class="material-image" title="' + mysticCrystal.name + '" src="' + mysticCrystal.icon + '"></td>';
             rareCraftingTableHTML += '<td>=</td>';
-            rareCraftingTableHTML += '<td><img class="material-image" src="' + material.icon + '"></td>';
+            rareCraftingTableHTML += '<td><img class="material-image" title="' + material.name + '" src="' + material.icon + '"></td>';
             rareCraftingTableHTML += '<td style="min-width:175px;" ' + (delta < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: delta }, 0) + '</td>';
             rareCraftingTableHTML += '<td style="min-width:175px;" ' + (profit < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: profit }, 0) + '</td>';
             rareCraftingTableHTML += '</tr>';
@@ -150,14 +155,13 @@ var buildRareTable = function () {
     rareCraftingTableHTML += '</table>';
 
     $('#rare-promotion-section').prepend(rareCraftingTableHTML);
-
 };
 
 var buildFineTable = function () {
     var fineCraftingTableHTML = '<table>';
     for (var i = 0; i < fineCraftingMats.length - 1; i++) {
         fineCraftingTableHTML += '<tr><th class="header-title" colspan="16">Fine Mystic Forge Materials T' + (fineCraftingMats.length - (i + 1)) + ' &rarr; T' + (fineCraftingMats.length - i) + '</th></tr>';
-        fineCraftingTableHTML += '<tr><th class="upgradeElement" colspan="2">T' + (fineCraftingMats.length - (i + 1)) + '</th><th></th><th class="upgradeElement">T' + (fineCraftingMats.length - i) + '</th><th></th><th class="upgradeElement" colspan="2">Dust</th><th></th><th class="upgradeElement" colspan="2">Philosopher\'s Stone</th><th></th><th class="upgradeElement" colspan="2">T' + (fineCraftingMats.length - i) + '</th><th>Value Change If Converted</th><th>Profit</th></tr>';
+        fineCraftingTableHTML += '<tr><th class="upgradeElement">T' + (fineCraftingMats.length - (i + 1)) + '</th><th></th><th class="upgradeElement">T' + (fineCraftingMats.length - i) + '</th><th></th><th class="upgradeElement">Dust</th><th></th><th class="upgradeElement">Philosopher\'s Stone</th><th></th><th class="upgradeElement">T' + (fineCraftingMats.length - i) + '</th><th>Value Change If Converted</th><th>Profit</th></tr>';
         var altMatCount = (fineCraftingMats.length - (i + 1));
 
         var tier = fineCraftingMats[i];
@@ -168,7 +172,7 @@ var buildFineTable = function () {
             var returnMultiplier = i == 0 ? fineCraftingT6Return : fineCraftingReturn;
 
             var valueOfMats = (lesserMaterial[componentBuySell].unit_price * 50) + material[componentBuySell].unit_price + (dust[componentBuySell].unit_price * 5);
-            var valueOfMatsByResultBuySell = (lesserMaterial[resultBuySell].unit_price * 50) + material[resultBuySell].unit_price + (dust[resultBuySell].unit_price * 5)
+            var valueOfMatsByResultBuySell = (lesserMaterial[resultBuySell].unit_price * 50) + material[resultBuySell].unit_price + (dust[resultBuySell].unit_price * 5);
             var valueOfMatsAfterTax = valueOfMatsByResultBuySell - (valueOfMatsByResultBuySell * tax);
             var valueOfResult = material[resultBuySell].unit_price * returnMultiplier;
             var valueOfResultAfterTax = valueOfResult - (valueOfResult * tax);
@@ -176,19 +180,15 @@ var buildFineTable = function () {
             var delta = valueOfResultAfterTax - valueOfMatsAfterTax;
 
             fineCraftingTableHTML += '<tr class="upgradeRow">';
-            fineCraftingTableHTML += '<td class="force-right"><img class="material-image" src="' + lesserMaterial.icon + '"></td>';
-            fineCraftingTableHTML += '<td class="force-left">x50</td>';
+            fineCraftingTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + lesserMaterial.name + '" src="' + lesserMaterial.icon + '"><span>x50</span></div></td>';
             fineCraftingTableHTML += '<td>+</td>';
-            fineCraftingTableHTML += '<td><img class="material-image" src="' + material.icon + '"></td>';
+            fineCraftingTableHTML += '<td><img class="material-image" title="' + material.name + '" src="' + material.icon + '"></td>';
             fineCraftingTableHTML += '<td>+</td>';
-            fineCraftingTableHTML += '<td class="force-right"><img class="material-image" src="' + dust.icon + '"></td>';
-            fineCraftingTableHTML += '<td class="force-left">x5</td>';
+            fineCraftingTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + dust.name + '" src="' + dust.icon + '"><span>x5</span></div></td>';
             fineCraftingTableHTML += '<td>+</td>';
-            fineCraftingTableHTML += '<td class="force-right"><img class="material-image" src="' + stone.icon + '"></td>';
-            fineCraftingTableHTML += '<td class="force-left">x' + altMatCount + '</td>';
+            fineCraftingTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + stone.name + '" src="' + stone.icon + '"><span>x' + altMatCount + '</span></div></td>';
             fineCraftingTableHTML += '<td>&#8771;</td>';
-            fineCraftingTableHTML += '<td class="force-right"><img class="material-image" src="' + material.icon + '"></td>';
-            fineCraftingTableHTML += '<td class="force-left">x' + returnMultiplier + '</td>';
+            fineCraftingTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + material.name + '" src="' + material.icon + '"><span>x' + returnMultiplier + '</span></div></td>';
             fineCraftingTableHTML += '<td style="min-width:175px;" ' + (delta < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: delta }, 0) + '</td>';
             fineCraftingTableHTML += '<td style="min-width:175px;" ' + (profit < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: profit }, 0) + '</td>';
             fineCraftingTableHTML += '</tr>';
@@ -199,7 +199,7 @@ var buildFineTable = function () {
 
     fineCraftingTableHTML += '<table>';
     fineCraftingTableHTML += '<tr><th class="header-title" colspan="15">Dusts</th></tr>';
-    fineCraftingTableHTML += '<tr><th class="upgradeElement" colspan="2">Lower Tier Dust</th><th></th><th class="upgradeElement">Higher Tier Dust</th><th></th><th class="upgradeElement" colspan="2">Mystic Crystal</th><th></th><th class="upgradeElement" colspan="2">Philosopher\'s Stone</th><th></th><th class="upgradeElement" colspan="2">T' + (fineCraftingMats.length - i) + '</th><th>Value Change If Converted</th><th>Profit</th></tr>';
+    fineCraftingTableHTML += '<tr><th class="upgradeElement">Lower Tier Dust</th><th></th><th class="upgradeElement">Higher Tier Dust</th><th></th><th class="upgradeElement">Mystic Crystal</th><th></th><th class="upgradeElement">Philosopher\'s Stone</th><th></th><th class="upgradeElement">T' + (fineCraftingMats.length - i) + '</th><th>Value Change If Converted</th><th>Profit</th></tr>';
 
     for (var i = 0; i < fineCraftingMats.length - 1; i++) {
         var tier = fineCraftingMats[i];
@@ -217,23 +217,18 @@ var buildFineTable = function () {
         var delta = valueOfResultAfterTax - valueOfMatsAfterTax;
 
         fineCraftingTableHTML += '<tr class="upgradeRow">';
-        fineCraftingTableHTML += '<td class="force-right"><img class="material-image" src="' + lesserMaterial.icon + '"></td>';
-        fineCraftingTableHTML += '<td class="force-left">x250</td>';
+        fineCraftingTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + lesserMaterial.name + '" src="' + lesserMaterial.icon + '"><span>x250</span></div></td>';
         fineCraftingTableHTML += '<td>+</td>';
-        fineCraftingTableHTML += '<td><img class="material-image" src="' + material.icon + '"></td>';
+        fineCraftingTableHTML += '<td><img class="material-image" title="' + material.name + '" src="' + material.icon + '"></td>';
         fineCraftingTableHTML += '<td>+</td>';
-        fineCraftingTableHTML += '<td class="force-right"><img class="material-image" src="' + mysticCrystal.icon + '"></td>';
-        fineCraftingTableHTML += '<td class="force-left">x' + altMatCount + '</td>';
+        fineCraftingTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + mysticCrystal.name + '" src="' + mysticCrystal.icon + '"><span>x' + altMatCount + '</span></div></td>';
         fineCraftingTableHTML += '<td>+</td>';
-        fineCraftingTableHTML += '<td class="force-right"><img class="material-image" src="' + stone.icon + '"></td>';
-        fineCraftingTableHTML += '<td class="force-left">x' + altMatCount + '</td>';
+        fineCraftingTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + stone.name + '" src="' + stone.icon + '"><span>x' + altMatCount + '</span></div></td>';
         fineCraftingTableHTML += '<td>&#8771;</td>';
-        fineCraftingTableHTML += '<td class="force-right"><img class="material-image" src="' + material.icon + '"></td>';
-        fineCraftingTableHTML += '<td class="force-left">x' + returnMultiplier + '</td>';
+        fineCraftingTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + material.name + '" src="' + material.icon + '"><span>x' + returnMultiplier + '</span></div></td>';
         fineCraftingTableHTML += '<td style="min-width:175px;" ' + (delta < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: delta }, 0) + '</td>';
         fineCraftingTableHTML += '<td style="min-width:175px;" ' + (profit < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: profit }, 0) + '</td>';
         fineCraftingTableHTML += '</tr>';
-        
     }
 
     fineCraftingTableHTML += '</table>';
@@ -249,7 +244,7 @@ var buildMaterialRefinementTable = function () {
         var greaterWords = greaterRefinementMats[i][0].name.split(' ');
 
         basicRefinementTableHTML += '<tr><th class="header-title" colspan="12">Basic Refinement Materials ' + lesserWords[lesserWords.length - 1] + ' &rarr; ' + (i == 1 ? 'Bolt' : greaterWords[greaterWords.length - 1]) + '</th></tr>';
-        basicRefinementTableHTML += '<tr><th class="upgradeElement" colspan="2">' + lesserWords[lesserWords.length - 1] + '</th><th></th><th class="upgradeElement">Alt Material</th><th></th><th class="upgradeElement" colspan="2">' + (i == 1 ? 'Bolt' : greaterWords[greaterWords.length - 1]) + '</th><th>Value Change If Refined</th><th>Profit</th></tr>';
+        basicRefinementTableHTML += '<tr><th class="upgradeElement">' + lesserWords[lesserWords.length - 1] + '</th><th></th><th class="upgradeElement">Alt Material</th><th></th><th class="upgradeElement">' + (i == 1 ? 'Bolt' : greaterWords[greaterWords.length - 1]) + '</th><th>Value Change If Refined</th><th>Profit</th></tr>';
 
         var category = greaterRefinementMats[i];
         for (var j = 0; j < category.length; j++) {
@@ -268,13 +263,11 @@ var buildMaterialRefinementTable = function () {
             var delta = valueOfResultAfterTax - valueOfMatsAfterTax - valueOfAltMats;
 
             basicRefinementTableHTML += '<tr class="upgradeRow">';
-            basicRefinementTableHTML += '<td style="padding-right:0;"><img class="material-image" src="' + lesserMaterial.icon + '"></td>';
-            basicRefinementTableHTML += '<td style="padding-left:0;">x' + material.lesserMatReq + '</td>';
+            basicRefinementTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + lesserMaterial.name + '" src="' + lesserMaterial.icon + '"><span>x' + material.lesserMatReq + '</span></div></td>';
             basicRefinementTableHTML += '<td>+</td>';
-            basicRefinementTableHTML += '<td>' + (altMaterial? '<img class="material-image" src="' + altMaterial.icon + '">' : 'N/A') + '</td>';
+            basicRefinementTableHTML += '<td>' + (altMaterial ? '<img class="material-image" title="' + altMaterial.name + '" src="' + altMaterial.icon + '">' : 'N/A') + '</td>';
             basicRefinementTableHTML += '<td>=</td>';
-            basicRefinementTableHTML += '<td style="padding-right:0;"><img class="material-image" src="' + material.icon + '"></td>';
-            basicRefinementTableHTML += '<td style="padding-left:0;">x' + materialOutputAmount + '</td>';
+            basicRefinementTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + material.name + '" src="' + material.icon + '"><span>x' + materialOutputAmount + '</span></div></td>';
             basicRefinementTableHTML += '<td style="min-width:175px;" ' + (delta < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: delta }, 0) + '</td>';
             basicRefinementTableHTML += '<td style="min-width:175px;" ' + (profit < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: profit }, 0) + '</td>';
             basicRefinementTableHTML += '</tr>';
@@ -283,6 +276,41 @@ var buildMaterialRefinementTable = function () {
     basicRefinementTableHTML += '</table>';
 
     $('#basic-refinement-section').prepend(basicRefinementTableHTML);
+};
+
+var buildEctoSalvageTable = function () {
+    var ectoSalvageTableHTML = '<table>';
+    var dust = t6fine[7];
+
+    ectoSalvageTableHTML += '<tr><th class="header-title" colspan="12">Salvage Globs of Ectoplasm</th></tr>';
+    ectoSalvageTableHTML += '<tr><th class="upgradeElement">Ecto</th><th></th><th class="upgradeElement">Kit</th><th></th><th class="upgradeElement" >Dust</th><th>Value Change If Salvaged</th><th>Profit</th></tr>';
+
+    for (var i = 0; i < salvageTools.length; i++) {
+
+        var tool = salvageTools[i];
+        var materialOutputAmount = tool.output;
+
+        var valueOfMats = globOfEctoplasm[componentBuySell].unit_price;
+        var valueOfMatsByResultBuySell = globOfEctoplasm[resultBuySell].unit_price;
+        var valueOfMatsAfterTax = valueOfMatsByResultBuySell - (valueOfMatsByResultBuySell * tax);
+        var valueOfResult = dust[resultBuySell].unit_price * materialOutputAmount;
+        var valueOfResultAfterTax = valueOfResult - (valueOfResult * tax);
+        var profit = valueOfResultAfterTax - tool.price - valueOfMats;
+        var delta = valueOfResultAfterTax - tool.price - valueOfMatsAfterTax;
+
+        ectoSalvageTableHTML += '<tr class="upgradeRow">';
+        ectoSalvageTableHTML += '<td><img class="material-image" title="' + globOfEctoplasm.name + '" src="' + globOfEctoplasm.icon + '"></td>';
+        ectoSalvageTableHTML += '<td>+</td>';
+        ectoSalvageTableHTML += '<td><img class="material-image" title="' + tool.name + '" src="' + tool.icon + '"></td>';
+        ectoSalvageTableHTML += '<td>&#8771;</td>';
+        ectoSalvageTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + dust.name + '" src="' + dust.icon + '"><span>x' + materialOutputAmount + '</span></div></td>';
+        ectoSalvageTableHTML += '<td style="min-width:175px;" ' + (delta < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: delta }, 0) + '</td>';
+        ectoSalvageTableHTML += '<td style="min-width:175px;" ' + (profit < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: profit }, 0) + '</td>';
+        ectoSalvageTableHTML += '</tr>';
+    }
+    ectoSalvageTableHTML += '</table>';
+
+    $('#ecto-salvage-section').prepend(ectoSalvageTableHTML);
 };
 
 //var buildAscendedMaterialRefinementTable = function () {
@@ -398,6 +426,12 @@ var lumpOfPrimordium = {
     "name": "Lump of Primordium",
     "price": 48,
     "icon": "https://render.guildwars2.com/file/3728DC6E10FA4DADCD3B0918A70FAE9DEA96BDD4/65962.png"
+};
+
+var globOfEctoplasm = {
+    "name": "Glob of Ectoplasm",
+    "id": 19721,
+    "icon": "https://render.guildwars2.com/file/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941.png"
 };
 
 var t5rare = [
@@ -1110,6 +1144,57 @@ var ascendedMats = [
       "t4": ingots[3],
       "t5": ingots[4]
   }
+];
+
+var salvageTools = [
+    {
+        "name": "Crude Salvage Kit",
+        "price": 32 / 15,
+        "output": 1.46,
+        "icon": "https://render.guildwars2.com/file/9F09ACD431CE4906631E271E650ABB0454F90705/63123.png"
+    },
+    {
+        "name": "Basic Salvage Kit",
+        "price": 88 / 25,
+        "output": 1.62,
+        "icon": "https://render.guildwars2.com/file/F0B4025A23D3D1ADE0466FFEAA7023D8EFD8422C/66765.png"
+    },
+    {
+        "name": "Copper-Fed Salvage-o-Matic",
+        "price": 3,
+        "output": 1.62,
+        "icon": ""
+    },
+    {
+        "name": "Fine Salvage Kit",
+        "price": 288 / 25,
+        "output": 1.74,
+        "icon": "https://render.guildwars2.com/file/CA01D91B20EB19359FFF313C6DC5C2480A0872B0/66766.png"
+    },
+    {
+        "name": "Master's Salvage Kit",
+        "price": 1536 / 25,
+        "output": 1.85,
+        "icon": "https://render.guildwars2.com/file/75FB93F7EA0D3CFC0E023D1C72BE205457F905F7/66768.png"
+    },
+    {
+        "name": "Mystic Salvage Kit",
+        "price": 2624 / 250,
+        "output": 1.85,
+        "icon": "https://render.guildwars2.com/file/9F09ACD431CE4906631E271E650ABB0454F90705/63123.png"
+    },
+    {
+        "name": "Silver-Fed Salvage-o-Matic",
+        "price": 60,
+        "output": 1.85,
+        "icon": ""
+    },
+    {
+        "name": "Black Lion Salvage Kit",
+        "price": 0,
+        "output": 2.00,
+        "icon": "https://render.guildwars2.com/file/2204EE5D7B1F7BEE9261CBAE3BF1DB5B027EE607/66551.png"
+    },
 ];
 
 var rareCraftingMats = [
