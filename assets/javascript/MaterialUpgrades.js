@@ -1163,7 +1163,7 @@ var salvageTools = [
         "name": "Copper-Fed Salvage-o-Matic",
         "price": 3,
         "output": 1.62,
-        "icon": ""
+        "icon": "https://render.guildwars2.com/file/CC2004000FFDFCEF346AAE296FD0E858C0990548/619581.png"
     },
     {
         "name": "Fine Salvage Kit",
@@ -1187,7 +1187,7 @@ var salvageTools = [
         "name": "Silver-Fed Salvage-o-Matic",
         "price": 60,
         "output": 1.85,
-        "icon": ""
+        "icon": "https://render.guildwars2.com/file/53BE1B65A817091427E30319C2B2B3777C27A319/855379.png"
     },
     {
         "name": "Black Lion Salvage Kit",
