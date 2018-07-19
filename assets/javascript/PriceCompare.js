@@ -49,7 +49,7 @@ var searchForItem = function () {
         var htmlString = '';
 
         $.each(searchedItemsList, function (key, value) {
-            htmlString += '<div class="search-result-container" onclick="addItemToList(' + value.id + ')"><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div><div class="item-name">' + value.name + '</div></div><br>'
+            htmlString += '<div class="search-result-container" onclick="addItemToList(' + value.id + ')"><div class="bordered-item"><img class="item-icon ' + value.rarity + '" src="' + value.icon + '" /></div><div class="item-name">' + value.name + (value.level ? ' (Level: ' + value.level + ')' : '') + '</div></div><br>'
         });
 
         $('#search-results').html(htmlString);
@@ -94,7 +94,7 @@ var generateTable = function (skip) {
     }
 
     $('#item-list').find("tr:gt(0)").remove();
-    
+
     var ids = [];
     for (var i = 0; i < itemsToCompareList.length; i++) {
         ids.push(itemsToCompareList[i].id);
@@ -106,12 +106,12 @@ var generateTable = function (skip) {
         pricedItems = lastPrices;
     } else {
         var prices = gw2ApiCall("v2/commerce/prices", [{ ids: ids.toString() }]);
-        
+
         pricedItems = _.map(itemsToCompareList, function (item) {
             return _.extend(item, _.findWhere(prices, { id: item.id }));
         });
         lastPrices = pricedItems;
-    }    
+    }
 
     var sortedItems = sortByPrices(pricedItems);
 
