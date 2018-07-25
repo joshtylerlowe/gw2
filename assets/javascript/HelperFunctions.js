@@ -27,6 +27,9 @@ var gw2ApiCall = function (endpoint, parameters) {
         type: 'GET',
         dataType: 'json',
         url: baseUrl + endpoint + constructedParameters,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
         success: function (ret) {
             result = ret;
         },
