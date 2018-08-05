@@ -36,11 +36,11 @@ var shipmentItems = {
         { id: 19732, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Hardened Leather Section", multiplier: 7.97 }
     ],
     metal: [
-        { id: 19697, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Copper Ore", multiplier: 9.20 },
-        { id: 19699, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Iron Ore", multiplier: 16.80 },
-        { id: 19702, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Platinum Ore", multiplier: 9.20 },
-        { id: 19700, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Mithril Ore", multiplier: 58.40 },
-        { id: 19701, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Orichalcum Ore", multiplier: 6.40 }
+        { id: 19697, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Copper Ore", multiplier: 8.46 },
+        { id: 19699, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Iron Ore", multiplier: 16.62 },
+        { id: 19702, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Platinum Ore", multiplier: 7.69 },
+        { id: 19700, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Mithril Ore", multiplier: 60.31 },
+        { id: 19701, dropRateLink: "https://wiki.guildwars2.com/wiki/Metal_Shipment/Drop_rate", name: "Orichalcum Ore", multiplier: 6.92 }
     ],
     wood: [
         { id: 19723, dropRateLink: "https://wiki.guildwars2.com/wiki/Wood_Shipment/Drop_rate", name: "Green Wood Log", multiplier: 6.84 },
