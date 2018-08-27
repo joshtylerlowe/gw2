@@ -20,12 +20,12 @@ var shipmentItems = {
         { id: 83757, dropRateLink: "https://wiki.guildwars2.com/wiki/Trophy_Shipment/Drop_rate", name: "Congealed Putrescence", multiplier: 0.19 }
     ],
     cloth: [
-        { id: 19718, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Jute Scrap", multiplier: 8.00 },
-        { id: 19739, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Wool Scrap", multiplier: 6.50 },
-        { id: 19741, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Cotton Scrap", multiplier: 11.00 },
-        { id: 19743, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Linen Scrap", multiplier: 4.50 },
-        { id: 19748, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Silk Scrap", multiplier: 61.00 },
-        { id: 19745, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Gossamer Scrap", multiplier: 9.00 }
+        { id: 19718, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Jute Scrap", multiplier: 9.00 },
+        { id: 19739, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Wool Scrap", multiplier: 7.00 },
+        { id: 19741, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Cotton Scrap", multiplier: 10.67 },
+        { id: 19743, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Linen Scrap", multiplier: 4.67 },
+        { id: 19748, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Silk Scrap", multiplier: 60.00 },
+        { id: 19745, dropRateLink: "https://wiki.guildwars2.com/wiki/Cloth_Shipment/Drop_rate", name: "Gossamer Scrap", multiplier: 8.67 }
     ],
     leather: [
         { id: 19719, dropRateLink: "https://wiki.guildwars2.com/wiki/Leather_Shipment/Drop_rate", name: "Rawhide Leather Section", multiplier: 7.92 },
