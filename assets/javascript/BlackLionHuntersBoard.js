@@ -1,5 +1,5 @@
 var multipliers = [
-    {tier:1, multiplier: 1.37},
+    {tier:1, multiplier: 1.39},
     {tier:2, multiplier: 0.68},
     {tier:3, multiplier: 0.90},
     {tier:4, multiplier: 0.71},
