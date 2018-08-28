@@ -311,6 +311,64 @@ var celebratoryDyePackItemIds = [
   68676,
   68678
 ];
+var exuberantDyePackItemIds = [
+  79317,
+  79346,
+  79358,
+  79309,
+  79344,
+  79340,
+  79701,
+  79694,
+  79697,
+  79692,
+  79699,
+  79700,
+  80071,
+  80078,
+  80079,
+  80070,
+  80068,
+  80073,
+  80986,
+  80978,
+  80982,
+  80988,
+  80983,
+  80976
+];
+var triumphantDyePackItemIds = [
+  81590,
+  81536,
+  81534,
+  81566,
+  81561,
+  81571,
+  86900,
+  86903,
+  86901,
+  86896,
+  86905,
+  86902,
+  87855,
+  88024,
+  87787,
+  88095,
+  87622,
+  87947,
+  87383,
+  87355,
+  87349,
+  87313,
+  87364,
+  87312,
+  86022,
+  85690,
+  86054,
+  86145,
+  86089,
+  85630
+];
 var chestOfInscriptionsItemIds = [
   70434,
   46689,
@@ -463,14 +521,24 @@ var prebuiltLists = [
         id: 77886
     },
     {
-        name: 'Celebratory Dye Pack',
+        name: 'Celebratory Dye Pack (Year 3)',
         list: celebratoryDyePackItemIds,
         id: 70229
     },
     {
-        name: 'Jubilant Dye Pack',
+        name: 'Jubilant Dye Pack (Year 4)',
         list: jubilantDyePackItemIds,
         id: 79351
+    },
+    {
+        name: 'Exuberant Dye Kit (Year 5)',
+        list: exuberantDyePackItemIds,
+        id: 82589
+    },
+    {
+        name: 'Triumphant Dye Kit (Year 6)',
+        list: triumphantDyePackItemIds,
+        id: 88307
     },
     {
         name: 'Reclaimed Weapons',
