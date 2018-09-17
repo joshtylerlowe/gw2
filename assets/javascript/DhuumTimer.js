@@ -8,7 +8,17 @@ var femaleUSVoice = 'US English Female';
 var t, count, lastText, orb1Val, orb2Val, orb3Val, voiceSelectionOrbs, voiceSelectionOther;
 var orb1 = orb2 = orb3 = orbwarning = orbup = sswarning = ssup = ldmwarning = ldmup = both = voice = chime = nosound = false;
 
+var englishDisplayData;
+
+var displayData = [];
+
 $(document).ready(function () {
+    $.getJSON('/assets/data/EnglishDhuumTimerData.json', function (response) {
+        englishDisplayData = response;
+        //TODO: other languages
+        $('.full-page-loading-spinner-container').hide();
+    });
+
     $('#startButton').show();
     $('#stopButton').hide();
     $('#resetButton').hide();
@@ -78,70 +88,6 @@ $(document).ready(function () {
 0   0:00 Orb 2 going up, ENRAGE
 */
 
-var displayData = [
-    { time: 600, type: "", text: "" },
-    { time: 580, type: "orbwarning,orb1", text: "{1} to {Arrow}" },
-    { time: 570, type: "orbup,orb1", text: "{1} going up" },
-    { time: 550, type: "orbwarning,orb2", text: "{2} to {Circle}" },
-    { time: 540, type: "orbup,orb2", text: "{2} going up, bombs starting" },
-    { time: 520, type: "orbwarning,orb3", text: "{3} to {Heart}" },
-    { time: 510, type: "orbup,orb3", text: "{3} going up" },
-    { time: 490, type: "orbwarning,orb1", text: "{1} to {Square}" },
-    { time: 480, type: "orbup,orb1", text: "{1} going up, Boss is activated" },
-    { time: 460, type: "orbwarning,orb2", text: "{2} to {Star}" },
-    { time: 450, type: "orbup,orb2", text: "{2} going up, bombs restarting" },
-    { time: 435, type: "ldmwarning", text: "prepare for lesser death mark" },
-    { time: 430, type: "orbwarning,orb3", text: "{3} to {Spiral}" },
-    { time: 425, type: "ldmup", text: "lesser death mark" },
-    { time: 420, type: "orbup,orb3", text: "{3} going up" },
-    { time: 400, type: "orbwarning,orb1", text: "{1} to {Triangle}" },
-    { time: 395, type: "sswarning", text: "prepare for soul slam" },
-    { time: 390, type: "orbup,orb1", text: "{1} going up" },
-    { time: 385, type: "ssup", text: "soul slam! now" },
-    { time: 370, type: "orbwarning,orb2", text: "{2} to {Arrow}" },
-    { time: 360, type: "orbup,orb2", text: "{2} going up, bombs restarting" },
-    { time: 355, type: "ldmwarning", text: "prepare for lesser death mark" },
-    { time: 345, type: "ldmup", text: "lesser death mark" },
-    { time: 340, type: "orbwarning,orb3", text: "{3} to {Circle}" },
-    { time: 330, type: "orbup,orb3", text: "{3} going up" },
-    { time: 315, type: "sswarning,orbwarning,orb1", text: "prepare for soul slam, {1} to {Heart} AFTER soul slam" },
-    { time: 305, type: "ssup", text: "soul slam! now" },
-    { time: 300, type: "orbup,orb1", text: "{1} going up" },
-    { time: 280, type: "orbwarning,orb2", text: "{2} to {Square}" },
-    { time: 275, type: "ldmwarning", text: "prepare for lesser death mark" },
-    { time: 270, type: "orbup,orb2", text: "{2} going up, bombs restarting" },
-    { time: 265, type: "ldmup", text: "lesser death mark" },
-    { time: 250, type: "orbwarning,orb3", text: "{3} to {Star}" },
-    { time: 240, type: "orbup,orb3", text: "{3} going up" },
-    { time: 235, type: "sswarning", text: "prepare for soul slam" },
-    { time: 225, type: "ssup", text: "soul slam! now" },
-    { time: 220, type: "orbwarning,orb1", text: "{1} to {Spiral}" },
-    { time: 210, type: "orbup,orb1", text: "{1} going up" },
-    { time: 195, type: "ldmwarning", text: "prepare for lesser death mark" },
-    { time: 190, type: "orbwarning,orb2", text: "{2} to {Triangle}" },
-    { time: 185, type: "ldmup", text: "lesser death mark" },
-    { time: 180, type: "orbup,orb2", text: "{2} going up" },
-    { time: 160, type: "orbwarning,orb3", text: "{3} to {Arrow}" },
-    { time: 155, type: "sswarning", text: "prepare for soul slam" },
-    { time: 150, type: "orbup,orb3", text: "{3} going up" },
-    { time: 145, type: "ssup", text: "soul slam! now" },
-    { time: 130, type: "orbwarning,orb1", text: "{1} to {Circle}" },
-    { time: 120, type: "orbup,orb1", text: "{1} going up" },
-    { time: 115, type: "ldmwarning", text: "prepare for lesser death mark" },
-    { time: 105, type: "ldmup", text: "lesser death mark" },
-    { time: 100, type: "orbwarning,orb2", text: "{2} to {Heart}" },
-    { time: 90, type: "orbup,orb2", text: "{2} going up" },
-    { time: 75, type: "sswarning,orbwarning,orb3", text: "prepare for soul slam, {3} to {Square} AFTER soul slam" },
-    { time: 65, type: "ssup", text: "soul slam! now" },
-    { time: 60, type: "orbup,orb3", text: "{3} going up, 1 minute until enrage" },
-    { time: 40, type: "orbwarning,orb1", text: "{1} to {Star}" },
-    { time: 35, type: "ldmwarning", text: "prepare for lesser death mark" },
-    { time: 30, type: "orbup,orb1", text: "{1} going up, 30 seconds until enrage" },
-    { time: 25, type: "ldmup", text: "lesser death mark" },
-    { time: 10, type: "orbwarning,orb2", text: "{2} to {Spiral}" },
-    { time: 0, type: "orbup,orb2", text: "{2} going up, you are in enrage" }
-];
-
 function cddisplay(reset) {
     if (reset) {
         document.getElementById('timerTime').innerHTML = '';
@@ -188,6 +134,8 @@ function cdstart() {
     $('#startButton').hide();
     $('#stopButton').show();
     $('#resetButton').show();
+
+    displayData = englishDisplayData;
 
     orb1Val = $('#orb1text').val().length > 0 ? $('#orb1text').val() : "";
     orb2Val = $('#orb2text').val().length > 0 ? $('#orb2text').val() : "";
@@ -258,7 +206,17 @@ var getDisplayText = function (seconds) {
                 if (orb1check || orb2check || orb3check || ssCheck || ldmCheck) {
                     if (lastText != displayData[i].text && seconds <= displayData[1].time) {
                         lastText = displayData[i].text;
-                        speakText = lastText.replace('{1}', orb1Val).replace('{2}', orb2Val).replace('{3}', orb3Val).replace('{Arrow}', arrowVal).replace('{Circle}', circleVal).replace('{Heart}', heartVal).replace('{Square}', squareVal).replace('{Star}', starVal).replace('{Spiral}', spiralVal).replace('{Triangle}', triangleVal);
+                        speakText = lastText
+                        .replace('{1}', orb1Val)
+                        .replace('{2}', orb2Val)
+                        .replace('{3}', orb3Val)
+                        .replace('{Arrow}', arrowVal)
+                        .replace('{Circle}', circleVal)
+                        .replace('{Heart}', heartVal)
+                        .replace('{Square}', squareVal)
+                        .replace('{Star}', starVal)
+                        .replace('{Spiral}', spiralVal)
+                        .replace('{Triangle}', triangleVal);
 
                         if (voice || both) {
                             if (orb1check || orb2check || orb3check) {
