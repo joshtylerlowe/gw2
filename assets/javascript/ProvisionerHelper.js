@@ -1,5 +1,4 @@
 ﻿var buySellValue = 'buy';
-var prices = [];
 var craftTypesToShow = [];
 var allChecked = false;
 
@@ -55,54 +54,63 @@ var generateProvisionerTable = function () {
     var tempProvisioners = $.extend(true, [], provisioners);
 
     for (var i = 0; i < provisioners.length; i++) {
-        var provisionerItems = $.extend(true, [], tempProvisioners[i].items);
-        var provisionerItemIds = provisionerItems.map(function (item) {
-            return item.id;
-        });
+        var provisioner = provisioners[i];
 
-        if (!prices[i]) {
-            prices[i] = gw2ApiCall("v2/commerce/prices", [{ ids: provisionerItemIds.toString() }]);
+        for (var j = 0; j < provisioner.tabs.length; j++) {
+            var tab = provisioner.tabs[j];
+
+            var provisionerItems = $.extend(true, [], tab.items);
+            var provisionerItemIds = provisionerItems.map(function (item) {
+                return item.id;
+            });
+
+            var prices = gw2ApiCall("v2/commerce/prices", [{ ids: provisionerItemIds.toString() }]);
+            
+
+            _.map(provisionerItems, function (item) {
+                return _.extend(item, _.findWhere(prices, { id: item.id }));
+            });
+
+            provisionerItems = _.filter(provisionerItems, function (item) {
+                return craftTypesToShow.includes(item.craftType);
+            });
+
+            tempProvisioners[i].tabs[j].items = provisionerItems.sort(function (a, b) {
+                if (buySellValue == 'buy') {
+                    return a.buys.unit_price - b.buys.unit_price;
+                } else if (buySellValue == 'sell') {
+                    return a.sells.unit_price - b.sells.unit_price;
+                }
+            });
         }
-
-        _.map(provisionerItems, function (item) {
-            return _.extend(item, _.findWhere(prices[i], { id: item.id }));
-        });
-
-        provisionerItems = _.filter(provisionerItems, function (item) {
-            return craftTypesToShow.includes(item.craftType);
-        });
-
-        tempProvisioners[i].items = provisionerItems.sort(function (a, b) {
-            if (buySellValue == 'buy') {
-                return a.buys.unit_price - b.buys.unit_price;
-            } else if (buySellValue == 'sell') {
-                return a.sells.unit_price - b.sells.unit_price;
-            }
-        });
     }
 
-
-    if (!tempProvisioners[0].items[0]) {
+    if (!tempProvisioners[0].tabs[0].items[0]) {
         $('#provisionerList tr:last').after(
-          '<tr><td colspan="7">no items match filter</td></tr>'
+          '<tr><td colspan="6">no items match filter</td></tr>'
         );
     } else {
-        $.each(tempProvisioners, function (key, value) {
-            var buy = convertValueToGoldHtmlString(value.items[0].buys);
-            var sell = convertValueToGoldHtmlString(value.items[0].sells);
+        for(var i = 0; i < tempProvisioners.length; i++) {
+            var provisioner = tempProvisioners[i];
 
-            $('#provisionerList tr:last').after(
-                '<tr>' +
-                '<td style="text-align:center;"><input class="selectableProvisioner" type="checkbox" waypoint="' + value.waypoint + '" value="' + value.items[0].id + ' ' + value.items[0].name + '" onclick="updateWaypoints()" /></td>' +
-                '<td>' + value.name + '</td>' +
-                '<td style="text-align:center;">' + getCraftTypeIconHTML(value.items[0].craftType) + '</td>' +
-                '<td>' + value.items[0].name + '</td>' +
-                '<td style="text-align:right;">' + buy + '</td>' +
-                '<td style="text-align:right;">' + sell + '</td>' +
-                '<td>' + value.description + '</td>' +
-                '</tr>'
-                );
-        });
+            for(var j = 0; j < provisioner.tabs.length; j++) {
+                var tab = provisioner.tabs[j];
+
+                var buy = convertValueToGoldHtmlString(tab.items[0].buys);
+                var sell = convertValueToGoldHtmlString(tab.items[0].sells);
+
+                $('#provisionerList tr:last').after(
+                    '<tr>' +
+                    '<td style="text-align:center;"><input class="selectableProvisioner" type="checkbox" waypoint="' + provisioner.waypoint + '" value="' + tab.items[0].id + ' ' + tab.items[0].name + '" onclick="updateWaypoints()" /></td>' +
+                    '<td>' + tab.name + '</td>' +
+                    '<td style="text-align:center;">' + getCraftTypeIconHTML(tab.items[0].craftType) + '</td>' +
+                    '<td>' + tab.items[0].name + '</td>' +
+                    '<td style="text-align:right;">' + buy + '</td>' +
+                    '<td style="text-align:right;">' + sell + '</td>' +
+                    '</tr>'
+                    );
+            }
+        }
     }
 
     updateWaypoints();
@@ -116,11 +124,13 @@ var updateCraftType = function () {
 }
 
 var updateWaypoints = function () {
-    var waypoints = [];
+    var allCheckedWaypoints = [];
 
     $('input:checkbox[class^="selectableProvisioner"]:checked').each(function () {
-        waypoints.push($(this).attr('waypoint'));
+        allCheckedWaypoints.push($(this).attr('waypoint'));
     });
+
+    var waypoints = Array.from(new Set(allCheckedWaypoints));//remove duplicates
 
     if (waypoints.length > 0) {
         $('#waypointsList').val(waypoints.toString());
@@ -167,7 +177,8 @@ var getCraftTypeIconHTML = function (craftType) {
 
 var selectedProvisioners = [];
 
-var natomi = [
+//special thanks to Garr.6289 for helping me re-learn how this system works after the change
+var sylvari = [
   {
       "name": "Assassin's Krait Machete",
       "id": 46281,
@@ -199,7 +210,7 @@ var natomi = [
       "craftType": "tailor"
   }
 ];
-var kani = [
+var itzel = [
   {
       "name": "Carrion Krait Slayer",
       "id": 15465,
@@ -231,7 +242,7 @@ var kani = [
       "craftType": "tailor"
   }
 ];
-var vec = [
+var pact = [
   {
       "name": "Valkyrie Krait Shell",
       "id": 15394,
@@ -263,7 +274,7 @@ var vec = [
       "craftType": "tailor"
   }
 ];
-var ival = [
+var quaggan = [
   {
       "name": "Apothecary's Krait Ripper",
       "id": 36779,
@@ -295,7 +306,7 @@ var ival = [
       "craftType": "tailor"
   }
 ];
-var katren = [
+var noble = [
   {
       "name": "Cleric's Krait Warhammer",
       "id": 15508,
@@ -327,19 +338,19 @@ var katren = [
       "craftType": "tailor"
   }
 ];
-var azzi = [
+var priory = [
   {
-      "name": "Giver's Mithril Mace",
+      "name": "Bringer's Krait Morning Star",
       "id": 38336,
       "craftType": "weaponsmith"
   },
   {
-      "name": "Giver's Krait Recurve Bow",
+      "name": "Bringer's Krait Recurve Bow",
       "id": 38367,
       "craftType": "huntsman"
   },
   {
-      "name": "Giver's Krait Wand",
+      "name": "Bringer's Krait Wand",
       "id": 38415,
       "craftType": "artificer"
   },
@@ -359,7 +370,7 @@ var azzi = [
       "craftType": "tailor"
   }
 ];
-var rakatin = [
+var skritt = [
   {
       "name": "Rampager's Krait Battleaxe",
       "id": 15427,
@@ -391,7 +402,7 @@ var rakatin = [
       "craftType": "tailor"
   }
 ];
-var polly = [
+var exalted = [
   {
       "name": "Valkyrie Krait Morning Star",
       "id": 15352,
@@ -423,7 +434,7 @@ var polly = [
       "craftType": "tailor"
   }
 ];
-var huanya = [
+var nuhoch = [
   {
       "name": "Knight's Krait Warhammer",
       "id": 15512,
@@ -455,7 +466,7 @@ var huanya = [
       "craftType": "tailor"
   }
 ];
-var jatt = [
+var ratanovus = [
   {
       "name": "Carrion Krait Battleaxe",
       "id": 15423,
@@ -487,7 +498,7 @@ var jatt = [
       "craftType": "tailor"
   }
 ];
-var assistant = [
+var ogre = [
   {
       "name": "Berserker's Krait Shell",
       "id": 15391,
@@ -519,7 +530,7 @@ var assistant = [
       "craftType": "tailor"
   }
 ];
-var tinkerclaw = [
+var scarcamp = [
   {
       "name": "Apothecary's Krait Ripper",
       "id": 36779,
@@ -554,75 +565,69 @@ var tinkerclaw = [
 
 var provisioners = [
     {
-        name: 'Quartermaster Natomi',
-        description: 'Next to Shipwreck Peak Waypoint',
         waypoint: '[&BN4HAAA=]',
-        items: natomi
+        name: 'Quartermaster Natomi',
+        tabs: [
+            {
+                name: 'Sylvari',
+                items: sylvari
+            },
+            {
+                name: 'Itzel',
+                items: itzel
+            },
+            {
+                name: 'Pact',
+                items: pact
+            },
+            {
+                name: 'Noble',
+                items: noble
+            },
+            {
+                name: 'Quaggan',
+                items: quaggan
+            }
+        ]
     },
     {
-        name: 'Supplymaster Kani',
-        description: 'Next to the Jaka Itzel waypoint',
-        waypoint: '[&BOAHAAA=]',
-        items: kani
-    },
-    {
-        name: 'Quartermaster Vec',
-        description: 'Next to the Pact Encampment waypoint',
-        waypoint: '[&BAgIAAA=]',
-        items: vec
-    },
-    {
-        name: 'Quartermaster Ival',
-        description: 'Next to the Mellaggan\'s Valor waypoint',
-        waypoint: '[&BNUHAAA=]',
-        items: ival
-    },
-    {
-        name: 'Steward Katren',
-        description: 'Next to the Faren\'s Flyer waypoint',
-        waypoint: '[&BO8HAAA=]',
-        items: katren
-    },
-    {
-        name: 'Supplymaster Azzi',
-        description: 'In the Northwatch Priory Camp after clearing the area',
-        waypoint: '[&BN0HAAA=]',
-        items: azzi
-    },
-    {
+        waypoint: '[&BNYHAAA=]',
         name: 'Scavenger Rakatin',
-        description: 'Between the waypoint and the skritt town',
-        waypoint: '[&BAYIAAA=]',
-        items: rakatin
+        tabs: [
+            {
+                name: 'Priory',
+                items: priory
+            },
+            {
+                name: 'Exalted',
+                items: exalted
+            },
+            {
+                name: 'Skritt',
+                items: skritt
+            }
+        ]
     },
     {
-        name: 'Forager Polly',
-        description: 'Next to the waypoint after clearing the area',
-        waypoint: '[&BAIIAAA=]',
-        items: polly
-    },
-    {
-        name: 'Supplier Huanya',
-        description: 'Near the repair merchant in the tree above the waypoint',
-        waypoint: '[&BAwIAAA=]',
-        items: huanya
-    },
-    {
-        name: 'Jatt',
-        description: 'By the Rata Novus waypoint, after unlocking the waypoint by completing the first chain of the Outpost: Rata Novus meta event',
-        waypoint: '[&BAMIAAA=]',
-        items: jatt
-    },
-    {
-        name: 'Supply Assistant',
-        description: 'Just north from the Ogre Camp waypoint',
         waypoint: '[&BMwHAAA=]',
-        items: assistant
-    },
-    {
-        name: 'Terrill Tinkerclaw',
-        description: 'In the camp near the waypoint. Outpost events must be completed and chak gerent may not be in progress.',
-        waypoint: '[&BAAIAAA=]',
-        items: tinkerclaw
-    },
+        name: 'Supply Assistant',
+        tabs: [
+            {
+                name: 'Ogre',
+                items: ogre
+            },
+            {
+                name: 'Rata Novus',
+                items: ratanovus
+            },
+            {
+                name: 'Nuhoch',
+                items: nuhoch
+            },
+            {
+                name: 'SCAR Camp',
+                items: scarcamp
+            }
+        ]
+    }
 ];
