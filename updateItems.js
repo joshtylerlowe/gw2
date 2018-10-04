@@ -15,7 +15,7 @@ $(document).ready(function () {
 });
 
 var getAllKnownIdsAndNames = function() {
-    $.getJSON('/assets/data/allItemIdsAndNames_10.2.18.json', function(data) {
+    $.getJSON('/assets/data/allItemIdsAndNames_10.3.18.json', function(data) {
         allKnownItemIdsAndNames = data;
         updateItemIds();
     });
