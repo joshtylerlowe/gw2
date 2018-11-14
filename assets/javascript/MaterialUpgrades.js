@@ -35,6 +35,7 @@ var applyDataAndPricesToMaterials = function() {
         }));
     }
     allPrePrice.push(globOfEctoplasm.id);
+    allPrePrice.push(mysticCurio.id);
 
     //allPrePrice.pushArray(ascendedMats.map(function (item, y) {
     //    return item.id;
@@ -64,6 +65,7 @@ var applyDataAndPricesToMaterials = function() {
     planks = mergeDataByKey(planks, upgradeDataWithoutPrices, 'id');
     //ascendedMats = mergeDataByKey(ascendedMats, upgradeDataWithoutPrices, 'id');
     globOfEctoplasm = _.extend(globOfEctoplasm, _.findWhere(upgradeDataWithoutPrices, { id: globOfEctoplasm.id }));
+    mysticCurio = _.extend(mysticCurio, _.findWhere(upgradeDataWithoutPrices, { id: mysticCurio.id }));
 
     t5rare = mergeDataByKey(t5rare, allUpgradesAndPrices, 'id');
     t4rare = mergeDataByKey(t4rare, allUpgradesAndPrices, 'id');
@@ -86,6 +88,7 @@ var applyDataAndPricesToMaterials = function() {
     planks = mergeDataByKey(planks, allUpgradesAndPrices, 'id');
     //ascendedMats = mergeDataByKey(ascendedMats, allUpgradesAndPrices, 'id');
     globOfEctoplasm = _.extend(globOfEctoplasm, _.findWhere(allUpgradesAndPrices, { id: globOfEctoplasm.id }));
+    mysticCurio = _.extend(mysticCurio, _.findWhere(allUpgradesAndPrices, { id: mysticCurio.id }));
 
     $('input[name=buySellComponent]').click(function () {
         componentBuySell = $('input[name=buySellComponent]:checked').val();
@@ -104,6 +107,7 @@ var clearTables = function () {
     $('#fine-promotion-section').html('');
     $('#basic-refinement-section').html('');
     $('#ecto-salvage-section').html('');
+    $('#mystic-curio-section').html('');
     //$('#ascended-refinement-section').html('');
 };
 
@@ -113,6 +117,7 @@ var buildTables = function () {
     buildMaterialRefinementTable();
     buildEctoSalvageTable();
     //buildAscendedMaterialRefinementTable();
+    buildMysticCurioTable();
 };
 
 var buildRareTable = function () {
@@ -313,6 +318,54 @@ var buildEctoSalvageTable = function () {
     $('#ecto-salvage-section').prepend(ectoSalvageTableHTML);
 };
 
+var buildMysticCurioTable = function () {
+  var mysticCurioTableHTML = '<table>';
+
+  var mithrilIngot = ingots[8];
+  var elderwoodPlank = planks[4];
+
+  var valueOfIngots = mithrilIngot[componentBuySell].unit_price * 15;
+  var valueOfPlanks = elderwoodPlank[componentBuySell].unit_price * 10;
+  var valueOfIngotsResultBuySell = mithrilIngot[resultBuySell].unit_price * 15;
+  var valueOfPlanksResultBuySell = elderwoodPlank[resultBuySell].unit_price * 10;
+
+  mysticCurioTableHTML += '<tr><th class="header-title" colspan="11">Mystic Curios</th></tr>';
+  mysticCurioTableHTML += '<tr><th class="upgradeElement">Trophy</th><th></th><th class="upgradeElement">Mithril Ingots</th><th></th><th class="upgradeElement">Elder Wood Planks</th><th></th><th class="upgradeElement">Mystic Curio</th><th>Value Change If Made</th><th>Profit</th><th>Cost To Make</th><th>Cost To Buy</th></tr>';
+
+  for (var i = 0; i < mysticCurioMats.length; i++) {
+
+      var material = mysticCurioMats[i];
+
+      var valueOfTrophies = material[componentBuySell].unit_price * 35;
+      var valueOfTrophiesResultBuySell = material[resultBuySell].unit_price * 35;
+
+      var valueOfMats = valueOfTrophies + valueOfIngots + valueOfPlanks;
+      var valueOfMatsByResultBuySell = valueOfTrophiesResultBuySell + valueOfIngotsResultBuySell + valueOfPlanksResultBuySell;
+      var valueOfMatsAfterTax = valueOfMatsByResultBuySell - (valueOfMatsByResultBuySell * tax);
+      var valueOfResult = mysticCurio[resultBuySell].unit_price;
+      var valueOfResultAfterTax = valueOfResult - (valueOfResult * tax);
+      var profit = valueOfResultAfterTax - valueOfMats;
+      var delta = valueOfResultAfterTax - valueOfMatsAfterTax;
+
+      mysticCurioTableHTML += '<tr class="upgradeRow">';
+      mysticCurioTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + material.name + '" src="' + material.icon + '"><span>x' + 35 + '</span></div></td>';
+      mysticCurioTableHTML += '<td>+</td>';
+      mysticCurioTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + mithrilIngot.name + '" src="' + mithrilIngot.icon + '"><span>x' + 15 + '</span></div></td>';
+      mysticCurioTableHTML += '<td>+</td>';
+      mysticCurioTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + elderwoodPlank.name + '" src="' + elderwoodPlank.icon + '"><span>x' + 10 + '</span></div></td>';
+      mysticCurioTableHTML += '<td>&#8771;</td>';
+      mysticCurioTableHTML += '<td><img class="material-image" title="' + mysticCurio.name + '" src="' + mysticCurio.icon + '"></td>';
+      mysticCurioTableHTML += '<td style="min-width:175px;" ' + (delta < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: delta }, 0) + '</td>';
+      mysticCurioTableHTML += '<td style="min-width:175px;" ' + (profit < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: profit }, 0) + '</td>';
+      mysticCurioTableHTML += '<td style="min-width:175px;" ' + (valueOfMats < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: valueOfMats }, 0) + '</td>';
+      mysticCurioTableHTML += '<td style="min-width:175px;" ' + (valueOfResult < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: valueOfResult }, 0) + '</td>';
+      mysticCurioTableHTML += '</tr>';
+  }
+  mysticCurioTableHTML += '</table>';
+
+  $('#mystic-curio-section').prepend(mysticCurioTableHTML);
+};
+
 //var buildAscendedMaterialRefinementTable = function () {
 //    var asencedRefinementTableHTML = '<table>';
 //    asencedRefinementTableHTML += '<tr><th class="header-title" colspan="12">Ascended Refinement</th></tr>';
@@ -432,6 +485,12 @@ var globOfEctoplasm = {
     "name": "Glob of Ectoplasm",
     "id": 19721,
     "icon": "https://render.guildwars2.com/file/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941.png"
+};
+
+var mysticCurio = {
+  "name": "Mystic Curio",
+  "id": 79410,
+  "icon": "https://render.guildwars2.com/file/A9C0E631560D98A6045E5D2B93E4DEEFA521A40B/1493222.png"
 };
 
 var t5rare = [
@@ -1144,6 +1203,16 @@ var ascendedMats = [
       "t4": ingots[3],
       "t5": ingots[4]
   }
+];
+
+var mysticCurioMats = [
+  t5fine[0],
+  t5fine[1],
+  t5fine[2],
+  t5fine[3],
+  t5fine[4],
+  t5fine[5],
+  t5fine[6]
 ];
 
 var salvageTools = [
