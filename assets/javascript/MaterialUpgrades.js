@@ -353,7 +353,7 @@ var buildMysticCurioTable = function () {
       mysticCurioTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + mithrilIngot.name + '" src="' + mithrilIngot.icon + '"><span>x' + 15 + '</span></div></td>';
       mysticCurioTableHTML += '<td>+</td>';
       mysticCurioTableHTML += '<td><div class="multiplied-image"><img class="material-image" title="' + elderwoodPlank.name + '" src="' + elderwoodPlank.icon + '"><span>x' + 10 + '</span></div></td>';
-      mysticCurioTableHTML += '<td>&#8771;</td>';
+      mysticCurioTableHTML += '<td>=</td>';
       mysticCurioTableHTML += '<td><img class="material-image" title="' + mysticCurio.name + '" src="' + mysticCurio.icon + '"></td>';
       mysticCurioTableHTML += '<td style="min-width:175px;" ' + (delta < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: delta }, 0) + '</td>';
       mysticCurioTableHTML += '<td style="min-width:175px;" ' + (profit < 0 ? 'class="negative-currency"' : '') + '>' + convertValueToGoldHtmlString({ unit_price: profit }, 0) + '</td>';
