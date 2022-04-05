@@ -22,12 +22,28 @@ $(document).ready(function () {
 
     $('#waypointsButton').click(function () {
         try {
-            var $temp = $('<input>');
-            $('body').append($temp);
-            $temp.val($('#waypointsList').val()).select();
-            document.execCommand('copy');
-            $temp.remove();
-            alert('copied to clipboard');
+            const clipboardText = $('#waypointsList').val();
+
+            navigator.clipboard.writeText(clipboardText).then(function(){
+                console.log('copied to clipboard');
+            });
+        } catch (err) {
+            alert('error while trying to copy to clipboard');
+        }
+    });
+
+    $('.itemCopyButton').click(function (element) {
+        try {
+            const parent = element.target.parentNode;
+            const siblings = parent.childNodes;
+
+            for (let i = 0; i < siblings.length; i++) {
+                if (siblings[i].tagName == "SPAN") {
+                    navigator.clipboard.writeText(siblings[i].textContent).then(function(){
+                        console.log('copied to clipboard');
+                    });
+                }
+            }
         } catch (err) {
             alert('error while trying to copy to clipboard');
         }
@@ -104,7 +120,7 @@ var generateProvisionerTable = function () {
                     '<td style="text-align:center;"><input class="selectableProvisioner" type="checkbox" waypoint="' + provisioner.waypoint + '" value="' + tab.items[0].id + ' ' + tab.items[0].name + '" onclick="updateWaypoints()" /></td>' +
                     '<td>' + tab.name + '</td>' +
                     '<td style="text-align:center;">' + getCraftTypeIconHTML(tab.items[0].craftType) + '</td>' +
-                    '<td>' + tab.items[0].name + '</td>' +
+                    '<td><input type="button" class="itemCopyButton" value="Copy" /> <span>' + tab.items[0].name + '</span></td>' +
                     '<td style="text-align:right;">' + buy + '</td>' +
                     '<td style="text-align:right;">' + sell + '</td>' +
                     '</tr>'
