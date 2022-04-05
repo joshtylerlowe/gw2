@@ -22,11 +22,11 @@ $(document).ready(function () {
 
     $('#waypointsButton').click(function () {
         try {
-            const clipboardText = $('#waypointsList').val();
-
-            navigator.clipboard.writeText(clipboardText).then(function(){
-                console.log('copied to clipboard');
-            });
+            var $temp = $('<input>');
+            $('body').append($temp);
+            $temp.val($('#waypointsList').val()).select();
+            document.execCommand('copy');
+            $temp.remove();
         } catch (err) {
             alert('error while trying to copy to clipboard');
         }
@@ -34,14 +34,16 @@ $(document).ready(function () {
 
     $('.itemCopyButton').click(function (element) {
         try {
-            const parent = element.target.parentNode;
-            const siblings = parent.childNodes;
+            var parent = element.target.parentNode;
+            var siblings = parent.childNodes;
 
-            for (let i = 0; i < siblings.length; i++) {
+            for (var i = 0; i < siblings.length; i++) {
                 if (siblings[i].tagName == "SPAN") {
-                    navigator.clipboard.writeText(siblings[i].textContent).then(function(){
-                        console.log('copied to clipboard');
-                    });
+                    var $temp = $('<input>');
+                    $('body').append($temp);
+                    $temp.val(siblings[i].textContent).select();
+                    document.execCommand('copy');
+                    $temp.remove();
                 }
             }
         } catch (err) {
